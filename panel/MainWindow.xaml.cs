@@ -48,6 +48,7 @@ namespace AmtPtpControlPanel.WinUI3
             ApplyLocalization();
             PopulateLanguageCombo();
             LoadStartupPreference();
+            BatteryAlert.IsChecked = AppPreferences.Enabled(AppPreferences.LowBatteryAlert, true);
             LoadSettings();
 
             await UpdateBatteryAsync(showErrorOnFailure: false);
@@ -95,6 +96,16 @@ namespace AmtPtpControlPanel.WinUI3
                 await ShowErrorAsync(T("Startup.Title", "Open at startup"), ex.Message);
             }
         }
+        private async void BatteryAlert_Click(object sender, RoutedEventArgs e)
+        {
+            try { AppPreferences.Set(AppPreferences.LowBatteryAlert, BatteryAlert.IsChecked == true); }
+            catch (Exception ex)
+            {
+                BatteryAlert.IsChecked = BatteryAlert.IsChecked != true;
+                await ShowErrorAsync(Title, ex.Message);
+            }
+        }
+
         private void PopulateLanguageCombo()
         {
             _updatingLanguageCombo = true;
@@ -186,6 +197,13 @@ namespace AmtPtpControlPanel.WinUI3
             MediumLabel.Text = T("ctlMediumLabel", "Medium");
             FirmLabel.Text = T("ctlFirmLabel", "Firm");
 
+            ReleaseStrength.Header = T("Click.Release", "Release feedback");
+            ReleaseMatch.Content = T("Click.Match", "Match press strength");
+            ReleaseLight.Content = LightLabel.Text;
+            ReleaseMedium.Content = MediumLabel.Text;
+            ReleaseFirm.Content = FirmLabel.Text;
+            TestClick.Content = T("Click.Test", "Test click");
+            BatteryAlert.Content = T("Battery.Alert", "Notify me at 20% battery");
             DisableFeedback.Content = T("ctlDisableFeedback", "Disable haptic feedback and force touch button completely");
             MaximumFeedback.Content = T("ctlMaximumFeedback", "Maximum haptic feedback (very clicky and loud!)");
 
@@ -248,12 +266,13 @@ namespace AmtPtpControlPanel.WinUI3
                 if ((s.FeedbackClick & 0xffff00) == 0 && (s.FeedbackRelease & 0xffff00) == 0)
                     SilentClicking.IsChecked = true;
 
-                if ((s.FeedbackClick & 0x0000ff) == 0x15 && (s.FeedbackRelease & 0x0000ff) == 0x10)
-                    FeedbackSlider.Value = 0;
-                else if ((s.FeedbackClick & 0x0000ff) == 0x1e && (s.FeedbackRelease & 0x0000ff) == 0x18)
-                    FeedbackSlider.Value = 2;
-                else
-                    FeedbackSlider.Value = 1;
+                int press = StrengthIndex(PressValues, s.FeedbackClick);
+                int release = StrengthIndex(ReleaseValues, s.FeedbackRelease);
+                FeedbackSlider.Value = press;
+                ReleaseStrength.SelectedIndex = release != press || AppPreferences.Enabled(AppPreferences.IndependentRelease, false)
+                    ? release + 1 : 0;
+                initialPresets = PresetFeedback();
+                initialFeedback = (s.FeedbackClick, s.FeedbackRelease);
             }
 
             if (s.StopPressure == -1 && s.StopSize == -1)
@@ -302,6 +321,8 @@ namespace AmtPtpControlPanel.WinUI3
             bool macEnabled = MacOSClickOptions.IsChecked == true;
             SilentClicking.IsEnabled = macEnabled;
             FeedbackSlider.IsEnabled = macEnabled;
+            ReleaseStrength.IsEnabled = macEnabled;
+            TestClick.IsEnabled = DisableFeedback.IsChecked != true && !previewing;
         }
 
         private void StopOptions_Checked(object sender, RoutedEventArgs e)
@@ -410,36 +431,59 @@ namespace AmtPtpControlPanel.WinUI3
                 DateTime.Now.ToString("t", CultureInfo.CurrentCulture));
         }
 
+        static readonly int[] PressValues = { 0x040415, 0x060617, 0x08081e };
+        static readonly int[] ReleaseValues = { 0x000010, 0x000014, 0x020218 };
+        bool previewing;
+        (int, int)? initialPresets;
+        (int, int) initialFeedback;
+
+        static int StrengthIndex(int[] presets, int value)
+        {
+            int index = Array.FindIndex(presets, preset => (preset & 255) == (value & 255));
+            return index < 0 ? 1 : index;
+        }
+
+        (int press, int release) SelectedFeedback()
+        {
+            if (DisableFeedback.IsChecked == true) return (0, 0);
+            if (MaximumFeedback.IsChecked == true) return (0xffffff, 0xffffff);
+            var selected = PresetFeedback();
+            // Preserve raw driver tuning when saving unrelated settings.
+            return selected == initialPresets ? initialFeedback : selected;
+        }
+
+        (int press, int release) PresetFeedback()
+        {
+            int press = (int)FeedbackSlider.Value;
+            int release = ReleaseStrength.SelectedIndex <= 0 ? press : ReleaseStrength.SelectedIndex - 1;
+            int mask = SilentClicking.IsChecked == true ? 0xff : 0xffffff;
+            return (PressValues[press] & mask, ReleaseValues[release] & mask);
+        }
+
+        private async void TestClick_Click(object sender, RoutedEventArgs e)
+        {
+            if (previewing || DisableFeedback.IsChecked == true) return;
+            previewing = true;
+            TestClick.IsEnabled = false;
+            try
+            {
+                var feedback = SelectedFeedback();
+                if (!await Task.Run(() => TrackpadDevice.Preview(feedback.press, feedback.release)))
+                    await ShowErrorAsync(Title, T("Click.Unavailable", "Couldn’t play the click. Check the trackpad connection and try again."));
+            }
+            finally
+            {
+                previewing = false;
+                TestClick.IsEnabled = DisableFeedback.IsChecked != true;
+            }
+        }
+
         private async Task<bool> SaveSettingsAsync()
         {
             TrackpadSettings s = new TrackpadSettings();
 
-            if (DisableFeedback.IsChecked == true)
-            {
-                s.ButtonDisabled = 1;
-                s.FeedbackClick = 0;
-                s.FeedbackRelease = 0;
-            }
-            else if (MaximumFeedback.IsChecked == true)
-            {
-                s.ButtonDisabled = 0;
-                s.FeedbackClick = 0xffffff;
-                s.FeedbackRelease = 0xffffff;
-            }
-            else
-            {
-                s.ButtonDisabled = 0;
-
-                int strength = (int)Math.Round(FeedbackSlider.Value);
-                s.FeedbackClick = strength == 0 ? 0x040415 : strength == 1 ? 0x060617 : 0x08081e;
-                s.FeedbackRelease = strength == 0 ? 0x000010 : strength == 1 ? 0x000014 : 0x020218;
-
-                if (SilentClicking.IsChecked == true)
-                {
-                    s.FeedbackClick &= 0x0000ff;
-                    s.FeedbackRelease &= 0x0000ff;
-                }
-            }
+            (s.FeedbackClick, s.FeedbackRelease) = SelectedFeedback();
+            s.ButtonDisabled = DisableFeedback.IsChecked == true ? 1 : 0;
 
             if (StopDoNothing.IsChecked == true)
             {
@@ -480,6 +524,8 @@ namespace AmtPtpControlPanel.WinUI3
             try
             {
                 SettingsService.Save(s);
+                if (MacOSClickOptions.IsChecked == true)
+                    AppPreferences.Set(AppPreferences.IndependentRelease, ReleaseStrength.SelectedIndex > 0);
                 return true;
             }
             catch (Exception ex)

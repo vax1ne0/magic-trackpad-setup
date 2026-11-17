@@ -1,5 +1,5 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
-  <Package Name="Magic Trackpad Setup for Windows" Manufacturer="Magic Trackpad Setup contributors" Version="1.4.3" UpgradeCode="ACA09550-4B7C-4FAA-B061-A2510EE94CEF" Scope="perMachine">
+  <Package Name="Magic Trackpad Setup for Windows" Manufacturer="Magic Trackpad Setup contributors" Version="1.5.0" UpgradeCode="ACA09550-4B7C-4FAA-B061-A2510EE94CEF" Scope="perMachine">
     <MajorUpgrade DowngradeErrorMessage="A newer version of Magic Trackpad Setup is already installed." />
     <MediaTemplate EmbedCab="yes"/>
     <Property Id="REALBUILD"><RegistrySearch Id="ReadBuild" Root="HKLM" Key="SOFTWARE\Microsoft\Windows NT\CurrentVersion" Name="CurrentBuildNumber" Type="raw" Bitness="always64"/></Property>

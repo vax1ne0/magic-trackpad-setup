@@ -101,11 +101,18 @@
                                 </Grid>
                             </StackPanel>
 
+                            <ComboBox x:Name="ReleaseStrength" Header="Release feedback" SelectedIndex="0">
+                                <ComboBoxItem x:Name="ReleaseMatch"/>
+                                <ComboBoxItem x:Name="ReleaseLight"/>
+                                <ComboBoxItem x:Name="ReleaseMedium"/>
+                                <ComboBoxItem x:Name="ReleaseFirm"/>
+                            </ComboBox>
                             <CheckBox x:Name="SilentClicking" Content="Silent clicking" VerticalAlignment="Center"/>
                         </StackPanel>
                     <RadioButton x:Name="DisableFeedback" Content="Disable haptic feedback and force touch button completely" Checked="ClickOptions_Checked"/>
 
                         <RadioButton x:Name="MaximumFeedback" Content="Maximum haptic feedback (very clicky and loud!)" Checked="ClickOptions_Checked"/>
+                        <Button x:Name="TestClick" Content="Test click" Click="TestClick_Click"/>
                     </StackPanel>
                     </local:SectionExpander>
 
@@ -178,6 +185,7 @@
                     <StackPanel Spacing="10">
                         <ToggleSwitch x:Name="StartupSwitch" Header="Open at startup" Toggled="Startup_Toggled"/>
                         <TextBlock x:Name="StartupHint" TextWrapping="Wrap" Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="Show the battery beside the clock when you sign in."/>
+                        <CheckBox x:Name="BatteryAlert" Click="BatteryAlert_Click"/>
                         <TextBlock x:Name="LanguageLabel" Style="{StaticResource BodyTextBlockStyle}" Text="UI language" TextWrapping="Wrap"/>
 
                         <ComboBox x:Name="LanguageComboBox" HorizontalAlignment="Left" MinWidth="180" SelectionChanged="LanguageComboBox_SelectionChanged"/>

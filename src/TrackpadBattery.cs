@@ -83,7 +83,7 @@ internal sealed class TrayApp : ApplicationContext
     readonly RuntimeEstimate estimate = new RuntimeEstimate(Path.Combine(DataFolder, "discharge.csv"));
     readonly Control dispatcher = new Control();
     Icon currentIcon;
-    bool busy, closed;
+    bool busy, closed, warnedLow;
     internal static readonly string DataFolder = Path.Combine(
         AppDomain.CurrentDomain.BaseDirectory, "BatteryData");
 
@@ -154,6 +154,14 @@ internal sealed class TrayApp : ApplicationContext
                     tray.Text = "Magic Trackpad: " + reading + "\n" + remaining;
                     SetIcon(level);
                     tray.Visible = true;
+                    // Keep the warning latched across disconnects and small charge fluctuations.
+                    if (level >= 25) warnedLow = false;
+                    if (!warnedLow && connection == "Bluetooth" && level <= 20 &&
+                        AppPreferences.Enabled(AppPreferences.LowBatteryAlert, true))
+                    {
+                        warnedLow = true;
+                        tray.ShowBalloonTip(5000, "Magic Trackpad", "Low battery (" + level + "%).", ToolTipIcon.Info);
+                    }
                 });
             }
             catch (InvalidOperationException) { }
