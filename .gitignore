@@ -1,0 +1,6 @@
+dist/
+*.exe
+*.msi
+*.wixpdb
+*.log
+obj/

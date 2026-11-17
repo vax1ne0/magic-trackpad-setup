@@ -1,0 +1,37 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+  <Package Name="Magic Trackpad Setup for Windows" Manufacturer="Magic Trackpad Setup contributors" Version="1.0.0" UpgradeCode="ACA09550-4B7C-4FAA-B061-A2510EE94CEF" Scope="perMachine">
+    <MajorUpgrade DowngradeErrorMessage="A newer version of Magic Trackpad Setup is already installed." />
+    <MediaTemplate EmbedCab="yes"/>
+    <Property Id="REALBUILD"><RegistrySearch Id="ReadBuild" Root="HKLM" Key="SOFTWARE\Microsoft\Windows NT\CurrentVersion" Name="CurrentBuildNumber" Type="raw" Bitness="always64"/></Property>
+    <Launch Condition="Installed OR (VersionNT64 AND REALBUILD &gt;= 22000 AND NOT Arm64)" Message="Magic Trackpad Setup needs Windows 11 on an Intel or AMD x64 PC." />
+    <Property Id="ARPURLINFOABOUT" Value="https://github.com/vax1ne0/magic-trackpad-setup"/>
+    <Property Id="ARPPRODUCTICON" Value="AppIcon"/>
+    <Icon Id="AppIcon" SourceFile="src/TrackpadBattery.ico"/>
+    <ui:WixUI Id="WixUI_Minimal"/>
+    <WixVariable Id="WixUILicenseRtf" Value="installer/License.rtf"/>
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Id="INSTALLFOLDER" Name="Magic Trackpad Setup">
+        <Component Id="Hub" Guid="*">
+          <File Id="HubExe" Source="src/MagicTrackpadSetup.exe" KeyPath="yes">
+            <Shortcut Id="HubLink" Directory="ProgramMenuFolder" Name="Magic Trackpad Setup" Advertise="yes" WorkingDirectory="INSTALLFOLDER" Icon="AppIcon"/>
+          </File>
+          <RemoveFolder Id="RemoveInstallFolder" On="uninstall"/><RemoveFile Id="Panel" Name="TrackpadControlPanel.exe" On="uninstall"/>
+        </Component>
+        <Component Id="Battery" Guid="*">
+          <File Id="BatteryExe" Source="src/TrackpadBattery.exe" KeyPath="yes">
+            <Shortcut Id="BatteryLink" Directory="ProgramMenuFolder" Name="Magic Trackpad Battery Monitor" Advertise="yes" WorkingDirectory="INSTALLFOLDER" Icon="AppIcon"/>
+          </File>
+        </Component>
+        <Directory Id="BATTSTATE" Name="BatteryData">
+          <Component Id="State" Guid="645E85DB-3486-4F87-99BD-58155E473EA1"><CreateFolder/><RemoveFile Id="ClearState" Name="status.txt" On="uninstall"/><RemoveFile Id="ClearDischarge" Name="discharge.csv" On="uninstall"/><RemoveFile Id="ClearPending" Name="discharge.csv.tmp" On="uninstall"/><RemoveFolder Id="RemoveState" On="uninstall"/></Component>
+        </Directory>
+      </Directory>
+    </StandardDirectory>
+    <StandardDirectory Id="ProgramMenuFolder"/>
+    <CustomAction Id="RemoveAutostart" FileRef="BatteryExe" ExeCommand="--remove-autostart" Execute="deferred" Impersonate="no" Return="check"/>
+    <InstallExecuteSequence><Custom Action="RemoveAutostart" Before="RemoveFiles" Condition="REMOVE=&quot;ALL&quot; AND NOT UPGRADINGPRODUCTCODE"/></InstallExecuteSequence>
+    <Feature Id="Main" Title="Magic Trackpad Setup" Level="1"><ComponentRef Id="Hub"/><ComponentRef Id="Battery"/><ComponentRef Id="State"/></Feature>
+  </Package>
+</Wix>
+
+
