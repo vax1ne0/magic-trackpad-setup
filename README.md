@@ -5,7 +5,7 @@ Use your Apple Magic Trackpad on Windows 11. Scroll with two fingers, adjust how
 ## Get started
 
 1. **[Download the Windows installer](https://github.com/vax1ne0/magic-trackpad-setup/releases/download/v1.4.0/Magic-Trackpad-Setup-1.4.0-x64.msi)** and run it.
-2. **Connect your trackpad.** Plug it in with a USB data cable, or unplug the cable and pair it under **Settings → Bluetooth & devices → Add device → Bluetooth**.
+2. **Connect your trackpad.** Plug it in with a USB data cable, or unplug the cable and pair it under **Settings → Bluetooth & devices → Add device → Magic Trackpad**.
 3. **Enjoy your full Magic Trackpad experience.** Try a two-finger scroll or pinch to zoom.
 
 ## Customization
