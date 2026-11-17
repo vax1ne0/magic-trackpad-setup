@@ -15,7 +15,7 @@ try {
         $hadTray = $monitors.Count -gt 0
         foreach ($process in $monitors) { $process.Kill(); $process.WaitForExit() }
         $installer = Join-Path ([Environment]::SystemDirectory) 'msiexec.exe'
-        $result = Start-Process $installer -ArgumentList @('/i', ('"' + $file + '"'), '/passive', '/norestart', 'ADDLOCAL=Main,App') -Wait -PassThru
+        $result = Start-Process $installer -ArgumentList @('/i', ('"' + $file + '"'), '/quiet', '/norestart', 'ADDLOCAL=Main,App') -Wait -PassThru
         if ($result.ExitCode -notin 0,3010) { throw "Windows Installer returned $($result.ExitCode)." }
         if ($result.ExitCode -eq 3010) {
             Add-Type -AssemblyName System.Windows.Forms
