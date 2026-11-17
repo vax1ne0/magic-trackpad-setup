@@ -4,3 +4,4 @@ dist/
 *.wixpdb
 *.log
 obj/
+payload/
