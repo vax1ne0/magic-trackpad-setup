@@ -107,11 +107,8 @@ internal sealed class TrayApp : ApplicationContext
         menu.Items.Add(new ToolStripSeparator());
         menu.Items.Add("Quit", null, delegate { ExitThread(); });
         tray.ContextMenuStrip = menu;
-        tray.Text = "Magic Trackpad: reading battery...";
-        SetIcon(-1);
-        tray.Visible = true;
         tray.DoubleClick += delegate { Refresh(); };
-        timer.Interval = 60000;
+        timer.Interval = 15000;
         timer.Tick += delegate { Refresh(); };
         timer.Start();
         Refresh();
@@ -146,11 +143,17 @@ internal sealed class TrayApp : ApplicationContext
                 {
                     busy = false;
                     if (closed) return;
+                    if (level < 0)
+                    {
+                        tray.Visible = false;
+                        return;
+                    }
                     status.Text = "Magic Trackpad: " + reading;
                     updated.Text = "Last checked " + DateTime.Now.ToString("t");
                     runtime.Text = remaining;
                     tray.Text = "Magic Trackpad: " + reading + "\n" + remaining;
                     SetIcon(level);
+                    tray.Visible = true;
                 });
             }
             catch (InvalidOperationException) { }
