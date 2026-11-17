@@ -8,7 +8,7 @@ Built on Vito Plantamura’s [MagicTrackpad2ForWindows](https://github.com/vitop
 
 ## Get started
 
-1. **[Download the Windows installer (1.6.0)](https://github.com/vax1ne0/magic-trackpad-setup/releases/download/v1.6.0/Magic-Trackpad-Setup-1.6.0-x64.msi)** and run it.
+1. **[Download the Windows installer (1.6.2)](https://github.com/vax1ne0/magic-trackpad-setup/releases/download/v1.6.2/Magic-Trackpad-Setup-1.6.2-x64.msi)** and run it.
 2. **Connect your trackpad.** Plug it in with a USB data cable, or unplug the cable and pair it under **Settings → Bluetooth & devices → Add device → Magic Trackpad**.
 3. **Enjoy your full Magic Trackpad experience.** Try a two-finger scroll or pinch to zoom.
 
@@ -20,12 +20,12 @@ You can also adjust when the pointer stops as you lift a finger, ignore accident
 
 The taskbar battery icon changes color as the charge drops. Hover over it for the exact percentage. After a few percentage points of Bluetooth use, it also estimates how many hours are left. If the icon is hidden, click the arrow beside the clock.
 
-## New in 1.6.0
+## Features
 
 - **Choose what to install.** The recommended option includes the driver, control panel, and taskbar battery indicator. Choose **Driver only** if Windows touchpad settings are all you need.
 - **Adjust the release feel.** Under **Click feel**, the feedback when you lift your finger can match the press or have its own light, medium, or firm setting.
 - **Get a low-battery warning.** Under **App settings**, choose whether to receive a notification at 20% battery on Bluetooth. The taskbar icon hides when the trackpad disconnects and returns when it reports its charge again.
-- **Check for updates.** In the full installation, open **App settings → Check for updates**. When a newer release is available, it downloads in the background. Choose **Restart and update** to install it or **Later** to keep using the app.
+- **Check for updates.** In the full installation, open **App settings → Check for updates**. When a newer release is available, it downloads in the background. Choose **Restart and update** to apply it silently and reopen the app, or **Later** to keep using the app.
 - **Use the panel in Arabic.** Choose Arabic under **App settings** for a right-to-left layout. Settings rows also highlight across their full width when you hover.
 
 ## Compatibility

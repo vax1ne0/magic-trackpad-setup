@@ -7,7 +7,7 @@ The community MSI and apps are unsigned. Windows can show an unknown-publisher p
 Verify the MSI with PowerShell and compare the output to SHA256SUMS.txt on the same release:
 
 ~~~powershell
-Get-FileHash .\Magic-Trackpad-Setup-1.6.0-x64.msi -Algorithm SHA256
+Get-FileHash .\Magic-Trackpad-Setup-1.6.2-x64.msi -Algorithm SHA256
 ~~~
 
 The battery monitor runs elevated to use the driver's Bluetooth battery interface. Its readings and discharge history stay on the PC. Runtime estimates include idle time while connected. Pairing is manual.
@@ -16,7 +16,7 @@ The MSI installs the self-contained .NET 10 and WinUI runtime in Program Files. 
 
 ## Remove or repair
 
-Exit the battery monitor from its tray menu and close the control panel. Use **Settings > Apps > Installed apps > Magic Trackpad Setup for Windows** to uninstall. The public 1.6.0 release removes the apps and their shortcuts and leaves the trackpad driver installed. Starting with 1.6.2, uninstall closes the app and monitor, clears their battery history, startup task, update downloads and app preferences for the uninstalling user, and removes the bundled driver if this installer originally added it. Drivers already present on the PC, including older installs with unknown ownership, are preserved. Upgrades retain settings and battery history and prune abandoned update downloads. Windows manages its own installer cache and Bluetooth pairing. To repair the installation, use Windows Installer repair.
+Exit the battery monitor from its tray menu and close the control panel. Use **Settings > Apps > Installed apps > Magic Trackpad Setup for Windows** to uninstall. Version 1.6.0 removes the apps and their shortcuts and leaves the trackpad driver installed. Starting with 1.6.2, uninstall closes the app and monitor, clears their battery history, startup task, update downloads and app preferences for the uninstalling user, and removes the bundled driver if this installer originally added it. Drivers already present on the PC, including older installs with unknown ownership, are preserved. Upgrades retain settings and battery history and prune abandoned update downloads. Windows manages its own installer cache and Bluetooth pairing. To repair the installation, use Windows Installer repair.
 
 ## Installer choices and updates in 1.6
 
