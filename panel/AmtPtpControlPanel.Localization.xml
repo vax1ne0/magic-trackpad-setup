@@ -38,6 +38,52 @@
     <String id="Battery.LastUpdated">{0}  ·  Updated {1}</String>
   </Language>
 
+  <Language id="ar">
+    <String id="Main">Magic Trackpad</String>
+    <String id="Section.ClickFeedbackMacOS">إحساس النقرة</String>
+    <String id="ctlMacOSClickOptions">ضبط قوة النقرة</String>
+    <String id="ctlSilentClicking">استخدام نقرة أهدأ</String>
+    <String id="Section.ClickStrength">قوة النقرة</String>
+    <String id="ctlLightLabel">خفيفة</String>
+    <String id="ctlMediumLabel">متوسطة</String>
+    <String id="ctlFirmLabel">قوية</String>
+    <String id="Section.ClickFeedbackOther">خيارات إضافية للنقر</String>
+    <String id="ctlDisableFeedback">إيقاف النقر بالضغط والاستجابة اللمسية</String>
+    <String id="ctlMaximumFeedback">استخدام أقوى استجابة للنقر</String>
+    <String id="groupBox3">حركة المؤشر عند رفع الإصبع</String>
+    <String id="ctlStopDoNothing">متابعة تحريك المؤشر حتى أرفع إصبعي</String>
+    <String id="ctlStopPressure">إيقاف المؤشر عندما ينخفض الضغط إلى هذا المستوى</String>
+    <String id="ctlStopPressureLabel">القيمة المقترحة: 0</String>
+    <String id="ctlStopSize">إيقاف المؤشر عندما تتقلص مساحة التلامس إلى هذا الحجم</String>
+    <String id="ctlStopSizeLabel">القيمة المقترحة: 7</String>
+    <String id="groupBox4">إعدادات اللمس والمؤشر</String>
+    <String id="ctlIgnoreNearFingers">تجاهل الأصابع التي تحوم فوق السطح</String>
+    <String id="ctlIgnoreButtonFinger">تجاهل الإصبع المستخدم للضغط أثناء السحب</String>
+    <String id="ctlPalmRejection">تجاهل اللمسات العرضية براحة اليد</String>
+    <String id="ctlInvertMovement">عكس اتجاهَي حركة المؤشر عند تدوير لوحة التعقب</String>
+    <String id="ctlAllowNonAdminAccess">السماح للتطبيقات الأخرى بالتحكم في الاستجابة اللمسية دون صلاحيات المسؤول</String>
+    <String id="Section.Battery">البطارية</String>
+    <String id="ctlBatteryUpdate">تحديث</String>
+    <String id="ctlTouchpadSettings">إيماءات Windows</String>
+    <String id="ctlApply">حفظ التغييرات</String>
+    <String id="ctlLanguage">اللغة</String>
+    <String id="Link.GitHub">مساعدة</String>
+    <String id="Message.Error">Magic Trackpad</String>
+    <String id="Message.NoDevice">صِل لوحة التعقب بكابل USB أو أقرنها من إعدادات البلوتوث في Windows، ثم اضغط على تحديث.</String>
+    <String id="Message.PressureInvalid">أدخل قيمة ضغط تساوي صفرًا أو أكثر.</String>
+    <String id="Message.SizeInvalid">أدخل مساحة تلامس تساوي صفرًا أو أكثر.</String>
+    <String id="Message.RegistryWriteError">تعذّر حفظ التغييرات. {0}</String>
+    <String id="Battery.LastUpdated">{0}  ·  آخر تحديث {1}</String>
+    <String id="App.Title">إعدادات التطبيق</String>
+    <String id="Startup.Title">فتح عند بدء التشغيل</String>
+    <String id="Startup.Hint">عرض حالة البطارية في شريط المهام عند تسجيل الدخول.</String>
+    <String id="Startup.ReadError">تعذّر الوصول إلى إعدادات بدء التشغيل في Windows.</String>
+    <String id="Startup.On">مفعّل</String>
+    <String id="Startup.Off">متوقف</String>
+    <String id="Dialog.OK">موافق</String>
+    <String id="Battery.Bluetooth">بلوتوث</String>
+  </Language>
+
   <Language id="it">
     <String id="Main">Pannello di controllo Magic Trackpad 2</String>
     <String id="Section.ClickFeedbackMacOS">Opzioni clic di macOS</String>

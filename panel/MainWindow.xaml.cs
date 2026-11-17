@@ -121,7 +121,7 @@ namespace AmtPtpControlPanel.WinUI3
             _updatingLanguageCombo = false;
         }
 
-        private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_updatingLanguageCombo)
                 return;
@@ -130,6 +130,7 @@ namespace AmtPtpControlPanel.WinUI3
             {
                 LocalizationManager.SetLanguage(code);
                 ApplyLocalization();
+                await UpdateBatteryAsync(showErrorOnFailure: false);
             }
         }
 
@@ -137,6 +138,7 @@ namespace AmtPtpControlPanel.WinUI3
         {
             return code switch
             {
+                "ar" => "العربية",
                 "it" => "Italiano",
                 "es" => "Español",
                 "fr" => "Français",
@@ -170,6 +172,9 @@ namespace AmtPtpControlPanel.WinUI3
 
         private void ApplyLocalization()
         {
+            var language = LocalizationManager.CurrentLanguage;
+            RootGrid.Language = string.IsNullOrEmpty(language) ? "en" : language;
+            RootGrid.FlowDirection = language == "ar" ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
             Title = T("Main", "Magic Trackpad 2 Control Panel");
             TitleText.Text = Title;
 
@@ -199,6 +204,16 @@ namespace AmtPtpControlPanel.WinUI3
             AllowNonAdminAccessText.Text = T("ctlAllowNonAdminAccess", "ADVANCED: Let non-admin apps communicate with the drivers");
             AppSettingsTitle.Text = T("App.Title", "App settings");
             StartupSwitch.Header = T("Startup.Title", "Open at startup");
+            if (language == "ar")
+            {
+                StartupSwitch.OnContent = T("Startup.On", "On");
+                StartupSwitch.OffContent = T("Startup.Off", "Off");
+            }
+            else
+            {
+                StartupSwitch.ClearValue(ToggleSwitch.OnContentProperty);
+                StartupSwitch.ClearValue(ToggleSwitch.OffContentProperty);
+            }
             StartupHint.Text = T("Startup.Hint", "Show the battery beside the clock when you sign in. The settings window opens when you need it.");
             Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(AppSection, AppSettingsTitle.Text);
             LanguageLabel.Text = T("ctlLanguage", "UI language");
@@ -391,7 +406,7 @@ namespace AmtPtpControlPanel.WinUI3
             BatteryTitle.Text = string.Format("{0} ({1}%)", T("Section.Battery", "Battery"), level);
             BatteryStatusText.Text = string.Format(
                 T("Battery.LastUpdated", "Battery ({0}) --- LAST UPDATED: {1}"),
-                source,
+                source == "Bluetooth" ? T("Battery.Bluetooth", source) : source,
                 DateTime.Now.ToString("t", CultureInfo.CurrentCulture));
         }
 
@@ -495,7 +510,8 @@ namespace AmtPtpControlPanel.WinUI3
                 XamlRoot = RootGrid.XamlRoot,
                 Title = title,
                 Content = message,
-                CloseButtonText = "OK",
+                FlowDirection = RootGrid.FlowDirection,
+                CloseButtonText = T("Dialog.OK", "OK"),
                 DefaultButton = ContentDialogButton.Close
             };
 

@@ -105,7 +105,7 @@ internal sealed class TrayApp : ApplicationContext
                 "MagicTrackpadSetup.exe"));
         });
         menu.Items.Add(new ToolStripSeparator());
-        menu.Items.Add("Quit battery monitor", null, delegate { ExitThread(); });
+        menu.Items.Add("Quit", null, delegate { ExitThread(); });
         tray.ContextMenuStrip = menu;
         tray.Text = "Magic Trackpad: reading battery...";
         SetIcon(-1);
