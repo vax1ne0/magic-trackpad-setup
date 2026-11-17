@@ -38,6 +38,8 @@ internal static class Setup
             }
             if (args.Length == 1 && args[0] == "--remove-driver") { SetupCleanup.RemoveOwnedDriver(); return 0; }
             if (args.Length == 1 && args[0] == "--clear-preferences") { SetupCleanup.ClearPreferences(); return 0; }
+            if (args.Length == 2 && args[0] == "--prepare-update") { SetupCleanup.PrepareUpdate(args[1]); return 0; }
+            if (args.Length == 1 && args[0] == "--resume-monitor") { StartupPreference.Resume(); return 0; }
             if (args.Length == 2 && args[0] == "--stop-apps") { SetupCleanup.StopApps(args[1]); return 0; }
             if (args.Length == 2 && (args[0] == "--clean-downloads" || args[0] == "--prune-downloads"))
             {

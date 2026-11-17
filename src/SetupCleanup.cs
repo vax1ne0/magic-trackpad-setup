@@ -85,6 +85,49 @@ internal static class SetupCleanup
         DeleteEmptyKey(Registry.CurrentUser, name);
     }
 
+    internal static void PrepareUpdate(string root)
+    {
+        bool running = false;
+        foreach (string relative in new[] { "TrackpadBattery.exe", @"Panel\AmtPtpControlPanel.WinUI3.exe" })
+        foreach (var process in Process.GetProcessesByName(Path.GetFileNameWithoutExtension(relative)))
+        using (process)
+        {
+            try
+            {
+                if (string.Equals(process.MainModule.FileName, Path.GetFullPath(Path.Combine(root, relative)),
+                    StringComparison.OrdinalIgnoreCase)) running = true;
+            }
+            catch (Win32Exception) { running = true; } // Elevated app requires an elevated check.
+            catch (InvalidOperationException) { }
+        }
+        if (!running) return;
+        using (var identity = System.Security.Principal.WindowsIdentity.GetCurrent())
+        {
+            if (new System.Security.Principal.WindowsPrincipal(identity).IsInRole(
+                System.Security.Principal.WindowsBuiltInRole.Administrator))
+            {
+                StopApps(root);
+                return;
+            }
+        }
+        // MSI extracts embedded executables with a .tmp extension. CreateProcess can
+        // run them, while ShellExecute cannot elevate them by file association.
+        string executable = System.Reflection.Assembly.GetExecutingAssembly().Location.Replace("'", "''");
+        string arguments = ("--stop-apps \"" + Path.GetFullPath(root).TrimEnd(Path.DirectorySeparatorChar) + "\\.\"").Replace("'", "''");
+        string command = "$p = New-Object Diagnostics.ProcessStartInfo; $p.FileName = '" + executable +
+            "'; $p.Arguments = '" + arguments + "'; $p.UseShellExecute = $false; $p.CreateNoWindow = $true; " +
+            "$c = [Diagnostics.Process]::Start($p); $c.WaitForExit(); exit $c.ExitCode";
+        string encoded = Convert.ToBase64String(System.Text.Encoding.Unicode.GetBytes(command));
+        var info = new ProcessStartInfo(Path.Combine(Environment.SystemDirectory, @"WindowsPowerShell\v1.0\powershell.exe"),
+            "-NoProfile -NonInteractive -EncodedCommand " + encoded)
+        { UseShellExecute = true, Verb = "runas", WindowStyle = ProcessWindowStyle.Hidden };
+        using (var helper = Process.Start(info))
+        {
+            helper.WaitForExit();
+            if (helper.ExitCode != 0) throw new IOException("Could not close Magic Trackpad for the update.");
+        }
+    }
+
     internal static void StopApps(string root)
     {
         foreach (string relative in new[] { "TrackpadBattery.exe", @"Panel\AmtPtpControlPanel.WinUI3.exe" })

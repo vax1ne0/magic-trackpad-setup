@@ -35,3 +35,5 @@ wix extension add WixToolset.UI.wixext/4.0.6 -g
 ~~~
 
 The standalone MSI is written to dist. The src folder contains the C# setup app, tray monitor and icon renderer. The installer folder contains the WiX project. The MIT license covers the original code in this repository. The included v2.3 driver and WinUI control panel belong to the [upstream project](https://github.com/vitoplantamura/MagicTrackpad2ForWindows) and retain their GPLv2 license. The settings panel in panel/ is a GPLv2 adaptation with revised layout, motion, and English text. Corresponding sources and the license are installed under ThirdParty.
+
+Starting with 1.6.6, a direct MSI upgrade closes the installed control panel and battery monitor before Windows Installer checks for locked files. Windows may request administrator approval to close elevated processes. Save pending settings before continuing. The enabled battery startup task resumes after a successful upgrade.

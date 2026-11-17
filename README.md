@@ -8,7 +8,7 @@ Built on Vito Plantamura’s [MagicTrackpad2ForWindows](https://github.com/vitop
 
 ## Get started
 
-1. **[Download the Windows installer (1.6.4)](https://github.com/vax1ne0/magic-trackpad-setup/releases/download/v1.6.4/Magic-Trackpad-Setup-1.6.4-x64.msi)** and run it.
+1. **[Download the Windows installer (1.6.6)](https://github.com/vax1ne0/magic-trackpad-setup/releases/download/v1.6.6/Magic-Trackpad-Setup-1.6.6-x64.msi)** and run it.
 2. **Connect your trackpad.** Plug it in with a USB data cable, or unplug the cable and pair it under **Settings → Bluetooth & devices → Add device → Magic Trackpad**.
 3. **Enjoy your full Magic Trackpad experience.** Try a two-finger scroll or pinch to zoom.
 
@@ -24,6 +24,8 @@ Built on Vito Plantamura’s [MagicTrackpad2ForWindows](https://github.com/vitop
 Open **Magic Trackpad** from the Start menu. Under **Click feel**, choose a light, medium, or firm press. The feedback when you lift your finger can match the press or have its own strength. Enable **Use a quieter click** for less sound, or choose the strongest feedback for a louder click.
 
 Prefer touch only? Turn off the physical click and its haptic feedback, then enable tap-to-click under **Windows gestures**. Under **Pointer lift-off** and **Touch and pointer settings**, you can adjust when the pointer stops, ignore accidental palm touches, and change how dragging works.
+
+Use **Copy device details** beside **Help** when reporting a problem. Under **App settings**, **Restore trackpad defaults** lets you review the defaults before saving.
 
 ## Compatibility
 

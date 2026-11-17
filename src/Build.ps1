@@ -11,4 +11,7 @@ try {
     if ($LASTEXITCODE) { throw 'Battery app compilation failed' }
     & $compiler @common /out:MagicTrackpadSetup.exe $info Setup.cs SetupCleanup.cs ..\panel\StartupPreference.cs
     if ($LASTEXITCODE) { throw 'Setup compilation failed' }
+    $actions = $common | Where-Object { $_ -ne '/win32manifest:app.manifest' }
+    & $compiler @actions /win32manifest:actions.manifest /out:../payload/SetupActions.exe $info Setup.cs SetupCleanup.cs ..\panel\StartupPreference.cs
+    if ($LASTEXITCODE) { throw 'Installer actions compilation failed' }
 } finally { Pop-Location }

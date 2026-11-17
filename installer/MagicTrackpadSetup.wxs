@@ -57,6 +57,7 @@
         </Control>
         <Control Id="FullHint" Type="Text" X="34" Y="88" Width="300" Height="28" Text="Customize clicks and gestures and see battery status in the taskbar."/>
         <Control Id="DriverHint" Type="Text" X="34" Y="150" Width="300" Height="28" Text="Use the trackpad with Windows touchpad settings."/>
+        <Control Id="CloseHint" Type="Text" X="20" Y="190" Width="330" Height="32" Text="Setup closes Magic Trackpad while updating. Save any pending settings before continuing."/>
         <Control Id="Line" Type="Line" X="0" Y="234" Width="370" Height="1"/>
         <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="&amp;Back">
           <Publish Event="NewDialog" Value="LicenseAgreementDlg" Condition="NOT Installed"/>
@@ -78,7 +79,7 @@
       <Publish Dialog="MaintenanceTypeDlg" Control="ChangeButton" Event="NewDialog" Value="InstallChoiceDlg" Order="10"/>
       <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="InstallChoiceDlg" Order="10" Condition="NOT Installed OR WixUI_InstallMode = &quot;Change&quot;"/>
     </UI>
-    <Binary Id="SetupActions" SourceFile="src/MagicTrackpadSetup.exe"/>
+    <Binary Id="SetupActions" SourceFile="payload/SetupActions.exe"/>
     <CustomAction Id="ClearOldStartup" BinaryRef="SetupActions" ExeCommand="--remove-autostart &quot;[INSTALLFOLDER]TrackpadBattery.exe&quot;" Execute="deferred" Impersonate="no" Return="check"/>
     <CustomAction Id="RemoveAutostart" FileRef="BatteryExe" ExeCommand="--remove-autostart" Execute="deferred" Impersonate="no" Return="check"/>
     <CustomAction Id="InstallDriver" BinaryRef="SetupActions" ExeCommand="--install-driver &quot;[#TrackpadInfFile]&quot;" Execute="deferred" Impersonate="no" Return="check"/>
@@ -89,7 +90,11 @@
     <CustomAction Id="ClearPreferences" BinaryRef="SetupActions" ExeCommand="--clear-preferences" Execute="commit" Return="check"/>
     <CustomAction Id="RemoveOwnedDriver" BinaryRef="SetupActions" ExeCommand="--remove-driver" Execute="commit" Impersonate="no" Return="check"/>
     <CustomAction Id="RemoveEmptyRoot" BinaryRef="SetupActions" ExeCommand="--remove-empty-root &quot;[INSTALLFOLDER].&quot;" Execute="commit" Impersonate="no" Return="check"/>
+    <CustomAction Id="PrepareUpdate" BinaryRef="SetupActions" ExeCommand="--prepare-update &quot;[INSTALLFOLDER].&quot;" Return="check"/>
+    <CustomAction Id="ResumeMonitor" FileRef="HubExe" ExeCommand="--resume-monitor" Execute="commit" Impersonate="no" Return="check"/>
     <InstallExecuteSequence>
+      <Custom Action="PrepareUpdate" Before="InstallValidate" Condition="(Installed OR WIX_UPGRADE_DETECTED) AND NOT UPGRADINGPRODUCTCODE"/>
+      <Custom Action="ResumeMonitor" After="StartMonitor" Condition="WIX_UPGRADE_DETECTED AND PREVIOUSAPP AND &amp;App = 3"/>
       <Custom Action="RemoveEmptyRoot" After="ClearPreferences" Condition="Installed AND REMOVE=&quot;ALL&quot; AND NOT UPGRADINGPRODUCTCODE"/>
       <Custom Action="StopApps" Before="RemoveAutostart" Condition="!App = 3 AND (&amp;App = 2 OR REMOVE=&quot;ALL&quot;) AND NOT UPGRADINGPRODUCTCODE"/>
       <Custom Action="CleanDownloads" After="StopApps" Condition="Installed AND REMOVE=&quot;ALL&quot; AND NOT UPGRADINGPRODUCTCODE"/>

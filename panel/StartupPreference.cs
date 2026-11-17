@@ -46,6 +46,14 @@ internal static class StartupPreference
         if (startNow) saved.Run(null);
     }
 
+    internal static void Resume()
+    {
+        dynamic service = Connect();
+        dynamic task = FindTask(service.GetFolder("\\"));
+        if (task == null) return;
+        if (task.Enabled && OwnTask(task, TrayPath)) task.Run(null);
+    }
+
     internal static bool Enabled()
     {
         dynamic service = Connect();
