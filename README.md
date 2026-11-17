@@ -8,25 +8,22 @@ Built on Vito Plantamura’s [MagicTrackpad2ForWindows](https://github.com/vitop
 
 ## Get started
 
-1. **[Download the Windows installer (1.6.2)](https://github.com/vax1ne0/magic-trackpad-setup/releases/download/v1.6.2/Magic-Trackpad-Setup-1.6.2-x64.msi)** and run it.
+1. **[Download the Windows installer (1.6.3)](https://github.com/vax1ne0/magic-trackpad-setup/releases/download/v1.6.3/Magic-Trackpad-Setup-1.6.3-x64.msi)** and run it.
 2. **Connect your trackpad.** Plug it in with a USB data cable, or unplug the cable and pair it under **Settings → Bluetooth & devices → Add device → Magic Trackpad**.
 3. **Enjoy your full Magic Trackpad experience.** Try a two-finger scroll or pinch to zoom.
 
-## Customization
-
-Open **Magic Trackpad** from the Start menu. Under **Click feel**, choose a light, medium, or firm click. Turn on **Use a quieter click** for less sound, or choose the strongest feedback for a louder, more pronounced click. Prefer touch only? Turn off the physical click and its haptic feedback. To click with a light tap, enable tap-to-click under **Windows gestures**.
-
-You can also adjust when the pointer stops as you lift a finger, ignore accidental palm touches, or change how dragging works. Under **App settings**, turn on **Open at startup** to see your battery status in the taskbar when you sign in.
-
-The taskbar battery icon changes color as the charge drops. Hover over it for the exact percentage. After a few percentage points of Bluetooth use, it also estimates how many hours are left. If the icon is hidden, click the arrow beside the clock.
-
 ## Features
 
-- **Choose what to install.** The recommended option includes the driver, control panel, and taskbar battery indicator. Choose **Driver only** if Windows touchpad settings are all you need.
-- **Adjust the release feel.** Under **Click feel**, the feedback when you lift your finger can match the press or have its own light, medium, or firm setting.
-- **Get a low-battery warning.** Under **App settings**, choose whether to receive a notification at 20% battery on Bluetooth. The taskbar icon hides when the trackpad disconnects and returns when it reports its charge again.
-- **Check for updates.** In the full installation, open **App settings → Check for updates**. When a newer release is available, it downloads in the background. Choose **Restart and update** to apply it silently and reopen the app, or **Later** to keep using the app.
-- **Use the panel in Arabic.** Choose Arabic under **App settings** for a right-to-left layout. Settings rows also highlight across their full width when you hover.
+- **Installer choices.** The recommended setup includes the driver, control panel, and taskbar battery indicator. Choose **Driver only** if Windows touchpad settings are all you need.
+- **Taskbar battery status.** Hover over the color-coded icon for the charge percentage and estimated hours left. The estimate learns from Bluetooth use. The icon hides when the trackpad disconnects. Under **App settings**, you can enable a 20% Bluetooth battery alert and turn on **Open at startup** to show the indicator when you sign in.
+- **In-app updates.** Open **App settings → Check for updates**. A compact progress bar shows the percentage downloaded, megabytes left, and speed in MB/s. When the download finishes, choose **Restart and update** to apply it or **Later** to keep using the app.
+- **Language options.** Choose your language under **App settings**, including Arabic with a right-to-left layout.
+
+## Customization
+
+Open **Magic Trackpad** from the Start menu. Under **Click feel**, choose a light, medium, or firm press. The feedback when you lift your finger can match the press or have its own strength. Enable **Use a quieter click** for less sound, or choose the strongest feedback for a louder click.
+
+Prefer touch only? Turn off the physical click and its haptic feedback, then enable tap-to-click under **Windows gestures**. Under **Pointer lift-off** and **Touch and pointer settings**, you can adjust when the pointer stops, ignore accidental palm touches, and change how dragging works.
 
 ## Compatibility
 
@@ -39,12 +36,5 @@ Windows may show an unknown-publisher prompt because this community installer is
 The signed driver and original settings panel come from Vito Plantamura’s [MagicTrackpad2ForWindows](https://github.com/vitoplantamura/MagicTrackpad2ForWindows), a fork of imbushuo’s [mac-precision-touchpad](https://github.com/imbushuo/mac-precision-touchpad). [Full upstream credits](https://github.com/vitoplantamura/MagicTrackpad2ForWindows#credits)
 
 The driver and adapted settings panel retain their GPLv2 license. The installer includes their source and license in the `ThirdParty` folder. [Licensing and build details](docs/technical-details.md)
-
-## What this project adds
-
-- One Windows installer for the driver, settings panel, and battery monitor.
-- A taskbar battery icon with the charge percentage and an estimate of hours left based on Bluetooth use.
-- An option to start the battery monitor at sign-in.
-- A reorganized settings panel with clearer labels.
 
 [Release notes](https://github.com/vax1ne0/magic-trackpad-setup/releases) · [Technical details and build instructions](docs/technical-details.md)
