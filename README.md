@@ -2,7 +2,7 @@
 
 Set up an Apple Magic Trackpad on Windows 11 with a Precision Touchpad driver, a Windows-style control panel, and a battery indicator beside the clock.
 
-Supports **Magic Trackpad Gen 3** (2021 Lightning model, A1535) and the **USB-C Magic Trackpad** (A3120) on Windows 11 x64.
+Supports **Magic Trackpad Gen 3** (2021 Lightning model, A1535) and the **2024 USB-C Magic Trackpad** (A3120) on Windows 11 x64.
 
 **[Download the Windows x64 MSI](https://github.com/vax1ne0/magic-trackpad-setup/releases/latest)**
 
@@ -17,7 +17,7 @@ The battery icon shows green above 50%, orange from 21–50%, and red at 20% or 
 
 ## Compatibility and trust
 
-Designed for Windows 11 on Intel or AMD x64 PCs. The reference device was the USB-C Magic Trackpad A3120. Bluetooth, USB, battery reporting, and scrolling were used on the reference laptop. The v2.3 driver includes USB and Bluetooth hardware IDs for Gen 3. An A1535 owner also [reported success on Windows 11](https://github.com/vitoplantamura/MagicTrackpad2ForWindows/issues/20#issuecomment-4097637156). Local testing used the A3120. Windows on ARM has not been validated.
+Designed for Windows 11 on Intel or AMD x64 PCs. The reference device was the 2024 USB-C Magic Trackpad (A3120). Bluetooth, USB, battery reporting, and scrolling were used on the reference laptop. The v2.3 driver includes USB and Bluetooth hardware IDs for Gen 3. An A1535 owner also [reported success on Windows 11](https://github.com/vitoplantamura/MagicTrackpad2ForWindows/issues/20#issuecomment-4097637156). Local testing used the A3120. Windows on ARM has not been validated.
 
 The community MSI and apps are unsigned. Windows can show an unknown-publisher prompt. The installer downloads the official [MagicTrackpad2ForWindows v2.3 release](https://github.com/vitoplantamura/MagicTrackpad2ForWindows/releases/tag/v2.3), checks the archive against its pinned SHA-256, then invokes Windows PnPUtil to install the Microsoft-signed driver. The community project has no affiliation with Apple or Microsoft.
 
