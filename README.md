@@ -2,7 +2,7 @@
 
 Use your Apple Magic Trackpad on Windows 11. Scroll with two fingers, adjust how clicks feel, and see your battery status in your taskbar.
 
-Built on Vito Plantamura’s [MagicTrackpad2ForWindows driver and control panel](https://github.com/vitoplantamura/MagicTrackpad2ForWindows).
+Built on Vito Plantamura’s [MagicTrackpad2ForWindows](https://github.com/vitoplantamura/MagicTrackpad2ForWindows) driver and control panel.
 
 ## Get started
 
