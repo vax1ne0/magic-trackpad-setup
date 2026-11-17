@@ -15,4 +15,7 @@ try {
     $wix = if ($env:WIX_EXE) { $env:WIX_EXE } else { 'wix' }
     & $wix build -arch x64 -d "ProductVersion=$version" -ext WixToolset.UI.wixext -o "dist/Magic-Trackpad-Setup-$version-x64.msi" -loc installer/Setup.en-us.wxl installer/MagicTrackpadSetup.wxs payload/PanelFiles.wxs
     if ($LASTEXITCODE) { throw 'MSI build failed' }
+    $installerName = "Magic-Trackpad-Setup-$version-x64.msi"
+    $digest = (Get-FileHash (Join-Path 'dist' $installerName) -Algorithm SHA256).Hash.ToLowerInvariant()
+    "$digest  $installerName" | Set-Content dist/SHA256SUMS.txt -Encoding ascii
 } finally { Pop-Location }

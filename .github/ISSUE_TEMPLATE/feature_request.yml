@@ -1,0 +1,17 @@
+name: Suggest a feature
+description: Suggest a useful improvement to Magic Trackpad.
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: What would you like to do?
+      description: Describe the task or problem this would help with.
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Your suggestion
+      description: Explain how you would expect it to work. Screenshots or examples are optional.
+    validations:
+      required: true

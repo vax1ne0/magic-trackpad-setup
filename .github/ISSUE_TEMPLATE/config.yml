@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Setup and troubleshooting
+    url: https://github.com/vax1ne0/magic-trackpad-setup/blob/main/docs/support.md
+    about: Read the connection, battery, update, and installation help.

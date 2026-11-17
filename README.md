@@ -33,6 +33,10 @@ Supports Windows 11 on Intel and AMD PCs with either the **2024 USB-C Magic Trac
 
 Windows may show an unknown-publisher prompt because this community installer is unsigned. The trackpad driver is Microsoft-signed.
 
+## Help
+
+[Get help](docs/support.md) · [Report a problem](https://github.com/vax1ne0/magic-trackpad-setup/issues/new?template=bug_report.yml) · [Suggest a feature](https://github.com/vax1ne0/magic-trackpad-setup/issues/new?template=feature_request.yml)
+
 ## Credits
 
 The signed driver and original settings panel come from Vito Plantamura’s [MagicTrackpad2ForWindows](https://github.com/vitoplantamura/MagicTrackpad2ForWindows), a fork of imbushuo’s [mac-precision-touchpad](https://github.com/imbushuo/mac-precision-touchpad). [Full upstream credits](https://github.com/vitoplantamura/MagicTrackpad2ForWindows#credits)

@@ -1,0 +1,41 @@
+name: Report a problem
+description: Get help with setup, Bluetooth, clicks, battery status, or updates.
+title: "[Bug]: "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Describe the problem and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: How can it be reproduced?
+      description: Include the steps and any exact error message.
+    validations:
+      required: true
+  - type: dropdown
+    id: connection
+    attributes:
+      label: Connection
+      options:
+        - Bluetooth
+        - USB cable
+        - Both
+        - Not connected / installation issue
+    validations:
+      required: true
+  - type: textarea
+    id: device
+    attributes:
+      label: App and device details
+      description: Paste Copy device details from beside Help in the app. If the app cannot open, give your app version, trackpad model, and Windows version.
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: Screenshots or additional details
+      description: Optional. Issues are public; remove personal information before sharing screenshots or logs.
