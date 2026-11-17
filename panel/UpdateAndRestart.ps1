@@ -30,6 +30,6 @@ try {
         [IO.File]::Delete($file)
         [IO.Directory]::Delete([IO.Path]::GetDirectoryName($file))
     } catch [IO.IOException] { }
-    if (Test-Path -LiteralPath $panel) { Start-Process -FilePath $panel }
-    if ($hadTray -and (Test-Path -LiteralPath $tray)) { Start-Process -FilePath $tray -WindowStyle Hidden }
+    if ($env:TRACKPAD_BACKGROUND -ne "1" -and (Test-Path -LiteralPath $panel)) { Start-Process -FilePath $panel }
+    if (($hadTray -or $env:TRACKPAD_START_TRAY -eq "1") -and (Test-Path -LiteralPath $tray)) { Start-Process -FilePath $tray -ArgumentList "--resume" -WindowStyle Hidden }
 }

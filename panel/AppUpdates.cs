@@ -87,7 +87,44 @@ internal static class AppUpdates
         catch (UnauthorizedAccessException) { }
     }
 
-    internal static void Restart(string root, string file, string digest)
+    internal static void Schedule(string root, string file, AppRelease release)
+    {
+        string directory = Path.GetDirectoryName(file)!;
+        string temporary = Path.Combine(directory, "pending.tmp");
+        File.WriteAllLines(temporary, [Path.GetFileName(directory), release.Version.ToString(), release.Digest]);
+        File.Move(temporary, Path.Combine(root, "Updates", "pending.txt"), true);
+    }
+
+    internal static bool TryStartPending(string root, bool background)
+    {
+        string cache = Path.Combine(root, "Updates");
+        string marker = Path.Combine(cache, "pending.txt");
+        if (!File.Exists(marker)) return false;
+        // Renaming claims this download before a second launcher can start the same MSI.
+        string claim = Path.Combine(cache, Guid.NewGuid().ToString("N") + ".claim");
+        try { File.Move(marker, claim); }
+        catch (FileNotFoundException) { return false; }
+        try
+        {
+            string[] data = File.ReadAllLines(claim);
+            if (data.Length != 3 || !Guid.TryParseExact(data[0], "N", out _) ||
+                !Version.TryParse(data[1], out var version) ||
+                data[2].Length != 64 || !data[2].All(Uri.IsHexDigit)) return false;
+            string file = Path.Combine(cache, data[0], "update.msi");
+            if (!File.Exists(file)) return false;
+            if (version <= Current) { Discard(file); return false; }
+            Restart(root, file, data[2], background, true);
+            return true;
+        }
+        catch
+        {
+            if (!File.Exists(marker)) File.Move(claim, marker);
+            throw;
+        }
+        finally { File.Delete(claim); }
+    }
+
+    internal static void Restart(string root, string file, string digest, bool background = false, bool startTray = false)
     {
         // Read the fixed handoff before MSI replaces the app. Paths travel as data.
         using var stream = typeof(AppUpdates).Assembly.GetManifestResourceStream("UpdateAndRestart.ps1")!;
@@ -103,6 +140,8 @@ internal static class AppUpdates
         start.Environment["TRACKPAD_UPDATE_FILE"] = file;
         start.Environment["TRACKPAD_UPDATE_SHA"] = digest;
         start.Environment["TRACKPAD_PANEL_PID"] = Environment.ProcessId.ToString();
+        start.Environment["TRACKPAD_BACKGROUND"] = background ? "1" : "0";
+        start.Environment["TRACKPAD_START_TRAY"] = startTray ? "1" : "0";
         Process.Start(start)!.Dispose();
     }
 }

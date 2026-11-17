@@ -205,6 +205,12 @@ internal static class Program
             StartupPreference.Disable();
             return;
         }
+        if (args.Length == 0 && File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Updates\pending.txt")))
+        {
+            System.Diagnostics.Process.Start(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                @"Panel\AmtPtpControlPanel.WinUI3.exe"), "--tray-update");
+            return;
+        }
         bool first;
         using (var mutex = new Mutex(true, @"Local\MagicTrackpadSetup.Battery.Tray", out first))
         {

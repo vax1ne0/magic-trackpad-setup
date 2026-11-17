@@ -11,7 +11,8 @@
     <String id="Update.Failed">Couldn’t complete the update. Try again.</String>
     <String id="Update.Version">Version {0}</String>
     <String id="Update.Prompt">Save any pending settings before restarting Magic Trackpad.</String>
-    <String id="Update.Later">Later</String>
+    <String id="Update.NextLaunch">Update on next launch</String>
+    <String id="Update.Scheduled">Update scheduled for the next launch.</String>
     <String id="Click.Release">Release feedback</String>
     <String id="Click.Match">Match press strength</String>
     <String id="Battery.Alert">Notify me at 20% battery</String>
@@ -63,7 +64,8 @@
     <String id="Update.Failed">تعذّر إكمال التحديث. حاول مجددًا.</String>
     <String id="Update.Version">الإصدار {0}</String>
     <String id="Update.Prompt">احفظ أي تغييرات قبل إعادة تشغيل Magic Trackpad.</String>
-    <String id="Update.Later">لاحقًا</String>
+    <String id="Update.NextLaunch">التحديث عند التشغيل التالي</String>
+    <String id="Update.Scheduled">سيُطبَّق التحديث عند التشغيل التالي.</String>
     <String id="Click.Release">الاستجابة عند رفع الإصبع</String>
     <String id="Click.Match">مطابقة قوة الضغط</String>
     <String id="Battery.Alert">تنبيهي عند وصول البطارية إلى 20٪</String>
@@ -123,7 +125,8 @@
     <String id="Update.Failed">Aggiornamento non riuscito. Riprova.</String>
     <String id="Update.Version">Versione {0}</String>
     <String id="Update.Prompt">Salva le modifiche prima di riavviare Magic Trackpad.</String>
-    <String id="Update.Later">Più tardi</String>
+    <String id="Update.NextLaunch">Aggiorna al prossimo avvio</String>
+    <String id="Update.Scheduled">Aggiornamento programmato per il prossimo avvio.</String>
     <String id="Click.Release">Feedback al rilascio</String>
     <String id="Click.Match">Come alla pressione</String>
     <String id="Battery.Alert">Avvisami quando la batteria scende al 20%</String>
@@ -175,7 +178,8 @@
     <String id="Update.Failed">No se pudo completar la actualización. Inténtalo de nuevo.</String>
     <String id="Update.Version">Versión {0}</String>
     <String id="Update.Prompt">Guarda los cambios antes de reiniciar Magic Trackpad.</String>
-    <String id="Update.Later">Más tarde</String>
+    <String id="Update.NextLaunch">Actualizar al volver a abrir</String>
+    <String id="Update.Scheduled">La actualización se instalará al volver a abrir la aplicación.</String>
     <String id="Click.Release">Respuesta al soltar</String>
     <String id="Click.Match">Igual que al presionar</String>
     <String id="Battery.Alert">Avisarme cuando la batería baje al 20%</String>
@@ -227,7 +231,8 @@
     <String id="Update.Failed">Échec de la mise à jour. Réessayez.</String>
     <String id="Update.Version">Version {0}</String>
     <String id="Update.Prompt">Enregistrez vos réglages avant de redémarrer Magic Trackpad.</String>
-    <String id="Update.Later">Plus tard</String>
+    <String id="Update.NextLaunch">Mettre à jour au prochain lancement</String>
+    <String id="Update.Scheduled">Mise à jour prévue au prochain lancement.</String>
     <String id="Click.Release">Retour au relâchement</String>
     <String id="Click.Match">Identique à la pression</String>
     <String id="Battery.Alert">Me prévenir quand la batterie descend à 20 %</String>
@@ -279,7 +284,8 @@
     <String id="Update.Failed">Update fehlgeschlagen. Versuche es erneut.</String>
     <String id="Update.Version">Version {0}</String>
     <String id="Update.Prompt">Speichere deine Änderungen vor dem Neustart von Magic Trackpad.</String>
-    <String id="Update.Later">Später</String>
+    <String id="Update.NextLaunch">Beim nächsten Start aktualisieren</String>
+    <String id="Update.Scheduled">Update für den nächsten Start vorgemerkt.</String>
     <String id="Click.Release">Feedback beim Loslassen</String>
     <String id="Click.Match">Wie beim Drücken</String>
     <String id="Battery.Alert">Bei 20 % Akkustand benachrichtigen</String>
@@ -331,7 +337,8 @@
     <String id="Update.Failed">Não foi possível concluir a atualização. Tente novamente.</String>
     <String id="Update.Version">Versão {0}</String>
     <String id="Update.Prompt">Salve as alterações antes de reiniciar o Magic Trackpad.</String>
-    <String id="Update.Later">Mais tarde</String>
+    <String id="Update.NextLaunch">Atualizar na próxima abertura</String>
+    <String id="Update.Scheduled">A atualização será instalada na próxima abertura.</String>
     <String id="Click.Release">Resposta ao soltar</String>
     <String id="Click.Match">Igual à pressão</String>
     <String id="Battery.Alert">Avisar quando a bateria chegar a 20%</String>
@@ -383,7 +390,8 @@
     <String id="Update.Failed">Не удалось завершить обновление. Попробуйте ещё раз.</String>
     <String id="Update.Version">Версия {0}</String>
     <String id="Update.Prompt">Сохраните изменения перед перезапуском Magic Trackpad.</String>
-    <String id="Update.Later">Позже</String>
+    <String id="Update.NextLaunch">Обновить при следующем запуске</String>
+    <String id="Update.Scheduled">Обновление запланировано на следующий запуск.</String>
     <String id="Click.Release">Отклик при отпускании</String>
     <String id="Click.Match">Как при нажатии</String>
     <String id="Battery.Alert">Уведомлять при заряде 20%</String>
@@ -435,7 +443,8 @@
     <String id="Update.Failed">无法完成更新，请重试。</String>
     <String id="Update.Version">版本 {0}</String>
     <String id="Update.Prompt">请先保存更改，再重启 Magic Trackpad。</String>
-    <String id="Update.Later">稍后</String>
+    <String id="Update.NextLaunch">下次启动时更新</String>
+    <String id="Update.Scheduled">更新将在下次启动时安装。</String>
     <String id="Click.Release">松开时的反馈</String>
     <String id="Click.Match">与按下时相同</String>
     <String id="Battery.Alert">电量降至 20% 时通知我</String>
@@ -487,7 +496,8 @@
     <String id="Update.Failed">更新できませんでした。もう一度お試しください。</String>
     <String id="Update.Version">バージョン {0}</String>
     <String id="Update.Prompt">Magic Trackpad を再起動する前に設定の変更を保存してください。</String>
-    <String id="Update.Later">後で</String>
+    <String id="Update.NextLaunch">次回起動時に更新</String>
+    <String id="Update.Scheduled">次回の起動時に更新します。</String>
     <String id="Click.Release">指を離したときの反応</String>
     <String id="Click.Match">押したときと同じ強さ</String>
     <String id="Battery.Alert">バッテリー残量が20%になったら通知する</String>
@@ -539,7 +549,8 @@
     <String id="Update.Failed">업데이트를 완료할 수 없습니다. 다시 시도하세요.</String>
     <String id="Update.Version">버전 {0}</String>
     <String id="Update.Prompt">Magic Trackpad를 다시 시작하기 전에 변경 사항을 저장하세요.</String>
-    <String id="Update.Later">나중에</String>
+    <String id="Update.NextLaunch">다음 실행 시 업데이트</String>
+    <String id="Update.Scheduled">다음 실행 시 업데이트가 설치됩니다.</String>
     <String id="Click.Release">손을 뗄 때의 피드백</String>
     <String id="Click.Match">누를 때와 같은 강도</String>
     <String id="Battery.Alert">배터리 잔량이 20%가 되면 알림</String>

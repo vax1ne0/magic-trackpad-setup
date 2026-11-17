@@ -11,6 +11,7 @@ public sealed partial class MainWindow
     AppRelease? pendingRelease;
     string? pendingInstaller;
     bool checkingUpdate;
+    bool scheduled;
     string updateMessageKey = "";
 
     void UpdateLabels()
@@ -18,6 +19,7 @@ public sealed partial class MainWindow
         UpdateAppButton.Content = pendingInstaller == null ? T("Update.Check", "Check for updates") : T("Update.Restart", "Restart and update");
         UpdateStatus.Text = updateMessageKey switch
         {
+            "Update.Scheduled" => T(updateMessageKey, "Update scheduled for the next launch."),
             "Update.Latest" => T(updateMessageKey, "You’re up to date."),
             "Update.Checking" => T(updateMessageKey, "Checking for updates…"),
             "Update.Download" => T(updateMessageKey, "Downloading the update…"),
@@ -73,6 +75,8 @@ public sealed partial class MainWindow
         string root = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, ".."));
         try
         {
+            if (scheduled && AppUpdates.TryStartPending(root, false)) { Close(); return; }
+            if (scheduled) { scheduled = false; pendingInstaller = null; }
             if (pendingInstaller == null)
             {
                 updateMessageKey = "Update.Checking";
@@ -90,10 +94,18 @@ public sealed partial class MainWindow
             {
                 XamlRoot = RootGrid.XamlRoot, FlowDirection = RootGrid.FlowDirection, Title = UpdateStatus.Text,
                 Content = T("Update.Prompt", "Save any pending settings before restarting Magic Trackpad."),
-                PrimaryButtonText = T("Update.Restart", "Restart and update"), CloseButtonText = T("Update.Later", "Later"),
-                DefaultButton = ContentDialogButton.Close
+                PrimaryButtonText = T("Update.Restart", "Restart and update"), SecondaryButtonText = T("Update.NextLaunch", "Update on next launch"),
+                DefaultButton = ContentDialogButton.Secondary
             };
-            if (await dialog.ShowAsync() == ContentDialogResult.Primary)
+            var choice = await dialog.ShowAsync();
+            if (updateLifetime.IsCancellationRequested) return;
+            if (choice == ContentDialogResult.Secondary)
+            {
+                AppUpdates.Schedule(root, pendingInstaller, pendingRelease!);
+                scheduled = true;
+                updateMessageKey = "Update.Scheduled";
+            }
+            if (choice == ContentDialogResult.Primary)
             {
                 AppUpdates.Restart(root, pendingInstaller, pendingRelease!.Digest);
                 pendingInstaller = null;
@@ -111,6 +123,6 @@ public sealed partial class MainWindow
 
     void DiscardUpdate()
     {
-        if (pendingInstaller != null) { AppUpdates.Discard(pendingInstaller); pendingInstaller = null; }
+        if (!scheduled && pendingInstaller != null) { AppUpdates.Discard(pendingInstaller); pendingInstaller = null; }
     }
 }

@@ -136,6 +136,8 @@ internal static class SetupCleanup
             string msi = Path.Combine(dir, "update.msi");
             try
             {
+                string temporary = Path.Combine(dir, "pending.tmp");
+                if (File.Exists(temporary) && !IsLink(temporary)) File.Delete(temporary);
                 if (File.Exists(msi) && !IsLink(msi)) File.Delete(msi);
                 if (Directory.GetFileSystemEntries(dir).Length == 0) Directory.Delete(dir);
             }

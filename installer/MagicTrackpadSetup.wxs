@@ -18,6 +18,8 @@
         <Directory Id="UPDATEDIR" Name="Updates">
           <Component Id="UpdateCache" Guid="10D160CF-E980-4C19-A075-6A7BA32B9401">
             <CreateFolder/>
+            <RemoveFile Id="ClearPendingMarker" Name="pending.txt" On="both"/>
+            <RemoveFile Id="ClearPendingClaims" Name="*.claim" On="both"/>
             <RemoveFile Id="ClearDownloadedMsi" Name="*.msi" On="uninstall"/>
             <RemoveFile Id="ClearIncompleteDownload" Name="*.part" On="uninstall"/>
             <RemoveFolder Id="RemoveUpdateDir" On="uninstall"/>

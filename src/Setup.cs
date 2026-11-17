@@ -56,7 +56,7 @@ internal static class Setup
                 return 0;
             }
             Process.Start(Path.Combine(Root, "Panel", "AmtPtpControlPanel.WinUI3.exe"));
-            Process.Start(Path.Combine(Root, "TrackpadBattery.exe"));
+            Process.Start(Path.Combine(Root, "TrackpadBattery.exe"), "--resume");
             return 0;
         }
         catch (Exception ex)
