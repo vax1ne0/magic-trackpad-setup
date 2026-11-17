@@ -4,6 +4,8 @@ Use your Apple Magic Trackpad on Windows 11. Scroll with two fingers, adjust how
 
 Built on Vito Plantamura’s [MagicTrackpad2ForWindows](https://github.com/vitoplantamura/MagicTrackpad2ForWindows) driver and control panel.
 
+![Magic Trackpad settings on Windows 11 showing 100% battery over Bluetooth, click feel, and pointer settings](docs/magic-trackpad-settings.png)
+
 ## Get started
 
 1. **[Download the Windows installer](https://github.com/vax1ne0/magic-trackpad-setup/releases/download/v1.4.0/Magic-Trackpad-Setup-1.4.0-x64.msi)** and run it.
