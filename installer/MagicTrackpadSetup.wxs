@@ -26,7 +26,7 @@
         <Component Id="Battery" Guid="*"><File Id="BatteryExe" Source="src/TrackpadBattery.exe" KeyPath="yes"/></Component>
         <Component Id="PanelIcon" Guid="*"><File Source="src/TrackpadBattery.ico" Name="MagicTrackpad.ico"/></Component><Directory Id="PANELDIR" Name="Panel"/>
         <Directory Id="DRIVERDIR" Name="Driver">
-          <Component Id="DriverInf" Guid="*"><File Source="payload/AmtPtpDevice.inf"/></Component>
+          <Component Id="DriverInf" Guid="*"><File Id="TrackpadInfFile" Source="payload/AmtPtpDevice.inf"/></Component>
           <Component Id="DriverCat" Guid="*"><File Source="payload/amtptpdevice.cat"/></Component>
           <Component Id="DriverDll" Guid="*"><File Source="payload/AmtPtpDeviceUsbUm.dll"/></Component>
           <Component Id="DriverSys" Guid="*"><File Source="payload/AmtPtpHidFilter.sys"/></Component>
@@ -79,7 +79,7 @@
     <Binary Id="SetupActions" SourceFile="src/MagicTrackpadSetup.exe"/>
     <CustomAction Id="ClearOldStartup" BinaryRef="SetupActions" ExeCommand="--remove-autostart &quot;[INSTALLFOLDER]TrackpadBattery.exe&quot;" Execute="deferred" Impersonate="no" Return="check"/>
     <CustomAction Id="RemoveAutostart" FileRef="BatteryExe" ExeCommand="--remove-autostart" Execute="deferred" Impersonate="no" Return="check"/>
-    <CustomAction Id="InstallDriver" BinaryRef="SetupActions" ExeCommand="--install-driver &quot;[#DriverInf]&quot;" Execute="deferred" Impersonate="no" Return="check"/>
+    <CustomAction Id="InstallDriver" BinaryRef="SetupActions" ExeCommand="--install-driver &quot;[#TrackpadInfFile]&quot;" Execute="deferred" Impersonate="no" Return="check"/>
     <CustomAction Id="StartMonitor" FileRef="HubExe" ExeCommand="--start-monitor [UserSID]" Execute="commit" Impersonate="no" Return="check"/>
     <InstallExecuteSequence>
       <Custom Action="InstallDriver" After="InstallFiles" Condition="&amp;Main = 3"/>

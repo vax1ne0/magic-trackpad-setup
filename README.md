@@ -8,7 +8,7 @@ Built on Vito Plantamura’s [MagicTrackpad2ForWindows](https://github.com/vitop
 
 ## Get started
 
-1. **[Download the Windows installer (1.4.0)](https://github.com/vax1ne0/magic-trackpad-setup/releases/download/v1.4.0/Magic-Trackpad-Setup-1.4.0-x64.msi)** and run it.
+1. **[Download the Windows installer (1.6.0)](https://github.com/vax1ne0/magic-trackpad-setup/releases/download/v1.6.0/Magic-Trackpad-Setup-1.6.0-x64.msi)** and run it.
 2. **Connect your trackpad.** Plug it in with a USB data cable, or unplug the cable and pair it under **Settings → Bluetooth & devices → Add device → Magic Trackpad**.
 3. **Enjoy your full Magic Trackpad experience.** Try a two-finger scroll or pinch to zoom.
 
@@ -20,9 +20,7 @@ You can also adjust when the pointer stops as you lift a finger, ignore accident
 
 The taskbar battery icon changes color as the charge drops. Hover over it for the exact percentage. After a few percentage points of Bluetooth use, it also estimates how many hours are left. If the icon is hidden, click the arrow beside the clock.
 
-## Coming in 1.6.0
-
-The public installer is currently **1.4.0**. The following changes are in the 1.6.0 source build:
+## New in 1.6.0
 
 - **Choose what to install.** The recommended option includes the driver, control panel, and taskbar battery indicator. Choose **Driver only** if Windows touchpad settings are all you need.
 - **Adjust the release feel.** Under **Click feel**, the feedback when you lift your finger can match the press or have its own light, medium, or firm setting.
