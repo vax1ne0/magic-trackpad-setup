@@ -52,9 +52,16 @@ internal static class Setup
                 return 0;
             }
             if (args.Length == 2 && args[0] == "--install-driver") return InstallDriver(args[1]);
-            if (args.Length == 2 && args[0] == "--start-monitor")
+            if (args.Length == 2 && args[0] == "--launch-app")
             {
-                StartupPreference.Enable(args[1], true);
+                // ShellExecute supports the app's elevation manifest. Cancelling UAC
+                // must not turn a completed installation into a setup failure.
+                Process.Start(new ProcessStartInfo(Path.GetFullPath(args[1])) { UseShellExecute = true });
+                return 0;
+            }
+            if ((args.Length == 2 || args.Length == 3) && args[0] == "--start-monitor")
+            {
+                StartupPreference.Enable(args[1], args.Length == 2 || args[2] != "5");
                 return 0;
             }
             Process.Start(Path.Combine(Root, "Panel", "AmtPtpControlPanel.WinUI3.exe"));

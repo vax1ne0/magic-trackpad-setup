@@ -14,7 +14,7 @@ Built on Vito Plantamura’s [MagicTrackpad2ForWindows](https://github.com/vitop
 
 ## Features
 
-- **Installer choices.** The recommended setup includes the driver, control panel, and taskbar battery indicator. Choose **Driver only** if Windows touchpad settings are all you need.
+- **Installer choices.** The recommended setup includes the driver, control panel, and taskbar battery indicator. Choose **Driver only** if Windows touchpad settings are all you need. Leave **Launch Magic Trackpad** checked on the final page to open the app when setup finishes.
 - **Taskbar battery status.** Hover over the color-coded icon for the charge percentage and estimated hours left. The estimate learns from Bluetooth use. The icon hides when the trackpad disconnects. Under **App settings**, you can enable a 20% Bluetooth battery alert and turn on **Open at startup** to show the indicator when you sign in.
 - **In-app updates.** Open **App settings → Check for updates**. A compact progress bar shows the percentage downloaded, megabytes left, and speed in MB/s. When the download finishes, choose **Restart and update** or **Update on next launch**. The second option saves the download and applies it the next time you open Magic Trackpad, or when you sign in with **Open at startup** enabled.
 - **Language options.** Choose your language under **App settings**, including Arabic with a right-to-left layout.

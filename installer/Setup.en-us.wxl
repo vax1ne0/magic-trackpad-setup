@@ -1,0 +1,56 @@
+<WixLocalization xmlns="http://wixtoolset.org/schemas/v4/wxl" Culture="en-us">
+  <String Id="WelcomeDlgTitle" Value="{\WixUI_Font_Bigger}Magic Trackpad for Windows"/>
+  <String Id="WelcomeDlgDescription" Value="Set up your Magic Trackpad on Windows 11, including the 2024 USB-C model. Add the app for click settings and taskbar battery status."/>
+  <String Id="LicenseAgreementDlgTitle" Value="{\WixUI_Font_Title}License and credits"/>
+  <String Id="VerifyReadyDlgInstallTitle" Value="{\WixUI_Font_Title}Ready to install"/>
+  <String Id="VerifyReadyDlgInstallText" Value="Select Install to set up Magic Trackpad. Windows may ask you to allow changes to your device. You can connect your trackpad after setup."/>
+  <String Id="MaintenanceWelcomeDlgTitle" Value="{\WixUI_Font_Bigger}Manage Magic Trackpad"/>
+  <String Id="MaintenanceWelcomeDlgDescription" Value="Change the installed features, repair the installation, or remove Magic Trackpad from this PC."/>
+  <String Id="ProgressDlgTitleInstalling" Value="{\WixUI_Font_Title}Installing Magic Trackpad"/>
+  <String Id="ProgressDlgTitleUpdating" Value="{\WixUI_Font_Title}Updating Magic Trackpad"/>
+  <String Id="ProgressDlgTitleRemoving" Value="{\WixUI_Font_Title}Removing Magic Trackpad"/>
+  <String Id="ProgressDlgTitleChanging" Value="{\WixUI_Font_Title}Changing Magic Trackpad"/>
+  <String Id="ProgressDlgTitleRepairing" Value="{\WixUI_Font_Title}Repairing Magic Trackpad"/>
+  <String Id="MaintenanceTypeDlgTitle" Value="{\WixUI_Font_Title}Change, repair, or remove"/>
+  <String Id="MaintenanceTypeDlgDescription" Value="Choose what you want to do."/>
+  <String Id="MaintenanceTypeDlgChangeText" Value="Add or remove the app and battery indicator."/>
+  <String Id="MaintenanceTypeDlgRepairText" Value="Restore missing or damaged installation files."/>
+  <String Id="MaintenanceTypeDlgRemoveText" Value="Uninstall Magic Trackpad from this PC."/>
+  <String Id="VerifyReadyDlgChangeTitle" Value="{\WixUI_Font_Title}Ready to apply changes"/>
+  <String Id="VerifyReadyDlgChangeText" Value="Select Change to apply your installation choices."/>
+  <String Id="VerifyReadyDlgRepairTitle" Value="{\WixUI_Font_Title}Ready to repair"/>
+  <String Id="VerifyReadyDlgRepairText" Value="Select Repair to restore missing or damaged installation files."/>
+  <String Id="VerifyReadyDlgRemoveTitle" Value="{\WixUI_Font_Title}Ready to uninstall"/>
+  <String Id="VerifyReadyDlgRemoveText" Value="Select Remove to uninstall Magic Trackpad from this PC."/>
+  <String Id="ResumeDlgTitle" Value="{\WixUI_Font_Bigger}Continue setup"/>
+  <String Id="ResumeDlgDescription" Value="Select Continue to apply your requested changes to Magic Trackpad."/>
+  <String Id="ResumeDlgInstall" Value="&amp;Continue"/>
+  <String Id="AdvancedWelcomeEulaDlg_Title" Value="Magic Trackpad Setup"/>
+  <String Id="BrowseDlg_Title" Value="Magic Trackpad Setup"/>
+  <String Id="CancelDlg_Title" Value="Magic Trackpad Setup"/>
+  <String Id="CustomizeDlg_Title" Value="Magic Trackpad Setup"/>
+  <String Id="DiskCostDlg_Title" Value="Magic Trackpad Setup"/>
+  <String Id="ErrorDlg_Title" Value="Magic Trackpad Setup"/>
+  <String Id="ExitDialog_Title" Value="Magic Trackpad Setup"/>
+  <String Id="FatalError_Title" Value="Magic Trackpad Setup"/>
+  <String Id="FeaturesDlg_Title" Value="Magic Trackpad Setup"/>
+  <String Id="FilesInUse_Title" Value="Magic Trackpad Setup"/>
+  <String Id="InstallDirDlg_Title" Value="Magic Trackpad Setup"/>
+  <String Id="InstallScopeDlg_Title" Value="Magic Trackpad Setup"/>
+  <String Id="InvalidDirDlg_Title" Value="Magic Trackpad Setup"/>
+  <String Id="LicenseAgreementDlg_Title" Value="Magic Trackpad Setup"/>
+  <String Id="MaintenanceTypeDlg_Title" Value="Magic Trackpad Setup"/>
+  <String Id="MaintenanceWelcomeDlg_Title" Value="Magic Trackpad Setup"/>
+  <String Id="MsiRMFilesInUse_Title" Value="Magic Trackpad Setup"/>
+  <String Id="OutOfDiskDlg_Title" Value="Magic Trackpad Setup"/>
+  <String Id="OutOfRbDiskDlg_Title" Value="Magic Trackpad Setup"/>
+  <String Id="PrepareDlg_Title" Value="Magic Trackpad Setup"/>
+  <String Id="ProgressDlg_Title" Value="Magic Trackpad Setup"/>
+  <String Id="ResumeDlg_Title" Value="Magic Trackpad Setup"/>
+  <String Id="SetupTypeDlg_Title" Value="Magic Trackpad Setup"/>
+  <String Id="UserExit_Title" Value="Magic Trackpad Setup"/>
+  <String Id="VerifyReadyDlg_Title" Value="Magic Trackpad Setup"/>
+  <String Id="WaitForCostingDlg_Title" Value="Magic Trackpad Setup"/>
+  <String Id="WelcomeDlg_Title" Value="Magic Trackpad Setup"/>
+  <String Id="WelcomeEulaDlg_Title" Value="Magic Trackpad Setup"/>
+</WixLocalization>

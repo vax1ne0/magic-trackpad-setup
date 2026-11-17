@@ -1,4 +1,4 @@
-<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
   <Package Name="Magic Trackpad Setup for Windows" Manufacturer="Magic Trackpad Setup contributors" Version="$(ProductVersion)" UpgradeCode="ACA09550-4B7C-4FAA-B061-A2510EE94CEF" Scope="perMachine">
     <MajorUpgrade Schedule="afterInstallExecute" DowngradeErrorMessage="A newer version of Magic Trackpad Setup is already installed." />
     <MediaTemplate EmbedCab="yes"/>
@@ -7,7 +7,9 @@
     <Property Id="ARPURLINFOABOUT" Value="https://github.com/vax1ne0/magic-trackpad-setup"/>
     <Property Id="ARPPRODUCTICON" Value="AppIcon"/>
     <Icon Id="AppIcon" SourceFile="src/TrackpadBattery.ico"/>
-    <ui:WixUI Id="WixUI_FeatureTree"/>
+    <UIRef Id="WixUI_Common"/>
+    <WixVariable Id="WixUIBannerBmp" Value="payload/SetupBanner.bmp"/>
+    <WixVariable Id="WixUIDialogBmp" Value="payload/SetupDialog.bmp"/>
     <WixVariable Id="WixUILicenseRtf" Value="installer/License.rtf"/>
     <StandardDirectory Id="ProgramFiles64Folder">
       <Directory Id="INSTALLFOLDER" Name="Magic Trackpad Setup">
@@ -46,18 +48,50 @@
     <Property Id="PREVIOUSDRIVER" Secure="yes"><DirectorySearch Id="FindPriorDriver" Path="[ProgramFiles64Folder]Magic Trackpad Setup\Driver"><FileSearch Id="OldDriverFile" Name="AmtPtpDevice.inf"/></DirectorySearch></Property>
     <Property Id="PREVIOUSAPP" Secure="yes"><DirectorySearch Id="FindPriorApp" Path="[ProgramFiles64Folder]Magic Trackpad Setup"><FileSearch Id="OldTrayFile" Name="TrackpadBattery.exe"/></DirectorySearch></Property>
     <Property Id="APPCHOICE" Value="Full"/>
+    <Property Id="LAUNCHAPP" Value="1"/>
     <UI>
-      <Dialog Id="InstallChoiceDlg" Width="370" Height="270" Title="[ProductName] Setup">
+      <TextStyle Id="WixUI_Font_Normal" FaceName="Segoe UI" Size="9"/>
+      <TextStyle Id="WixUI_Font_Bigger" FaceName="Segoe UI" Size="14"/>
+      <TextStyle Id="WixUI_Font_Title" FaceName="Segoe UI" Size="10" Bold="yes"/>
+      <Property Id="DefaultUIFont" Value="WixUI_Font_Normal"/>
+      <DialogRef Id="ErrorDlg"/><DialogRef Id="FatalError"/>
+      <DialogRef Id="FilesInUse"/><DialogRef Id="MsiRMFilesInUse"/>
+      <DialogRef Id="PrepareDlg"/><DialogRef Id="ProgressDlg"/>
+      <DialogRef Id="ResumeDlg"/><DialogRef Id="UserExit"/>
+      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="LicenseAgreementDlg" Order="2" Condition="NOT Installed"/>
+      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg" Order="3" Condition="Installed AND PATCH"/>
+      <Publish Dialog="LicenseAgreementDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg"/>
+      <Publish Dialog="LicenseAgreementDlg" Control="Print" Event="DoAction" Value="WixUIPrintEula_X64"/>
+      <Publish Dialog="MaintenanceWelcomeDlg" Control="Next" Event="NewDialog" Value="MaintenanceTypeDlg"/>
+      <Publish Dialog="MaintenanceTypeDlg" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDlg"/>
+      <Publish Dialog="MaintenanceTypeDlg" Control="RepairButton" Event="NewDialog" Value="VerifyReadyDlg"/>
+      <Publish Dialog="MaintenanceTypeDlg" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDlg"/>
+      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="1" Condition="Installed AND NOT PATCH AND WixUI_InstallMode &lt;&gt; &quot;Change&quot;"/>
+      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2" Condition="Installed AND PATCH"/>
+      <Dialog Id="SetupCompleteDlg" Width="370" Height="270" Title="Magic Trackpad Setup">
+        <Control Id="Title" Type="Text" X="24" Y="24" Width="322" Height="28" Text="{\WixUI_Font_Bigger}Setup complete"/>
+        <Control Id="InstalledText" Type="Text" X="24" Y="65" Width="322" Height="34" Text="Magic Trackpad is ready. Connect your trackpad with a cable or pair it in Windows Bluetooth settings." ShowCondition="NOT REMOVE=&quot;ALL&quot;" HideCondition="REMOVE=&quot;ALL&quot;"/>
+        <Control Id="RemovedText" Type="Text" X="24" Y="65" Width="322" Height="34" Text="Magic Trackpad has been uninstalled." ShowCondition="REMOVE=&quot;ALL&quot;" HideCondition="NOT REMOVE=&quot;ALL&quot;"/>
+        <Control Id="Launch" Type="CheckBox" X="24" Y="116" Width="322" Height="20" Property="LAUNCHAPP" CheckBoxValue="1" Text="&amp;Launch Magic Trackpad" Hidden="yes" ShowCondition="NOT REMOVE=&quot;ALL&quot; AND (&amp;App=3 OR (!App=3 AND &amp;App=-1))"/>
+        <Control Id="LaunchHint" Type="Text" X="36" Y="141" Width="310" Height="30" Text="Open settings and show the battery indicator in the taskbar." Hidden="yes" ShowCondition="NOT REMOVE=&quot;ALL&quot; AND (&amp;App=3 OR (!App=3 AND &amp;App=-1))"/>
+        <Control Id="Line" Type="Line" X="0" Y="234" Width="370" Height="1"/>
+        <Control Id="Finish" Type="PushButton" X="304" Y="243" Width="56" Height="17" Default="yes" Cancel="yes" Text="&amp;Finish">
+          <Publish Event="DoAction" Value="LaunchApp" Order="1" Condition="LAUNCHAPP=&quot;1&quot; AND NOT REMOVE=&quot;ALL&quot; AND (&amp;App=3 OR (!App=3 AND &amp;App=-1))"/>
+          <Publish Event="EndDialog" Value="Return" Order="2"/>
+        </Control>
+      </Dialog>
+      <InstallUISequence><Show Dialog="SetupCompleteDlg" OnExit="success"/></InstallUISequence>
+      <Dialog Id="InstallChoiceDlg" Width="370" Height="270" Title="Magic Trackpad Setup">
         <Control Id="Title" Type="Text" X="20" Y="18" Width="330" Height="20" Transparent="yes" Text="{\WixUI_Font_Title}Choose what to install"/>
         <Control Id="Choices" Type="RadioButtonGroup" X="20" Y="64" Width="330" Height="112" Property="APPCHOICE">
           <RadioButtonGroup Property="APPCHOICE">
-            <RadioButton Value="Full" X="0" Y="0" Width="325" Height="20" Text="Driver, control panel and battery indicator (recommended)"/>
+            <RadioButton Value="Full" X="0" Y="0" Width="325" Height="20" Text="Driver and app (recommended)"/>
             <RadioButton Value="Driver" X="0" Y="62" Width="320" Height="20" Text="Driver only"/>
           </RadioButtonGroup>
         </Control>
-        <Control Id="FullHint" Type="Text" X="34" Y="88" Width="300" Height="28" Text="Customize clicks and gestures and see battery status in the taskbar."/>
-        <Control Id="DriverHint" Type="Text" X="34" Y="150" Width="300" Height="28" Text="Use the trackpad with Windows touchpad settings."/>
-        <Control Id="CloseHint" Type="Text" X="20" Y="190" Width="330" Height="32" Text="Setup closes Magic Trackpad while updating. Save any pending settings before continuing."/>
+        <Control Id="FullHint" Type="Text" X="34" Y="88" Width="300" Height="28" Text="Includes the driver, click and pointer settings, and a taskbar battery indicator."/>
+        <Control Id="DriverHint" Type="Text" X="34" Y="150" Width="300" Height="28" Text="Installs the driver without the app or battery indicator. Use Windows to adjust gestures."/>
+        <Control Id="CloseHint" Type="Text" X="20" Y="190" Width="330" Height="32" Text="Save any changes in Magic Trackpad before continuing. Setup closes the app during an update." ShowCondition="PREVIOUSAPP OR Installed" HideCondition="NOT PREVIOUSAPP AND NOT Installed"/>
         <Control Id="Line" Type="Line" X="0" Y="234" Width="370" Height="1"/>
         <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="&amp;Back">
           <Publish Event="NewDialog" Value="LicenseAgreementDlg" Condition="NOT Installed"/>
@@ -83,7 +117,8 @@
     <CustomAction Id="ClearOldStartup" BinaryRef="SetupActions" ExeCommand="--remove-autostart &quot;[INSTALLFOLDER]TrackpadBattery.exe&quot;" Execute="deferred" Impersonate="no" Return="check"/>
     <CustomAction Id="RemoveAutostart" FileRef="BatteryExe" ExeCommand="--remove-autostart" Execute="deferred" Impersonate="no" Return="check"/>
     <CustomAction Id="InstallDriver" BinaryRef="SetupActions" ExeCommand="--install-driver &quot;[#TrackpadInfFile]&quot;" Execute="deferred" Impersonate="no" Return="check"/>
-    <CustomAction Id="StartMonitor" FileRef="HubExe" ExeCommand="--start-monitor [UserSID]" Execute="commit" Impersonate="no" Return="check"/>
+    <CustomAction Id="LaunchApp" BinaryRef="SetupActions" ExeCommand="--launch-app &quot;[#HubExe]&quot;" Return="asyncNoWait"/>
+    <CustomAction Id="StartMonitor" FileRef="HubExe" ExeCommand="--start-monitor [UserSID] [UILevel]" Execute="commit" Impersonate="no" Return="check"/>
     <CustomAction Id="StopApps" BinaryRef="SetupActions" ExeCommand="--stop-apps &quot;[INSTALLFOLDER].&quot;" Execute="deferred" Impersonate="no" Return="check"/>
     <CustomAction Id="CleanDownloads" BinaryRef="SetupActions" ExeCommand="--clean-downloads &quot;[INSTALLFOLDER].&quot;" Execute="deferred" Impersonate="no" Return="check"/>
     <CustomAction Id="PruneDownloads" BinaryRef="SetupActions" ExeCommand="--prune-downloads &quot;[INSTALLFOLDER].&quot;" Execute="deferred" Impersonate="no" Return="check"/>
@@ -94,7 +129,7 @@
     <CustomAction Id="ResumeMonitor" FileRef="HubExe" ExeCommand="--resume-monitor" Execute="commit" Impersonate="no" Return="check"/>
     <InstallExecuteSequence>
       <Custom Action="PrepareUpdate" Before="InstallValidate" Condition="(Installed OR WIX_UPGRADE_DETECTED) AND NOT UPGRADINGPRODUCTCODE"/>
-      <Custom Action="ResumeMonitor" After="StartMonitor" Condition="WIX_UPGRADE_DETECTED AND PREVIOUSAPP AND &amp;App = 3"/>
+      <Custom Action="ResumeMonitor" After="StartMonitor" Condition="UILevel &lt; 5 AND WIX_UPGRADE_DETECTED AND PREVIOUSAPP AND &amp;App = 3"/>
       <Custom Action="RemoveEmptyRoot" After="ClearPreferences" Condition="Installed AND REMOVE=&quot;ALL&quot; AND NOT UPGRADINGPRODUCTCODE"/>
       <Custom Action="StopApps" Before="RemoveAutostart" Condition="!App = 3 AND (&amp;App = 2 OR REMOVE=&quot;ALL&quot;) AND NOT UPGRADINGPRODUCTCODE"/>
       <Custom Action="CleanDownloads" After="StopApps" Condition="Installed AND REMOVE=&quot;ALL&quot; AND NOT UPGRADINGPRODUCTCODE"/>
