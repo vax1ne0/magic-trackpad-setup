@@ -47,7 +47,7 @@ internal static class AppUpdates
         throw new InvalidDataException();
     }
 
-    internal static async Task<string> Download(AppRelease release, string cache, CancellationToken token)
+    internal static async Task<string> Download(AppRelease release, string cache, CancellationToken token, Action<long>? reportBytes = null)
     {
         string directory = Path.Combine(cache, Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(directory);
@@ -71,6 +71,7 @@ internal static class AppUpdates
                 if (total > release.Size) throw new InvalidDataException();
                 await target.WriteAsync(buffer.AsMemory(0, count), token);
                 hash.AppendData(buffer, 0, count);
+                reportBytes?.Invoke(total);
             }
             if (total != release.Size || !Convert.ToHexString(hash.GetHashAndReset()).Equals(release.Digest,
                     StringComparison.OrdinalIgnoreCase)) throw new InvalidDataException();

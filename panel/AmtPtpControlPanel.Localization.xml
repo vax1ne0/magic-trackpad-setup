@@ -6,6 +6,7 @@
     <String id="Update.Latest">You’re up to date.</String>
     <String id="Update.Checking">Checking for updates…</String>
     <String id="Update.Download">Downloading the update…</String>
+    <String id="Update.Transfer">{0:P0} · {1:0.0} MB left · {2:0.0} MB/s</String>
     <String id="Update.Ready">Version {0} is ready to install.</String>
     <String id="Update.Failed">Couldn’t complete the update. Try again.</String>
     <String id="Update.Version">Version {0}</String>
@@ -57,6 +58,7 @@
     <String id="Update.Latest">لديك أحدث إصدار.</String>
     <String id="Update.Checking">جارٍ البحث عن تحديثات…</String>
     <String id="Update.Download">جارٍ تنزيل التحديث…</String>
+    <String id="Update.Transfer">{0:P0} · متبقي {1:0.0} م.ب · {2:0.0} م.ب/ث</String>
     <String id="Update.Ready">الإصدار {0} جاهز للتثبيت.</String>
     <String id="Update.Failed">تعذّر إكمال التحديث. حاول مجددًا.</String>
     <String id="Update.Version">الإصدار {0}</String>
@@ -116,6 +118,7 @@
     <String id="Update.Latest">L’app è aggiornata.</String>
     <String id="Update.Checking">Ricerca aggiornamenti…</String>
     <String id="Update.Download">Download in corso…</String>
+    <String id="Update.Transfer">{0:P0} · {1:0.0} MB rimanenti · {2:0.0} MB/s</String>
     <String id="Update.Ready">La versione {0} è pronta per essere installata.</String>
     <String id="Update.Failed">Aggiornamento non riuscito. Riprova.</String>
     <String id="Update.Version">Versione {0}</String>
@@ -167,6 +170,7 @@
     <String id="Update.Latest">La aplicación está al día.</String>
     <String id="Update.Checking">Buscando actualizaciones…</String>
     <String id="Update.Download">Descargando la actualización…</String>
+    <String id="Update.Transfer">{0:P0} · Quedan {1:0.0} MB · {2:0.0} MB/s</String>
     <String id="Update.Ready">La versión {0} está lista para instalar.</String>
     <String id="Update.Failed">No se pudo completar la actualización. Inténtalo de nuevo.</String>
     <String id="Update.Version">Versión {0}</String>
@@ -218,6 +222,7 @@
     <String id="Update.Latest">Votre application est à jour.</String>
     <String id="Update.Checking">Recherche de mises à jour…</String>
     <String id="Update.Download">Téléchargement en cours…</String>
+    <String id="Update.Transfer">{0:P0} · {1:0.0} Mo restants · {2:0.0} Mo/s</String>
     <String id="Update.Ready">La version {0} est prête à être installée.</String>
     <String id="Update.Failed">Échec de la mise à jour. Réessayez.</String>
     <String id="Update.Version">Version {0}</String>
@@ -269,6 +274,7 @@
     <String id="Update.Latest">Die App ist aktuell.</String>
     <String id="Update.Checking">Updates werden gesucht…</String>
     <String id="Update.Download">Update wird heruntergeladen…</String>
+    <String id="Update.Transfer">{0:P0} · {1:0.0} MB übrig · {2:0.0} MB/s</String>
     <String id="Update.Ready">Version {0} ist zur Installation bereit.</String>
     <String id="Update.Failed">Update fehlgeschlagen. Versuche es erneut.</String>
     <String id="Update.Version">Version {0}</String>
@@ -320,6 +326,7 @@
     <String id="Update.Latest">O aplicativo está atualizado.</String>
     <String id="Update.Checking">Procurando atualizações…</String>
     <String id="Update.Download">Baixando a atualização…</String>
+    <String id="Update.Transfer">{0:P0} · Faltam {1:0.0} MB · {2:0.0} MB/s</String>
     <String id="Update.Ready">A versão {0} está pronta para instalar.</String>
     <String id="Update.Failed">Não foi possível concluir a atualização. Tente novamente.</String>
     <String id="Update.Version">Versão {0}</String>
@@ -371,6 +378,7 @@
     <String id="Update.Latest">Установлена актуальная версия.</String>
     <String id="Update.Checking">Проверка обновлений…</String>
     <String id="Update.Download">Загрузка обновления…</String>
+    <String id="Update.Transfer">{0:P0} · Осталось {1:0.0} МБ · {2:0.0} МБ/с</String>
     <String id="Update.Ready">Версия {0} готова к установке.</String>
     <String id="Update.Failed">Не удалось завершить обновление. Попробуйте ещё раз.</String>
     <String id="Update.Version">Версия {0}</String>
@@ -422,6 +430,7 @@
     <String id="Update.Latest">已是最新版本。</String>
     <String id="Update.Checking">正在检查更新…</String>
     <String id="Update.Download">正在下载更新…</String>
+    <String id="Update.Transfer">{0:P0} · 剩余 {1:0.0} MB · {2:0.0} MB/s</String>
     <String id="Update.Ready">版本 {0} 已可安装。</String>
     <String id="Update.Failed">无法完成更新，请重试。</String>
     <String id="Update.Version">版本 {0}</String>
@@ -473,6 +482,7 @@
     <String id="Update.Latest">最新の状態です。</String>
     <String id="Update.Checking">更新を確認中…</String>
     <String id="Update.Download">更新をダウンロード中…</String>
+    <String id="Update.Transfer">{0:P0} · 残り {1:0.0} MB · {2:0.0} MB/s</String>
     <String id="Update.Ready">バージョン {0} をインストールできます。</String>
     <String id="Update.Failed">更新できませんでした。もう一度お試しください。</String>
     <String id="Update.Version">バージョン {0}</String>
@@ -524,6 +534,7 @@
     <String id="Update.Latest">최신 버전입니다.</String>
     <String id="Update.Checking">업데이트 확인 중…</String>
     <String id="Update.Download">업데이트 다운로드 중…</String>
+    <String id="Update.Transfer">{0:P0} · 남은 용량 {1:0.0} MB · {2:0.0} MB/s</String>
     <String id="Update.Ready">버전 {0}을 설치할 수 있습니다.</String>
     <String id="Update.Failed">업데이트를 완료할 수 없습니다. 다시 시도하세요.</String>
     <String id="Update.Version">버전 {0}</String>

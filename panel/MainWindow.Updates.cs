@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.IO;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -26,6 +27,44 @@ public sealed partial class MainWindow
         };
     }
 
+    async Task<string> DownloadWithProgress(AppRelease release, string cache)
+    {
+        long received = 0, previous = 0;
+        var clock = Stopwatch.StartNew();
+        var timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
+        void Render(double bytesPerSecond)
+        {
+            long bytes = Interlocked.Read(ref received);
+            double fraction = (double)bytes / release.Size;
+            UpdateProgressBar.Value = fraction * 100;
+            TransferDetails.Text = string.Format(T("Update.Transfer", "{0:P0} · {1:0.0} MB left · {2:0.0} MB/s"),
+                fraction, (release.Size - bytes) / 1_000_000d, bytesPerSecond / 1_000_000d);
+        }
+        void Tick(object? sender, object args)
+        {
+            long current = Interlocked.Read(ref received);
+            Render((current - previous) / clock.Elapsed.TotalSeconds);
+            previous = current;
+            clock.Restart();
+        }
+
+        UpdateProgressBar.Visibility = TransferDetails.Visibility = Visibility.Visible;
+        try
+        {
+            Render(0);
+            TransferDetails.StartBringIntoView();
+            timer.Tick += Tick;
+            timer.Start();
+            return await AppUpdates.Download(release, cache, updateLifetime.Token, bytes => Interlocked.Exchange(ref received, bytes));
+        }
+        finally
+        {
+            timer.Stop();
+            timer.Tick -= Tick;
+            UpdateProgressBar.Visibility = TransferDetails.Visibility = Visibility.Collapsed;
+        }
+    }
+
     async void CheckUpdates_Click(object sender, RoutedEventArgs e)
     {
         if (checkingUpdate) return;
@@ -42,7 +81,7 @@ public sealed partial class MainWindow
                 if (pendingRelease == null) { updateMessageKey = "Update.Latest"; return; }
                 updateMessageKey = "Update.Download";
                 UpdateLabels();
-                pendingInstaller = await AppUpdates.Download(pendingRelease, Path.Combine(root, "Updates"), updateLifetime.Token);
+                pendingInstaller = await DownloadWithProgress(pendingRelease, Path.Combine(root, "Updates"));
             }
             if (updateLifetime.IsCancellationRequested) return;
             updateMessageKey = "Update.Ready";

@@ -189,7 +189,11 @@
 
                         <ComboBox x:Name="LanguageComboBox" HorizontalAlignment="Left" MinWidth="180" SelectionChanged="LanguageComboBox_SelectionChanged"/>
                         <Button x:Name="UpdateAppButton" Click="CheckUpdates_Click" Content="Check for updates"/>
-                        <TextBlock x:Name="UpdateStatus" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite" Style="{StaticResource CaptionTextBlockStyle}"/>
+                        <StackPanel Spacing="4">
+                            <ProgressBar x:Name="UpdateProgressBar" Visibility="Collapsed" Width="240" HorizontalAlignment="Left" AutomationProperties.LabeledBy="{Binding ElementName=UpdateStatus}"/>
+                            <TextBlock x:Name="UpdateStatus" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite" Style="{StaticResource CaptionTextBlockStyle}"/>
+                            <TextBlock x:Name="TransferDetails" Visibility="Collapsed" TextWrapping="Wrap" Style="{StaticResource CaptionTextBlockStyle}"/>
+                        </StackPanel>
 
                     </StackPanel>
                 </local:SectionExpander>
