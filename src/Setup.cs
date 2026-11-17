@@ -32,7 +32,7 @@ internal static class Setup
                 StartupPreference.Enable(args[1], true);
                 return 0;
             }
-            Process.Start(Path.Combine(Root, "TrackpadControlPanel.exe"));
+            Process.Start(Path.Combine(Root, "Panel", "AmtPtpControlPanel.WinUI3.exe"));
             Process.Start(Path.Combine(Root, "TrackpadBattery.exe"));
             return 0;
         }

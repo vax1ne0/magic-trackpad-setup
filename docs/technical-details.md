@@ -7,10 +7,12 @@ The community MSI and apps are unsigned. Windows can show an unknown-publisher p
 Verify the MSI with PowerShell and compare the output to SHA256SUMS.txt on the same release:
 
 ~~~powershell
-Get-FileHash .\Magic-Trackpad-Setup-1.3.0-x64.msi -Algorithm SHA256
+Get-FileHash .\Magic-Trackpad-Setup-1.4.0-x64.msi -Algorithm SHA256
 ~~~
 
 The battery monitor runs elevated to use the driver's Bluetooth battery interface. Its readings and discharge history stay on the PC. Runtime estimates include idle time while connected. Pairing is manual.
+
+The MSI installs the self-contained .NET 10 and WinUI runtime in Program Files. USB battery queries use a local named pipe with identification-only access and bounded waits. Startup uses one Windows scheduled task per PC. On a shared PC, enabling startup from another administrator account can change which account starts the monitor.
 
 ## Remove or repair
 
@@ -18,7 +20,7 @@ Exit the battery monitor from its tray menu and close the control panel. Use **S
 
 ## Build from source
 
-On Windows x64 with the .NET Framework 4.x compiler and a .NET SDK supporting the .NET 8 Windows target, install WiX CLI 4.0.6 and its matching UI extension. From the repository root run:
+On Windows x64 with the .NET Framework 4.x compiler and the .NET 10 SDK, install WiX CLI 4.0.6 and its matching UI extension. From the repository root run:
 
 ~~~powershell
 dotnet tool install --global wix --version 4.0.6

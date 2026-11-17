@@ -2,7 +2,7 @@
 
 Use your Apple Magic Trackpad on Windows 11. Scroll with two fingers, adjust how clicks feel, and see your battery level beside the clock.
 
-**[Download the Windows installer](https://github.com/vax1ne0/magic-trackpad-setup/releases/download/v1.3.0/Magic-Trackpad-Setup-1.3.0-x64.msi)**
+**[Download the Windows installer](https://github.com/vax1ne0/magic-trackpad-setup/releases/download/v1.4.0/Magic-Trackpad-Setup-1.4.0-x64.msi)**
 
 Run the installer, then plug in your trackpad with a USB data cable. Prefer wireless? Unplug the cable and choose **Settings → Bluetooth & devices → Add device → Bluetooth** on your PC.
 

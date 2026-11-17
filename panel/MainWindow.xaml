@@ -1,4 +1,4 @@
-<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" x:Class="AmtPtpControlPanel.WinUI3.MainWindow" mc:Ignorable="d">
+<Window xmlns:local="using:AmtPtpControlPanel.WinUI3" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" x:Class="AmtPtpControlPanel.WinUI3.MainWindow" mc:Ignorable="d">
 
     <Grid x:Name="RootGrid" Background="Transparent">
         <Grid.Resources>
@@ -67,7 +67,7 @@
                 </Border>
 
                 <!-- macOS click options -->
-                <Expander x:Name="ClickSection" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" IsExpanded="False" Expanding="Section_Expanding">
+                <local:SectionExpander x:Name="ClickSection" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" IsExpanded="False" Expanding="Section_Expanding">
                         <Expander.Header>
                             <StackPanel Orientation="Horizontal" Spacing="12" Padding="0,8,0,8">
                                 <Border Style="{StaticResource SettingsIconTileStyle}">
@@ -103,11 +103,11 @@
 
                         <RadioButton x:Name="MaximumFeedback" Content="Maximum haptic feedback (very clicky and loud!)" Checked="ClickOptions_Checked"/>
                     </StackPanel>
-                    </Expander>
+                    </local:SectionExpander>
 
                 <!-- Non-macOS click options -->
                 <!-- Lift finger behavior -->
-                <Expander x:Name="LiftSection" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" IsExpanded="False" Expanding="Section_Expanding">
+                <local:SectionExpander x:Name="LiftSection" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" IsExpanded="False" Expanding="Section_Expanding">
                         <Expander.Header>
                             <StackPanel Orientation="Horizontal" Spacing="12" Padding="0,8,0,8">
                                 <Border Style="{StaticResource SettingsIconTileStyle}">
@@ -132,10 +132,10 @@
                                     <TextBlock x:Name="StopSizeLabelText" VerticalAlignment="Center" TextWrapping="Wrap" Text="units. (7 is a good value)"/>
                                 </StackPanel></StackPanel></RadioButton>
                     </StackPanel>
-                    </Expander>
+                    </local:SectionExpander>
 
                 <!-- Other options -->
-                <Expander x:Name="TouchSection" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" IsExpanded="False" Expanding="Section_Expanding">
+                <local:SectionExpander x:Name="TouchSection" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" IsExpanded="False" Expanding="Section_Expanding">
                         <Expander.Header>
                             <StackPanel Orientation="Horizontal" Spacing="12" Padding="0,8,0,8">
                                 <Border Style="{StaticResource SettingsIconTileStyle}">
@@ -162,9 +162,9 @@
                         </CheckBox>
 
                     </StackPanel>
-                    </Expander>
+                    </local:SectionExpander>
 
-                <Expander x:Name="AppSection" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Expanding="Section_Expanding">
+                <local:SectionExpander x:Name="AppSection" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Expanding="Section_Expanding">
                     <Expander.Header>
                         <StackPanel Orientation="Horizontal" Spacing="12" Padding="0,8">
                             <Border Style="{StaticResource SettingsIconTileStyle}"><FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE713;" FontSize="20"/></Border>
@@ -179,7 +179,7 @@
                         <ComboBox x:Name="LanguageComboBox" HorizontalAlignment="Left" MinWidth="180" SelectionChanged="LanguageComboBox_SelectionChanged"/>
 
                     </StackPanel>
-                </Expander>
+                </local:SectionExpander>
             </StackPanel>
         </ScrollViewer>
 

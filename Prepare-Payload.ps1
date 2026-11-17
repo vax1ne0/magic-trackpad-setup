@@ -6,7 +6,6 @@ if (!(Test-Path $archive)) { Invoke-WebRequest $url -OutFile $archive }
 if ((Get-FileHash $archive).Hash -ne 'CBCC67302E03B83733A3C4E42B1667E6AE3BFE333B33879CDE2F4115A6608121') { throw 'Unexpected driver release hash' }
 Expand-Archive $archive (Join-Path $dir extracted) -Force
 Copy-Item "$dir/extracted/AMD64/*" $dir -Force
-Copy-Item "$dir/extracted/AmtPtpControlPanel.WinUI3-amd64.exe" "$dir/TrackpadControlPanel.exe" -Force
 $sig=Get-AuthenticodeSignature "$dir/amtptpdevice.cat"
 if ($sig.Status -ne 'Valid' -or $sig.SignerCertificate.Subject -notlike '*Microsoft Windows Hardware Compatibility Publisher*') { throw 'Driver catalog signature did not verify' }
 $commit='3392291af4814efb33d0d2b8b99948eca33a77a1'

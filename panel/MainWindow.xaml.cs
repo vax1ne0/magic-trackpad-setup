@@ -36,7 +36,7 @@ namespace AmtPtpControlPanel.WinUI3
                 titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
             }
 
-            string iconPath = Path.Combine(AppContext.BaseDirectory, "MagicTrackpad.ico");
+            string iconPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "MagicTrackpad.ico"));
             if (File.Exists(iconPath)) AppWindow.SetIcon(iconPath);
             RootGrid.Loaded += MainWindow_Loaded;
             RootGrid.ActualThemeChanged += (s, e) => UpdateTitleBarButtonColors();
@@ -321,8 +321,8 @@ namespace AmtPtpControlPanel.WinUI3
             {
                 if (await SaveSettingsAsync())
                 {
-                    UsbDevice.ReloadSettings();
-                    BtDevice.SendIoctl(BtDevice.IOCTL_RELOAD_SETTINGS);
+                    await Task.Run(TrackpadDevice.ReloadSettings);
+
                     ApplyButton.Content = "✓ " + T("ctlApply", "Save changes");
                     await Task.Delay(900);
                     ApplyButton.Content = T("ctlApply", "Save changes");
@@ -362,15 +362,12 @@ namespace AmtPtpControlPanel.WinUI3
             {
                 var reading = await Task.Run(() =>
                 {
-                    if (BtDevice.SendIoctl(BtDevice.IOCTL_GET_BATTERY, out uint level) && level <= 100)
-                        return (source: "Bluetooth", level);
-                    if (UsbDevice.GetBattery(out level) && level <= 100)
-                        return (source: "USB", level);
-                    return (source: "", level: 0u);
+                    string connection = TrackpadDevice.Read(out int percent);
+                    return (source: connection, level: percent);
                 });
-                if (reading.source.Length > 0)
+                if (reading.level >= 0)
                 {
-                    ShowBattery(reading.source, reading.level);
+                    ShowBattery(reading.source, (uint)reading.level);
                     return;
                 }
                 BatteryProgressBar.Value = 0;

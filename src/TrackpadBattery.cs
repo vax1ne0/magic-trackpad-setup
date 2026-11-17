@@ -11,70 +11,6 @@ using System.Windows.Forms;
 using Microsoft.Win32;
 using Microsoft.Win32.SafeHandles;
 
-// Read-only client of the installed MagicTrackpad2ForWindows driver protocol.
-// Protocol reference: AmtPtpControlPanel.WinUI3/DeviceInterop.cs in the upstream repository.
-internal static class BatteryReader
-{
-    internal static string Diagnostic = "";
-    [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-    static extern SafeFileHandle CreateFile(string name, uint access, uint sharing,
-        IntPtr security, uint creation, uint flags, IntPtr template);
-    [DllImport("kernel32.dll", SetLastError = true)]
-    static extern bool DeviceIoControl(SafeFileHandle handle, uint code, IntPtr input,
-        uint inputSize, out uint output, uint outputSize, out uint returned, IntPtr overlapped);
-
-    internal static string Read(out int percentage)
-    {
-        percentage = -1;
-        try
-        {
-            using (var handle = CreateFile(@"\\.\AmtPtpControlDeviceUm", 0xC0000000, 3,
-                IntPtr.Zero, 3, 0, IntPtr.Zero))
-            {
-                uint value, returned;
-                if (handle.IsInvalid) Diagnostic = "Open error " + Marshal.GetLastWin32Error();
-                else if (DeviceIoControl(handle, 0x222004, IntPtr.Zero, 0,
-                    out value, 4, out returned, IntPtr.Zero) && returned >= 4 && value <= 100)
-                {
-                    percentage = (int)value;
-                    return "Bluetooth";
-                }
-                else Diagnostic = "Read error " + Marshal.GetLastWin32Error();
-            }
-        }
-        catch { }
-        try
-        {
-            using (var pipe = new NamedPipeClientStream(".", "AmtPtpControlPanelUsbUmInterface",
-                PipeDirection.InOut, PipeOptions.Asynchronous))
-            {
-                pipe.Connect(300);
-                byte[] command = { 1 };
-                var write = pipe.WriteAsync(command, 0, 1);
-                if (!write.Wait(1000)) return "Unavailable";
-                write.GetAwaiter().GetResult();
-                byte[] reply = new byte[2];
-                int count = 0;
-                while (count < 2)
-                {
-                    var read = pipe.ReadAsync(reply, count, 2 - count);
-                    if (!read.Wait(1000)) return "Unavailable";
-                    int received = read.GetAwaiter().GetResult();
-                    if (received == 0) return "Unavailable";
-                    count += received;
-                }
-                if (reply[0] == 0 && reply[1] <= 100)
-                {
-                    percentage = reply[1];
-                    return "USB";
-                }
-            }
-        }
-        catch { }
-        return "Unavailable";
-    }
-}
-
 internal sealed class RuntimeEstimate
 {
     readonly string file;
@@ -166,7 +102,7 @@ internal sealed class TrayApp : ApplicationContext
         menu.Items.Add("Trackpad settings", null, delegate
         {
             Open(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                "TrackpadControlPanel.exe"));
+                "MagicTrackpadSetup.exe"));
         });
         menu.Items.Add(new ToolStripSeparator());
         menu.Items.Add("Quit battery monitor", null, delegate { ExitThread(); });
@@ -194,7 +130,7 @@ internal sealed class TrayApp : ApplicationContext
         Task.Run(delegate
         {
             int level;
-            string connection = BatteryReader.Read(out level);
+            string connection = TrackpadDevice.Read(out level);
             string reading = level >= 0 ? level + "% (" + connection + ")" : "Battery unavailable";
             string remaining = estimate.Observe(level, connection, DateTime.UtcNow);
             string timestamp = DateTimeOffset.Now.ToString("o");
@@ -255,18 +191,7 @@ internal static class Program
     {
         if (args.Length == 1 && args[0] == "--remove-autostart")
         {
-            dynamic scheduler = Activator.CreateInstance(Type.GetTypeFromProgID("Schedule.Service"));
-            scheduler.Connect();
-            dynamic folder = scheduler.GetFolder("\\");
-            foreach (dynamic task in folder.GetTasks(0))
-            {
-                if (task.Name == "Magic Trackpad Battery Monitor" &&
-                    string.Equals((string)task.Definition.Actions.Item(1).Path, Application.ExecutablePath, StringComparison.OrdinalIgnoreCase))
-                {
-                    folder.DeleteTask(task.Name, 0);
-                    break;
-                }
-            }
+            StartupPreference.Disable();
             return;
         }
         bool first;

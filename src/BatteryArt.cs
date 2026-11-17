@@ -80,8 +80,6 @@ internal static class BatteryArt
                 g.FillPath(pearl, glass);
                 g.DrawPath(border, glass);
             }
-            using (var bolt = new SolidBrush(Color.FromArgb(47, 98, 84)))
-                g.FillPolygon(bolt, new Point[] { new Point(7,-30), new Point(-16,4), new Point(-2,4), new Point(-7,27), new Point(18,-8), new Point(4,-8) });
         }
         return bitmap;
     }
