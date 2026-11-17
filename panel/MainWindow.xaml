@@ -1,0 +1,189 @@
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" x:Class="AmtPtpControlPanel.WinUI3.MainWindow" mc:Ignorable="d">
+
+    <Grid x:Name="RootGrid" Background="Transparent">
+        <Grid.Resources>
+            <Style x:Key="CardStyle" TargetType="Border">
+                <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>
+                <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="CornerRadius" Value="8"/>
+                <Setter Property="Padding" Value="20"/>
+            </Style>
+
+            <Style x:Key="CardTitleStyle" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="Margin" Value="0,0,0,4"/>
+            </Style>
+
+            <Style x:Key="SettingsIconTileStyle" TargetType="Border">
+                <Setter Property="Width" Value="32"/>
+                <Setter Property="Height" Value="32"/>
+                <Setter Property="CornerRadius" Value="8"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Background" Value="Transparent"/>
+            </Style>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header (also used as the custom draggable title bar) -->
+        <StackPanel x:Name="HeaderPanel" Grid.Row="0" Padding="28,40,28,6" Spacing="4">
+            <TextBlock x:Name="TitleText" Style="{StaticResource TitleTextBlockStyle}" Text="Magic Trackpad 2 Control Panel" TextWrapping="Wrap"/>
+        </StackPanel>
+
+        <!-- Settings -->
+        <ScrollViewer Grid.Row="1" Padding="28,10,28,14" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Spacing="8">
+
+                <!-- Battery -->
+                <Border Style="{StaticResource CardStyle}">
+                    <StackPanel Spacing="12">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <Border Style="{StaticResource SettingsIconTileStyle}">
+                                <FontIcon x:Name="BatteryIcon" Glyph="" FontFamily="Segoe MDL2 Assets" FontSize="28" Foreground="{ThemeResource TextFillColorPrimaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <TextBlock x:Name="BatteryTitle" Margin="0" Style="{StaticResource CardTitleStyle}" VerticalAlignment="Center" Text="Battery" TextWrapping="Wrap"/>
+                        </StackPanel>
+
+                        <Grid ColumnSpacing="16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Spacing="8" VerticalAlignment="Center">
+                                <ProgressBar x:Name="BatteryProgressBar" Height="16" Maximum="100" Minimum="0" Value="0"/>
+                                <TextBlock x:Name="BatteryStatusText" Foreground="{ThemeResource TextFillColorSecondaryBrush}" Style="{StaticResource CaptionTextBlockStyle}"/>
+                            </StackPanel>
+
+                            <Button x:Name="UpdateBatteryButton" Grid.Column="1" VerticalAlignment="Center" Click="UpdateBatteryButton_Click" Content="Update Battery"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- macOS click options -->
+                <Expander x:Name="ClickSection" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" IsExpanded="False" Expanding="Section_Expanding">
+                        <Expander.Header>
+                            <StackPanel Orientation="Horizontal" Spacing="12" Padding="0,8,0,8">
+                                <Border Style="{StaticResource SettingsIconTileStyle}">
+                                    <FontIcon Glyph="" FontSize="20" FontFamily="Segoe MDL2 Assets"/></Border>
+                                <TextBlock x:Name="ClickFeedbackTitle" Margin="0" Style="{StaticResource CardTitleStyle}" VerticalAlignment="Center" Text="MacOS click options" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Expander.Header>
+                        <StackPanel Spacing="12">
+
+                        <RadioButton x:Name="MacOSClickOptions" Content="Use macOS Click Options:" Checked="ClickOptions_Checked"/>
+
+                        <StackPanel x:Name="MacOSOptionsPanel" Padding="28,0,0,0" Orientation="Vertical" Spacing="8" HorizontalAlignment="Stretch">
+                            <StackPanel Spacing="8">
+                                <TextBlock x:Name="ClickStrengthLabel" Style="{StaticResource BodyTextBlockStyle}" Text="Click strength" TextWrapping="Wrap"/>
+
+                                <Slider x:Name="FeedbackSlider" HorizontalAlignment="Stretch" Maximum="2" Minimum="0" SnapsTo="Ticks" StepFrequency="1" TickFrequency="1" Value="1"/>
+
+                                <Grid HorizontalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock x:Name="LightLabel" Foreground="{ThemeResource TextFillColorSecondaryBrush}" Style="{StaticResource CaptionTextBlockStyle}" Text="Light" TextWrapping="Wrap"/>
+                                    <TextBlock x:Name="MediumLabel" Grid.Column="1" Foreground="{ThemeResource TextFillColorSecondaryBrush}" Style="{StaticResource CaptionTextBlockStyle}" Text="Medium" TextAlignment="Center" TextWrapping="Wrap"/>
+                                    <TextBlock x:Name="FirmLabel" Grid.Column="2" Foreground="{ThemeResource TextFillColorSecondaryBrush}" Style="{StaticResource CaptionTextBlockStyle}" Text="Firm" TextAlignment="Right" TextWrapping="Wrap"/>
+                                </Grid>
+                            </StackPanel>
+
+                            <CheckBox x:Name="SilentClicking" Content="Silent clicking" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    <RadioButton x:Name="DisableFeedback" Content="Disable haptic feedback and force touch button completely" Checked="ClickOptions_Checked"/>
+
+                        <RadioButton x:Name="MaximumFeedback" Content="Maximum haptic feedback (very clicky and loud!)" Checked="ClickOptions_Checked"/>
+                    </StackPanel>
+                    </Expander>
+
+                <!-- Non-macOS click options -->
+                <!-- Lift finger behavior -->
+                <Expander x:Name="LiftSection" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" IsExpanded="False" Expanding="Section_Expanding">
+                        <Expander.Header>
+                            <StackPanel Orientation="Horizontal" Spacing="12" Padding="0,8,0,8">
+                                <Border Style="{StaticResource SettingsIconTileStyle}">
+                                    <FontIcon Glyph="" FontFamily="Segoe MDL2 Assets" Foreground="{ThemeResource TextFillColorPrimaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                                </Border>
+                                <TextBlock x:Name="LiftFingerTitle" Margin="0" Style="{StaticResource CardTitleStyle}" VerticalAlignment="Center" Text="When you lift your finger from the trackpad" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Expander.Header>
+                        <StackPanel Spacing="12">
+
+                        <RadioButton x:Name="StopDoNothing" Content="Do nothing" Checked="StopOptions_Checked"/>
+
+                        <RadioButton x:Name="StopPressure" Checked="StopOptions_Checked">
+                            <StackPanel Spacing="4"><TextBlock x:Name="StopPressureText" VerticalAlignment="Top" Text="Stop the pointer if the pressure is less than or equal to" TextWrapping="Wrap"/>
+                                <StackPanel Orientation="Horizontal" Spacing="10"><NumberBox x:Name="StopPressureValue" Width="110" VerticalAlignment="Center" Minimum="0" SpinButtonPlacementMode="Compact" Value="0"/>
+                                    <TextBlock x:Name="StopPressureLabelText" VerticalAlignment="Center" TextWrapping="Wrap" Text="units. (0 means no pressure; 0 is a good value)"/>
+                                </StackPanel></StackPanel></RadioButton>
+
+                        <RadioButton x:Name="StopSize" Checked="StopOptions_Checked">
+                            <StackPanel Spacing="4"><TextBlock x:Name="StopSizeText" VerticalAlignment="Top" Text="Stop the pointer if the size of the touch area is less than or equal to" TextWrapping="Wrap"/>
+                                <StackPanel Orientation="Horizontal" Spacing="10"><NumberBox x:Name="StopSizeValue" Width="110" VerticalAlignment="Center" Minimum="0" SpinButtonPlacementMode="Compact" Value="7"/>
+                                    <TextBlock x:Name="StopSizeLabelText" VerticalAlignment="Center" TextWrapping="Wrap" Text="units. (7 is a good value)"/>
+                                </StackPanel></StackPanel></RadioButton>
+                    </StackPanel>
+                    </Expander>
+
+                <!-- Other options -->
+                <Expander x:Name="TouchSection" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" IsExpanded="False" Expanding="Section_Expanding">
+                        <Expander.Header>
+                            <StackPanel Orientation="Horizontal" Spacing="12" Padding="0,8,0,8">
+                                <Border Style="{StaticResource SettingsIconTileStyle}">
+                                    <FontIcon Glyph="" FontFamily="Segoe MDL2 Assets" Foreground="{ThemeResource TextFillColorPrimaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                                </Border>
+                                <TextBlock x:Name="OtherOptionsTitle" Margin="0" Style="{StaticResource CardTitleStyle}" VerticalAlignment="Center" Text="Other options" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Expander.Header>
+                        <StackPanel Spacing="12">
+
+                        <CheckBox x:Name="IgnoreNearFingers" Content="Ignore input from fingers not touching the trackpad surface"/>
+                        <CheckBox x:Name="PalmRejection" Content="Palm Rejection"/>
+
+                        <CheckBox x:Name="IgnoreButtonFinger">
+                            <TextBlock x:Name="IgnoreButtonFingerText" Text="Ignore input from the finger used to click the force touch button (useful for dragging, if you use your thumb to click the button and your index finger to move the pointer, for example)" TextWrapping="Wrap"/>
+                        </CheckBox>
+
+                        <CheckBox x:Name="InvertMovement">
+                            <TextBlock x:Name="InvertMovementText" Text="Invert up/down and left/right (for upside-down use)" TextWrapping="Wrap"/>
+                        </CheckBox>
+
+                        <CheckBox x:Name="AllowNonAdminAccess">
+                            <TextBlock x:Name="AllowNonAdminAccessText" Text="ADVANCED: Let non-admin apps communicate with the drivers" TextWrapping="Wrap"/>
+                        </CheckBox>
+
+                        <TextBlock x:Name="LanguageLabel" Style="{StaticResource BodyTextBlockStyle}" Text="UI language" TextWrapping="Wrap"/>
+
+                        <ComboBox x:Name="LanguageComboBox" HorizontalAlignment="Left" MinWidth="180" SelectionChanged="LanguageComboBox_SelectionChanged"/>
+                    </StackPanel>
+                    </Expander>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Footer actions -->
+        <Grid Grid.Row="2" Padding="28,8,28,20" ColumnSpacing="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <HyperlinkButton x:Name="GitHubLink" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="Project on GitHub" NavigateUri="https://github.com/vax1ne0/magic-trackpad-setup"/>
+
+            <Button x:Name="TouchpadSettingsButton" Grid.Column="1" Click="TouchpadSettingsButton_Click" Content="Windows Touchpad Settings"/>
+
+            <Button x:Name="ApplyButton" Grid.Column="2" Click="ApplyButton_Click" Content="Apply" Style="{StaticResource AccentButtonStyle}"/>
+        </Grid>
+
+    </Grid>
+</Window>

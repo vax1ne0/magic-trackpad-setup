@@ -1,5 +1,5 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
-  <Package Name="Magic Trackpad Setup for Windows" Manufacturer="Magic Trackpad Setup contributors" Version="1.1.0" UpgradeCode="ACA09550-4B7C-4FAA-B061-A2510EE94CEF" Scope="perMachine">
+  <Package Name="Magic Trackpad Setup for Windows" Manufacturer="Magic Trackpad Setup contributors" Version="1.2.0" UpgradeCode="ACA09550-4B7C-4FAA-B061-A2510EE94CEF" Scope="perMachine">
     <MajorUpgrade DowngradeErrorMessage="A newer version of Magic Trackpad Setup is already installed." />
     <MediaTemplate EmbedCab="yes"/>
     <Property Id="REALBUILD"><RegistrySearch Id="ReadBuild" Root="HKLM" Key="SOFTWARE\Microsoft\Windows NT\CurrentVersion" Name="CurrentBuildNumber" Type="raw" Bitness="always64"/></Property>
@@ -17,7 +17,7 @@
           <RemoveFolder Id="RemoveInstallFolder" On="uninstall"/>
         </Component>
         <Component Id="Battery" Guid="*"><File Id="BatteryExe" Source="src/TrackpadBattery.exe" KeyPath="yes"/></Component>
-        <Component Id="ControlPanel" Guid="*"><File Id="PanelExe" Source="payload/TrackpadControlPanel.exe"/></Component>
+        <Component Id="PanelIcon" Guid="*"><File Source="src/TrackpadBattery.ico" Name="MagicTrackpad.ico"/></Component><Component Id="ControlPanel" Guid="*"><File Id="PanelExe" Source="payload/TrackpadControlPanel.exe"/></Component>
         <Directory Id="DRIVERDIR" Name="Driver">
           <Component Id="DriverInf" Guid="*"><File Source="payload/AmtPtpDevice.inf"/></Component>
           <Component Id="DriverCat" Guid="*"><File Source="payload/amtptpdevice.cat"/></Component>
@@ -25,7 +25,7 @@
           <Component Id="DriverSys" Guid="*"><File Source="payload/AmtPtpHidFilter.sys"/></Component>
         </Directory>
         <Directory Id="LEGALDIR" Name="ThirdParty">
-          <Component Id="UpstreamSource" Guid="*"><File Source="payload/UpstreamSource.zip"/></Component>
+          <Component Id="PanelSource" Guid="*"><File Source="payload/PanelSource.zip"/></Component><Component Id="UpstreamSource" Guid="*"><File Source="payload/UpstreamSource.zip"/></Component>
           <Component Id="UpstreamLicense" Guid="*"><File Source="payload/UpstreamLicense.txt"/></Component>
         </Directory>
         <Directory Id="BATTSTATE" Name="BatteryData">
@@ -40,6 +40,8 @@
     <InstallExecuteSequence>
       <Custom Action="InstallDriver" After="InstallFiles" Condition="NOT REMOVE"/>
       <Custom Action="StartMonitor" After="InstallDriver" Condition="NOT Installed"/><Custom Action="RemoveAutostart" Before="RemoveFiles" Condition="REMOVE=&quot;ALL&quot; AND NOT UPGRADINGPRODUCTCODE"/></InstallExecuteSequence>
-    <Feature Id="Main" Title="Magic Trackpad Setup" Level="1"><ComponentRef Id="Hub"/><ComponentRef Id="Battery"/><ComponentRef Id="State"/><ComponentRef Id="ControlPanel"/><ComponentRef Id="DriverInf"/><ComponentRef Id="DriverCat"/><ComponentRef Id="DriverDll"/><ComponentRef Id="DriverSys"/><ComponentRef Id="UpstreamSource"/><ComponentRef Id="UpstreamLicense"/></Feature>
+    <Feature Id="Main" Title="Magic Trackpad Setup" Level="1"><ComponentRef Id="Hub"/><ComponentRef Id="Battery"/><ComponentRef Id="State"/><ComponentRef Id="ControlPanel"/><ComponentRef Id="PanelIcon"/><ComponentRef Id="DriverInf"/><ComponentRef Id="DriverCat"/><ComponentRef Id="DriverDll"/><ComponentRef Id="DriverSys"/><ComponentRef Id="UpstreamSource"/><ComponentRef Id="PanelSource"/><ComponentRef Id="UpstreamLicense"/></Feature>
   </Package>
 </Wix>
+
+

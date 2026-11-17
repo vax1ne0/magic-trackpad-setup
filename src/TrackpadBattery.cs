@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
@@ -102,7 +102,7 @@ internal sealed class RuntimeEstimate
         {
             last = -1;
             anchor = DateTime.MinValue;
-            return connection == "USB" ? "Plugged in" : "Runtime unavailable";
+            return connection == "USB" ? "Connected by USB" : "Time remaining unavailable";
         }
         var gap = now - previous;
         if (last < 0 || gap.TotalSeconds > 100 || gap.TotalSeconds < 0 || level > last)
@@ -130,7 +130,7 @@ internal sealed class RuntimeEstimate
         previous = now;
         last = level;
         if (level == 0) return "Battery empty";
-        if (points < 5 || seconds < 3600) return "Learning battery life";
+        if (points < 5 || seconds < 3600) return "Estimating battery life";
         double hours = level * (double)seconds / (3600 * points);
         return hours < 1 ? "About " + Math.Max(1, Math.Round(hours * 60)) + " min left"
             : "About " + Math.Round(hours) + " h left";
@@ -141,11 +141,11 @@ internal sealed class TrayApp : ApplicationContext
 {
     readonly NotifyIcon tray = new NotifyIcon();
     readonly System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
-    readonly ToolStripMenuItem status = new ToolStripMenuItem("Reading trackpad battery...");
-    readonly ToolStripMenuItem updated = new ToolStripMenuItem("Waiting for first reading");
-    readonly ToolStripMenuItem runtime = new ToolStripMenuItem("Learning battery life");
+    readonly ToolStripMenuItem status = new ToolStripMenuItem("Checking battery…");
+    readonly ToolStripMenuItem updated = new ToolStripMenuItem("Waiting for the trackpad");
+    readonly ToolStripMenuItem runtime = new ToolStripMenuItem("Estimating battery life");
     readonly RuntimeEstimate estimate = new RuntimeEstimate(Path.Combine(DataFolder, "discharge.csv"));
-    readonly ToolStripMenuItem startup = new ToolStripMenuItem("Start with Windows");
+    readonly ToolStripMenuItem startup = new ToolStripMenuItem("Show battery at sign-in");
     readonly Control dispatcher = new Control();
     Icon currentIcon;
     bool busy, closed;
@@ -164,9 +164,9 @@ internal sealed class TrayApp : ApplicationContext
         menu.Items.Add(runtime);
         menu.Items.Add(updated);
         menu.Items.Add(new ToolStripSeparator());
-        menu.Items.Add("Refresh now", null, delegate { Refresh(); });
-        menu.Items.Add("Touchpad settings", null, delegate { Open("ms-settings:devices-touchpad"); });
-        menu.Items.Add("Magic Trackpad control panel", null, delegate
+        menu.Items.Add("Check battery now", null, delegate { Refresh(); });
+        menu.Items.Add("Windows gestures", null, delegate { Open("ms-settings:devices-touchpad"); });
+        menu.Items.Add("Trackpad settings", null, delegate
         {
             Open(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 "TrackpadControlPanel.exe"));
@@ -204,7 +204,7 @@ internal sealed class TrayApp : ApplicationContext
         };
         menu.Items.Add(startup);
         menu.Items.Add(new ToolStripSeparator());
-        menu.Items.Add("Exit", null, delegate { ExitThread(); });
+        menu.Items.Add("Quit battery monitor", null, delegate { ExitThread(); });
         tray.ContextMenuStrip = menu;
         tray.Text = "Magic Trackpad: reading battery...";
         SetIcon(-1);
@@ -253,7 +253,7 @@ internal sealed class TrayApp : ApplicationContext
                     busy = false;
                     if (closed) return;
                     status.Text = "Magic Trackpad: " + reading;
-                    updated.Text = "Checked " + DateTime.Now.ToString("HH:mm:ss");
+                    updated.Text = "Last checked " + DateTime.Now.ToString("t");
                     runtime.Text = remaining;
                     tray.Text = "Magic Trackpad: " + reading + "\n" + remaining;
                     SetIcon(level);
@@ -321,8 +321,3 @@ internal static class Program
         }
     }
 }
-
-
-
-
-
