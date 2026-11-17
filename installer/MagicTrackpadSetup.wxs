@@ -1,5 +1,5 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
-  <Package Name="Magic Trackpad Setup for Windows" Manufacturer="Magic Trackpad Setup contributors" Version="1.2.0" UpgradeCode="ACA09550-4B7C-4FAA-B061-A2510EE94CEF" Scope="perMachine">
+  <Package Name="Magic Trackpad Setup for Windows" Manufacturer="Magic Trackpad Setup contributors" Version="1.3.0" UpgradeCode="ACA09550-4B7C-4FAA-B061-A2510EE94CEF" Scope="perMachine">
     <MajorUpgrade DowngradeErrorMessage="A newer version of Magic Trackpad Setup is already installed." />
     <MediaTemplate EmbedCab="yes"/>
     <Property Id="REALBUILD"><RegistrySearch Id="ReadBuild" Root="HKLM" Key="SOFTWARE\Microsoft\Windows NT\CurrentVersion" Name="CurrentBuildNumber" Type="raw" Bitness="always64"/></Property>
@@ -39,9 +39,10 @@
     <CustomAction Id="StartMonitor" FileRef="HubExe" ExeCommand="--start-monitor [UserSID]" Execute="commit" Impersonate="no" Return="check"/>
     <InstallExecuteSequence>
       <Custom Action="InstallDriver" After="InstallFiles" Condition="NOT REMOVE"/>
-      <Custom Action="StartMonitor" After="InstallDriver" Condition="NOT Installed"/><Custom Action="RemoveAutostart" Before="RemoveFiles" Condition="REMOVE=&quot;ALL&quot; AND NOT UPGRADINGPRODUCTCODE"/></InstallExecuteSequence>
+      <Custom Action="StartMonitor" After="InstallDriver" Condition="NOT Installed AND NOT WIX_UPGRADE_DETECTED"/><Custom Action="RemoveAutostart" Before="RemoveFiles" Condition="REMOVE=&quot;ALL&quot; AND NOT UPGRADINGPRODUCTCODE"/></InstallExecuteSequence>
     <Feature Id="Main" Title="Magic Trackpad Setup" Level="1"><ComponentRef Id="Hub"/><ComponentRef Id="Battery"/><ComponentRef Id="State"/><ComponentRef Id="ControlPanel"/><ComponentRef Id="PanelIcon"/><ComponentRef Id="DriverInf"/><ComponentRef Id="DriverCat"/><ComponentRef Id="DriverDll"/><ComponentRef Id="DriverSys"/><ComponentRef Id="UpstreamSource"/><ComponentRef Id="PanelSource"/><ComponentRef Id="UpstreamLicense"/></Feature>
   </Package>
 </Wix>
+
 
 

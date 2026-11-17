@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
@@ -145,11 +145,9 @@ internal sealed class TrayApp : ApplicationContext
     readonly ToolStripMenuItem updated = new ToolStripMenuItem("Waiting for the trackpad");
     readonly ToolStripMenuItem runtime = new ToolStripMenuItem("Estimating battery life");
     readonly RuntimeEstimate estimate = new RuntimeEstimate(Path.Combine(DataFolder, "discharge.csv"));
-    readonly ToolStripMenuItem startup = new ToolStripMenuItem("Show battery at sign-in");
     readonly Control dispatcher = new Control();
     Icon currentIcon;
     bool busy, closed;
-    const string AppName = "Magic Trackpad Battery Monitor";
     internal static readonly string DataFolder = Path.Combine(
         AppDomain.CurrentDomain.BaseDirectory, "BatteryData");
 
@@ -165,44 +163,11 @@ internal sealed class TrayApp : ApplicationContext
         menu.Items.Add(updated);
         menu.Items.Add(new ToolStripSeparator());
         menu.Items.Add("Check battery now", null, delegate { Refresh(); });
-        menu.Items.Add("Windows gestures", null, delegate { Open("ms-settings:devices-touchpad"); });
         menu.Items.Add("Trackpad settings", null, delegate
         {
             Open(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 "TrackpadControlPanel.exe"));
         });
-        try { dynamic scheduler = Scheduler(); scheduler.GetFolder("\\").GetTask(AppName); startup.Checked = true; }
-        catch { }
-        startup.Click += delegate
-        {
-            try
-            {
-                dynamic scheduler = Scheduler();
-                dynamic folder = scheduler.GetFolder("\\");
-                if (startup.Checked) folder.DeleteTask(AppName, 0);
-                else
-                {
-                    string user = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-                    dynamic task = scheduler.NewTask(0);
-                    task.RegistrationInfo.Description = "Shows Magic Trackpad battery in the notification area.";
-                    task.Principal.UserId = user;
-                    task.Principal.LogonType = 3;
-                    task.Principal.RunLevel = 1;
-                    task.Settings.DisallowStartIfOnBatteries = false;
-                    task.Settings.StopIfGoingOnBatteries = false;
-                    task.Settings.ExecutionTimeLimit = "PT0S";
-                    task.Settings.MultipleInstances = 2;
-                    dynamic trigger = task.Triggers.Create(9);
-                    trigger.UserId = user;
-                    dynamic action = task.Actions.Create(0);
-                    action.Path = Application.ExecutablePath;
-                    folder.RegisterTaskDefinition(AppName, task, 6, user, null, 3, null);
-                }
-                startup.Checked = !startup.Checked;
-            }
-            catch (Exception ex) { MessageBox.Show(ex.Message, "Trackpad Battery"); }
-        };
-        menu.Items.Add(startup);
         menu.Items.Add(new ToolStripSeparator());
         menu.Items.Add("Quit battery monitor", null, delegate { ExitThread(); });
         tray.ContextMenuStrip = menu;
@@ -214,13 +179,6 @@ internal sealed class TrayApp : ApplicationContext
         timer.Tick += delegate { Refresh(); };
         timer.Start();
         Refresh();
-    }
-
-    static dynamic Scheduler()
-    {
-        dynamic scheduler = Activator.CreateInstance(Type.GetTypeFromProgID("Schedule.Service"));
-        scheduler.Connect();
-        return scheduler;
     }
 
     static void Open(string target)

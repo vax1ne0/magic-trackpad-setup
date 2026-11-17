@@ -161,12 +161,25 @@
                             <TextBlock x:Name="AllowNonAdminAccessText" Text="ADVANCED: Let non-admin apps communicate with the drivers" TextWrapping="Wrap"/>
                         </CheckBox>
 
-                        <TextBlock x:Name="LanguageLabel" Style="{StaticResource BodyTextBlockStyle}" Text="UI language" TextWrapping="Wrap"/>
-
-                        <ComboBox x:Name="LanguageComboBox" HorizontalAlignment="Left" MinWidth="180" SelectionChanged="LanguageComboBox_SelectionChanged"/>
                     </StackPanel>
                     </Expander>
 
+                <Expander x:Name="AppSection" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Expanding="Section_Expanding">
+                    <Expander.Header>
+                        <StackPanel Orientation="Horizontal" Spacing="12" Padding="0,8">
+                            <Border Style="{StaticResource SettingsIconTileStyle}"><FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE713;" FontSize="20"/></Border>
+                            <TextBlock x:Name="AppSettingsTitle" Style="{StaticResource CardTitleStyle}" VerticalAlignment="Center" Margin="0" Text="App settings"/>
+                        </StackPanel>
+                    </Expander.Header>
+                    <StackPanel Spacing="10">
+                        <ToggleSwitch x:Name="StartupSwitch" Header="Open at startup" Toggled="Startup_Toggled"/>
+                        <TextBlock x:Name="StartupHint" TextWrapping="Wrap" Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="Show the battery beside the clock when you sign in."/>
+                        <TextBlock x:Name="LanguageLabel" Style="{StaticResource BodyTextBlockStyle}" Text="UI language" TextWrapping="Wrap"/>
+
+                        <ComboBox x:Name="LanguageComboBox" HorizontalAlignment="Left" MinWidth="180" SelectionChanged="LanguageComboBox_SelectionChanged"/>
+
+                    </StackPanel>
+                </Expander>
             </StackPanel>
         </ScrollViewer>
 

@@ -47,6 +47,7 @@ namespace AmtPtpControlPanel.WinUI3
             UpdateTitleBarButtonColors();
             ApplyLocalization();
             PopulateLanguageCombo();
+            LoadStartupPreference();
             LoadSettings();
 
             await UpdateBatteryAsync(showErrorOnFailure: false);
@@ -71,6 +72,29 @@ namespace AmtPtpControlPanel.WinUI3
             storyboard.Begin();
         }
 
+        private bool syncingStartup = true;
+        private void LoadStartupPreference()
+        {
+            syncingStartup = true;
+            try { StartupSwitch.IsOn = StartupPreference.Enabled(); }
+            catch { StartupSwitch.IsEnabled = false; StartupHint.Text = T("Startup.ReadError", "Windows startup settings are unavailable."); }
+            finally { syncingStartup = false; }
+        }
+        private async void Startup_Toggled(object sender, RoutedEventArgs args)
+        {
+            if (syncingStartup) return;
+            try
+            {
+                if (StartupSwitch.IsOn)
+                    StartupPreference.Enable(System.Security.Principal.WindowsIdentity.GetCurrent().User!.Value, false);
+                else StartupPreference.Disable();
+            }
+            catch (Exception ex)
+            {
+                LoadStartupPreference();
+                await ShowErrorAsync(T("Startup.Title", "Open at startup"), ex.Message);
+            }
+        }
         private void PopulateLanguageCombo()
         {
             _updatingLanguageCombo = true;
@@ -173,6 +197,10 @@ namespace AmtPtpControlPanel.WinUI3
             PalmRejection.Content = T("ctlPalmRejection", "Palm Rejection");
             InvertMovementText.Text = T("ctlInvertMovement", "Invert up/down and left/right (for upside-down use)");
             AllowNonAdminAccessText.Text = T("ctlAllowNonAdminAccess", "ADVANCED: Let non-admin apps communicate with the drivers");
+            AppSettingsTitle.Text = T("App.Title", "App settings");
+            StartupSwitch.Header = T("Startup.Title", "Open at startup");
+            StartupHint.Text = T("Startup.Hint", "Show the battery beside the clock when you sign in. The settings window opens when you need it.");
+            Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(AppSection, AppSettingsTitle.Text);
             LanguageLabel.Text = T("ctlLanguage", "UI language");
 
             BatteryTitle.Text = T("Section.Battery", "Battery");
