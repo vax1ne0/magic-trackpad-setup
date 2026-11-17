@@ -4,6 +4,8 @@
         <Grid.Resources>
             <SolidColorBrush x:Key="ExpanderChevronPointerOverBackground" Color="Transparent"/>
             <SolidColorBrush x:Key="ExpanderChevronBorderPointerOverBrush" Color="Transparent"/>
+            <SolidColorBrush x:Key="ExpanderChevronPressedBackground" Color="Transparent"/>
+            <SolidColorBrush x:Key="ExpanderChevronBorderPressedBrush" Color="Transparent"/>
             <Style x:Key="CardStyle" TargetType="Border">
                 <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>
                 <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
