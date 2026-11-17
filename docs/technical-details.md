@@ -16,7 +16,7 @@ The MSI installs the self-contained .NET 10 and WinUI runtime in Program Files. 
 
 ## Remove or repair
 
-Exit the battery monitor from its tray menu and close the control panel. Use **Settings > Apps > Installed apps > Magic Trackpad Setup for Windows** to uninstall. This removes the apps and their shortcuts and leaves the trackpad driver installed. To repair the installation, use Windows Installer repair.
+Exit the battery monitor from its tray menu and close the control panel. Use **Settings > Apps > Installed apps > Magic Trackpad Setup for Windows** to uninstall. The public 1.6.0 release removes the apps and their shortcuts and leaves the trackpad driver installed. Starting with 1.6.2, uninstall closes the app and monitor, clears their battery history, startup task, update downloads and app preferences for the uninstalling user, and removes the bundled driver if this installer originally added it. Drivers already present on the PC, including older installs with unknown ownership, are preserved. Upgrades retain settings and battery history and prune abandoned update downloads. Windows manages its own installer cache and Bluetooth pairing. To repair the installation, use Windows Installer repair.
 
 ## Installer choices and updates in 1.6
 

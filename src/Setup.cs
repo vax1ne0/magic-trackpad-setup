@@ -11,6 +11,7 @@ internal static class Setup
 
     static int InstallDriver(string infPath)
     {
+        bool alreadyPresent = SetupCleanup.FindDriver() != null;
         var info = new ProcessStartInfo(Path.Combine(Environment.SystemDirectory, "pnputil.exe"),
             "/add-driver \"" + Path.GetFullPath(infPath) + "\" /install");
         info.UseShellExecute = false;
@@ -18,6 +19,8 @@ internal static class Setup
         using (var process = Process.Start(info))
         {
             process.WaitForExit();
+            if (!alreadyPresent && (process.ExitCode == 0 || process.ExitCode == 3010) && SetupCleanup.FindDriver() != null)
+                SetupCleanup.RecordDriver();
             return process.ExitCode == 3010 ? 0 : process.ExitCode;
         }
     }
@@ -26,6 +29,21 @@ internal static class Setup
     {
         try
         {
+            if (args.Length == 2 && args[0] == "--remove-empty-root")
+            {
+                string dir = Path.GetFullPath(args[1]);
+                if (Directory.Exists(dir) && (File.GetAttributes(dir) & FileAttributes.ReparsePoint) == 0 &&
+                    Directory.GetFileSystemEntries(dir).Length == 0) Directory.Delete(dir);
+                return 0;
+            }
+            if (args.Length == 1 && args[0] == "--remove-driver") { SetupCleanup.RemoveOwnedDriver(); return 0; }
+            if (args.Length == 1 && args[0] == "--clear-preferences") { SetupCleanup.ClearPreferences(); return 0; }
+            if (args.Length == 2 && args[0] == "--stop-apps") { SetupCleanup.StopApps(args[1]); return 0; }
+            if (args.Length == 2 && (args[0] == "--clean-downloads" || args[0] == "--prune-downloads"))
+            {
+                SetupCleanup.CleanDownloads(args[1], args[0] == "--prune-downloads");
+                return 0;
+            }
             if (args.Length == 2 && args[0] == "--remove-autostart")
             {
                 StartupPreference.Disable(args[1]);

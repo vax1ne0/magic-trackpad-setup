@@ -9,6 +9,6 @@ try {
     ('[assembly:System.Reflection.AssemblyFileVersion("{0}.0")]' -f $version) | Set-Content $info
     & $compiler @common /out:TrackpadBattery.exe $info TrackpadBattery.cs BatteryArt.cs ..\panel\DeviceInterop.cs ..\panel\AppPreferences.cs ..\panel\StartupPreference.cs
     if ($LASTEXITCODE) { throw 'Battery app compilation failed' }
-    & $compiler @common /out:MagicTrackpadSetup.exe $info Setup.cs ..\panel\StartupPreference.cs
+    & $compiler @common /out:MagicTrackpadSetup.exe $info Setup.cs SetupCleanup.cs ..\panel\StartupPreference.cs
     if ($LASTEXITCODE) { throw 'Setup compilation failed' }
 } finally { Pop-Location }
