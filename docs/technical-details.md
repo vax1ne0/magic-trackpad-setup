@@ -18,6 +18,12 @@ The MSI installs the self-contained .NET 10 and WinUI runtime in Program Files. 
 
 Exit the battery monitor from its tray menu and close the control panel. Use **Settings > Apps > Installed apps > Magic Trackpad Setup for Windows** to uninstall. This removes the apps and their shortcuts and leaves the trackpad driver installed. To repair the installation, use Windows Installer repair.
 
+## Installer choices and updates in 1.6
+
+One x64 MSI offers two installation choices. The recommended setup includes the driver, control panel, and taskbar battery indicator. Driver only installs the signed driver and its accompanying source and license. Windows Settings remains available for standard gestures. To add or remove the companion app later, run the same MSI and select **Change**. For unattended driver-only setup, set `ADDLOCAL=Main`. Full setup uses `ADDLOCAL=Main,App`.
+
+In the full app, use **App settings → Check for updates**. A check contacts the official GitHub repository for its latest stable release. When a newer x64 MSI is available, the panel downloads it to Program Files and verifies its size and GitHub SHA-256 digest. **Later** keeps the verified download available while the window is open. **Restart and update** runs Windows Installer and reopens the panel. The update follows the same unsigned community release trust model as a manual download.
+
 ## Build from source
 
 On Windows x64 with the .NET Framework 4.x compiler and the .NET 10 SDK, install WiX CLI 4.0.6 and its matching UI extension. From the repository root run:

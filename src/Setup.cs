@@ -9,10 +9,10 @@ internal static class Setup
     static readonly string Root = AppDomain.CurrentDomain.BaseDirectory;
 
 
-    static int InstallDriver()
+    static int InstallDriver(string infPath)
     {
         var info = new ProcessStartInfo(Path.Combine(Environment.SystemDirectory, "pnputil.exe"),
-            "/add-driver \"" + Path.Combine(Root, "Driver", "AmtPtpDevice.inf") + "\" /install");
+            "/add-driver \"" + Path.GetFullPath(infPath) + "\" /install");
         info.UseShellExecute = false;
         info.CreateNoWindow = true;
         using (var process = Process.Start(info))
@@ -26,7 +26,12 @@ internal static class Setup
     {
         try
         {
-            if (args.Length == 1 && args[0] == "--install-driver") return InstallDriver();
+            if (args.Length == 2 && args[0] == "--remove-autostart")
+            {
+                StartupPreference.Disable(args[1]);
+                return 0;
+            }
+            if (args.Length == 2 && args[0] == "--install-driver") return InstallDriver(args[1]);
             if (args.Length == 2 && args[0] == "--start-monitor")
             {
                 StartupPreference.Enable(args[1], true);

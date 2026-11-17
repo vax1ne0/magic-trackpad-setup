@@ -19,6 +19,7 @@ namespace AmtPtpControlPanel.WinUI3
         public MainWindow()
         {
             InitializeComponent();
+            Closed += (_, _) => { updateLifetime.Cancel(); DiscardUpdate(); };
 
             SystemBackdrop = new MicaBackdrop();
             Title = LocalizationManager.GetString("Main", "Magic Trackpad 2 Control Panel");
@@ -202,7 +203,6 @@ namespace AmtPtpControlPanel.WinUI3
             ReleaseLight.Content = LightLabel.Text;
             ReleaseMedium.Content = MediumLabel.Text;
             ReleaseFirm.Content = FirmLabel.Text;
-            TestClick.Content = T("Click.Test", "Test click");
             BatteryAlert.Content = T("Battery.Alert", "Notify me at 20% battery");
             DisableFeedback.Content = T("ctlDisableFeedback", "Disable haptic feedback and force touch button completely");
             MaximumFeedback.Content = T("ctlMaximumFeedback", "Maximum haptic feedback (very clicky and loud!)");
@@ -234,6 +234,7 @@ namespace AmtPtpControlPanel.WinUI3
             }
             StartupHint.Text = T("Startup.Hint", "Show the battery beside the clock when you sign in. The settings window opens when you need it.");
             Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(AppSection, AppSettingsTitle.Text);
+            UpdateLabels();
             LanguageLabel.Text = T("ctlLanguage", "UI language");
 
             BatteryTitle.Text = T("Section.Battery", "Battery");
@@ -322,7 +323,6 @@ namespace AmtPtpControlPanel.WinUI3
             SilentClicking.IsEnabled = macEnabled;
             FeedbackSlider.IsEnabled = macEnabled;
             ReleaseStrength.IsEnabled = macEnabled;
-            TestClick.IsEnabled = DisableFeedback.IsChecked != true && !previewing;
         }
 
         private void StopOptions_Checked(object sender, RoutedEventArgs e)
@@ -433,7 +433,6 @@ namespace AmtPtpControlPanel.WinUI3
 
         static readonly int[] PressValues = { 0x040415, 0x060617, 0x08081e };
         static readonly int[] ReleaseValues = { 0x000010, 0x000014, 0x020218 };
-        bool previewing;
         (int, int)? initialPresets;
         (int, int) initialFeedback;
 
@@ -458,24 +457,6 @@ namespace AmtPtpControlPanel.WinUI3
             int release = ReleaseStrength.SelectedIndex <= 0 ? press : ReleaseStrength.SelectedIndex - 1;
             int mask = SilentClicking.IsChecked == true ? 0xff : 0xffffff;
             return (PressValues[press] & mask, ReleaseValues[release] & mask);
-        }
-
-        private async void TestClick_Click(object sender, RoutedEventArgs e)
-        {
-            if (previewing || DisableFeedback.IsChecked == true) return;
-            previewing = true;
-            TestClick.IsEnabled = false;
-            try
-            {
-                var feedback = SelectedFeedback();
-                if (!await Task.Run(() => TrackpadDevice.Preview(feedback.press, feedback.release)))
-                    await ShowErrorAsync(Title, T("Click.Unavailable", "Couldn’t play the click. Check the trackpad connection and try again."));
-            }
-            finally
-            {
-                previewing = false;
-                TestClick.IsEnabled = DisableFeedback.IsChecked != true;
-            }
         }
 
         private async Task<bool> SaveSettingsAsync()

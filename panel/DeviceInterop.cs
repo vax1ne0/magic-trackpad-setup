@@ -29,7 +29,7 @@ internal static class TrackpadDevice
         }
     }
 
-    static bool Usb(byte[] request, out byte value)
+    static bool Usb(byte command, out byte value)
     {
         value = 0;
         try
@@ -38,7 +38,7 @@ internal static class TrackpadDevice
                 PipeDirection.InOut, PipeOptions.Asynchronous, TokenImpersonationLevel.Identification))
             {
                 pipe.Connect(300);
-                if (!pipe.WriteAsync(request, 0, request.Length).Wait(1000)) return false;
+                if (!pipe.WriteAsync(new byte[] { command }, 0, 1).Wait(1000)) return false;
                 byte[] reply = new byte[2];
                 for (int offset = 0; offset < reply.Length;)
                 {
@@ -59,43 +59,12 @@ internal static class TrackpadDevice
         }
     }
 
-    [DllImport("kernel32.dll", EntryPoint="DeviceIoControl")]
-    static extern bool WriteControl(SafeFileHandle handle, uint code, ref int feedback, uint size,
-        IntPtr output, uint outputSize, out uint returned, IntPtr overlapped);
-
-    static bool PulseBluetooth(SafeFileHandle handle, int feedback)
-    {
-        uint returned;
-        return WriteControl(handle, 0x0022A008, ref feedback, 4, IntPtr.Zero, 0, out returned, IntPtr.Zero);
-    }
-
-    static bool PulseUsb(int feedback)
-    {
-        byte ignored;
-        return Usb(new byte[] { 2, (byte)feedback, (byte)(feedback >> 8), (byte)(feedback >> 16) }, out ignored);
-    }
-
-    internal static bool Preview(int press, int release)
-    {
-        using (var handle = CreateFile(@"\\.\AmtPtpHapticDeviceUm", 0x40000000, 3, IntPtr.Zero, 3, 0, IntPtr.Zero))
-        {
-            if (!handle.IsInvalid && PulseBluetooth(handle, press))
-            {
-                System.Threading.Thread.Sleep(140);
-                return PulseBluetooth(handle, release);
-            }
-        }
-        if (!PulseUsb(press)) return false;
-        System.Threading.Thread.Sleep(140);
-        return PulseUsb(release);
-    }
-
     internal static string Read(out int percent)
     {
         uint wireless;
         byte wired;
         if (Bluetooth(GetBattery, out wireless) && wireless <= 100) { percent=(int)wireless; return "Bluetooth"; }
-        if (Usb(new byte[] { 1 }, out wired) && wired <= 100) { percent=wired; return "USB"; }
+        if (Usb(1, out wired) && wired <= 100) { percent=wired; return "USB"; }
         percent=-1;
         return "Unavailable";
     }
@@ -103,7 +72,7 @@ internal static class TrackpadDevice
     {
         byte wired;
         uint wireless;
-        Usb(new byte[] { 0 }, out wired);
+        Usb(0, out wired);
         Bluetooth(Reload, out wireless);
     }
 }

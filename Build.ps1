@@ -1,6 +1,7 @@
 $ErrorActionPreference = 'Stop'
 Push-Location $PSScriptRoot
 try {
+    $version = ([xml](Get-Content panel/AmtPtpControlPanel.WinUI3.csproj -Raw)).Project.PropertyGroup.Version
     & ./Prepare-Payload.ps1
     $panelOutput = Join-Path $PSScriptRoot ("panel/bin/publish/" + [Guid]::NewGuid())
     dotnet publish panel/AmtPtpControlPanel.WinUI3.csproj -c Release -p:PublishProfile=win-x64 -o $panelOutput
@@ -11,6 +12,6 @@ try {
     & ./src/Build.ps1
     New-Item -ItemType Directory -Force dist | Out-Null
     $wix = if ($env:WIX_EXE) { $env:WIX_EXE } else { 'wix' }
-    & $wix build -arch x64 -ext WixToolset.UI.wixext -o dist/Magic-Trackpad-Setup-1.5.0-x64.msi installer/MagicTrackpadSetup.wxs payload/PanelFiles.wxs
+    & $wix build -arch x64 -d "ProductVersion=$version" -ext WixToolset.UI.wixext -o "dist/Magic-Trackpad-Setup-$version-x64.msi" installer/MagicTrackpadSetup.wxs payload/PanelFiles.wxs
     if ($LASTEXITCODE) { throw 'MSI build failed' }
 } finally { Pop-Location }

@@ -29,7 +29,7 @@ internal static class StartupPreference
         dynamic folder = service.GetFolder("\\");
 
         dynamic existing = FindTask(folder);
-        if (existing != null && !OwnTask(existing))
+        if (existing != null && !OwnTask(existing, TrayPath))
             throw new InvalidOperationException("Another application already uses this startup task name.");
         dynamic task = service.NewTask(0);
         task.RegistrationInfo.Description = "Display the Magic Trackpad battery in the taskbar.";
@@ -53,7 +53,7 @@ internal static class StartupPreference
 
         dynamic task = FindTask(folder);
         if (task == null) return false;
-        return task.Enabled && OwnTask(task);
+        return task.Enabled && OwnTask(task, TrayPath);
     }
     #if NET
     static dynamic? FindTask(dynamic folder)
@@ -65,17 +65,18 @@ internal static class StartupPreference
         catch (System.Runtime.InteropServices.COMException ex) { if (ex.ErrorCode == unchecked((int)0x80070002)) return null; throw; }
         catch (FileNotFoundException) { return null; }
     }
-    static bool OwnTask(dynamic task)
+    static bool OwnTask(dynamic task, string path)
     {
         return string.Equals((string)task.Definition.Actions.Item(1).Path,
-            TrayPath, StringComparison.OrdinalIgnoreCase);
+            path, StringComparison.OrdinalIgnoreCase);
     }
-    internal static void Disable()
+    internal static void Disable() { Disable(TrayPath); }
+    internal static void Disable(string path)
     {
         dynamic service = Connect();
         dynamic folder = service.GetFolder("\\");
 
         dynamic task = FindTask(folder);
-        if (task != null && OwnTask(task)) folder.DeleteTask(TaskName, 0);
+        if (task != null && OwnTask(task, path)) folder.DeleteTask(TaskName, 0);
     }
 }

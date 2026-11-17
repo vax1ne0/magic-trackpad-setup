@@ -112,7 +112,6 @@
                     <RadioButton x:Name="DisableFeedback" Content="Disable haptic feedback and force touch button completely" Checked="ClickOptions_Checked"/>
 
                         <RadioButton x:Name="MaximumFeedback" Content="Maximum haptic feedback (very clicky and loud!)" Checked="ClickOptions_Checked"/>
-                        <Button x:Name="TestClick" Content="Test click" Click="TestClick_Click"/>
                     </StackPanel>
                     </local:SectionExpander>
 
@@ -189,6 +188,8 @@
                         <TextBlock x:Name="LanguageLabel" Style="{StaticResource BodyTextBlockStyle}" Text="UI language" TextWrapping="Wrap"/>
 
                         <ComboBox x:Name="LanguageComboBox" HorizontalAlignment="Left" MinWidth="180" SelectionChanged="LanguageComboBox_SelectionChanged"/>
+                        <Button x:Name="UpdateAppButton" Click="CheckUpdates_Click" Content="Check for updates"/>
+                        <TextBlock x:Name="UpdateStatus" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite" Style="{StaticResource CaptionTextBlockStyle}"/>
 
                     </StackPanel>
                 </local:SectionExpander>

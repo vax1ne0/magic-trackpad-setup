@@ -1,0 +1,107 @@
+using System.Diagnostics;
+using System.IO;
+using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text.Json;
+
+namespace AmtPtpControlPanel.WinUI3;
+
+internal sealed record AppRelease(Version Version, Uri Download, string Digest, long Size);
+
+internal static class AppUpdates
+{
+    const string Repository = "vax1ne0/magic-trackpad-setup";
+    const long MaxBytes = 256 * 1024 * 1024;
+    static readonly HttpClient Client = new() { Timeout = TimeSpan.FromMinutes(10) };
+    internal static readonly Version Current = new(typeof(AppUpdates).Assembly.GetName().Version!.ToString(3));
+
+    static AppUpdates() => Client.DefaultRequestHeaders.UserAgent.ParseAdd("MagicTrackpad/" + Current);
+
+    internal static async Task<AppRelease?> Check(CancellationToken token)
+    {
+        using var response = await Client.GetAsync($"https://api.github.com/repos/{Repository}/releases/latest", token).ConfigureAwait(false);
+        response.EnsureSuccessStatusCode();
+        using var json = JsonDocument.Parse(await response.Content.ReadAsStreamAsync(token));
+        return ReadRelease(json.RootElement, Current);
+    }
+
+    internal static AppRelease? ReadRelease(JsonElement root, Version current)
+    {
+        if (root.GetProperty("draft").GetBoolean() || root.GetProperty("prerelease").GetBoolean()) return null;
+        string tag = root.GetProperty("tag_name").GetString() ?? "";
+        if (!tag.StartsWith('v') || !Version.TryParse(tag[1..], out var version) || version.Build < 0 ||
+            version.Revision >= 0 || tag != "v" + version) throw new InvalidDataException();
+        if (version <= current) return null;
+        string name = $"Magic-Trackpad-Setup-{version}-x64.msi";
+        var url = new Uri($"https://github.com/{Repository}/releases/download/{tag}/{name}");
+        foreach (var asset in root.GetProperty("assets").EnumerateArray())
+        {
+            if (asset.GetProperty("name").GetString() != name) continue;
+            string digest = asset.GetProperty("digest").GetString() ?? "";
+            long size = asset.GetProperty("size").GetInt64();
+            if (asset.GetProperty("browser_download_url").GetString() != url.AbsoluteUri ||
+                size <= 0 || size > MaxBytes || !digest.StartsWith("sha256:", StringComparison.Ordinal) ||
+                digest.Length != 71 || !digest[7..].All(Uri.IsHexDigit)) throw new InvalidDataException();
+            return new AppRelease(version, url, digest[7..], size);
+        }
+        throw new InvalidDataException();
+    }
+
+    internal static async Task<string> Download(AppRelease release, string cache, CancellationToken token)
+    {
+        string directory = Path.Combine(cache, Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(directory);
+        string file = Path.Combine(directory, "update.msi");
+        try
+        {
+            using var deadline = CancellationTokenSource.CreateLinkedTokenSource(token);
+            deadline.CancelAfter(TimeSpan.FromMinutes(15));
+            token = deadline.Token;
+            using var response = await Client.GetAsync(release.Download, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+            await using var source = await response.Content.ReadAsStreamAsync(token);
+            await using var target = new FileStream(file, FileMode.CreateNew, FileAccess.Write, FileShare.None, 81920, true);
+            using var hash = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
+            var buffer = new byte[81920];
+            long total = 0;
+            int count;
+            while ((count = await source.ReadAsync(buffer, token)) != 0)
+            {
+                total += count;
+                if (total > release.Size) throw new InvalidDataException();
+                await target.WriteAsync(buffer.AsMemory(0, count), token);
+                hash.AppendData(buffer, 0, count);
+            }
+            if (total != release.Size || !Convert.ToHexString(hash.GetHashAndReset()).Equals(release.Digest,
+                    StringComparison.OrdinalIgnoreCase)) throw new InvalidDataException();
+            return file;
+        }
+        catch { Discard(file); throw; }
+    }
+
+    internal static void Discard(string file)
+    {
+        try { File.Delete(file); Directory.Delete(Path.GetDirectoryName(file)!); }
+        catch (IOException) { }
+        catch (UnauthorizedAccessException) { }
+    }
+
+    internal static void Restart(string root, string file, string digest)
+    {
+        // Read the fixed handoff before MSI replaces the app. Paths travel as data.
+        using var stream = typeof(AppUpdates).Assembly.GetManifestResourceStream("UpdateAndRestart.ps1")!;
+        using var reader = new StreamReader(stream);
+        var start = new ProcessStartInfo(Path.Combine(Environment.SystemDirectory, @"WindowsPowerShell\v1.0\powershell.exe"))
+        {
+            UseShellExecute = false, CreateNoWindow = true, WorkingDirectory = Environment.SystemDirectory
+        };
+        foreach (var option in new[] { "-NoProfile", "-NonInteractive", "-Command", reader.ReadToEnd() })
+            start.ArgumentList.Add(option);
+        start.Environment["PSModulePath"] = Path.Combine(Environment.SystemDirectory, @"WindowsPowerShell\v1.0\Modules");
+        start.Environment["TRACKPAD_UPDATE_ROOT"] = root;
+        start.Environment["TRACKPAD_UPDATE_FILE"] = file;
+        start.Environment["TRACKPAD_UPDATE_SHA"] = digest;
+        start.Environment["TRACKPAD_PANEL_PID"] = Environment.ProcessId.ToString();
+        Process.Start(start)!.Dispose();
+    }
+}
