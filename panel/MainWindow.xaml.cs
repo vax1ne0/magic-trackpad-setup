@@ -50,7 +50,7 @@ namespace AmtPtpControlPanel.WinUI3
             PopulateLanguageCombo();
             LoadStartupPreference();
             BatteryAlert.IsChecked = AppPreferences.Enabled(AppPreferences.LowBatteryAlert, true);
-            LoadSettings();
+            ShowTrackpadSettings(SettingsService.Load(), AppPreferences.Enabled(AppPreferences.IndependentRelease, false));
 
             await UpdateBatteryAsync(showErrorOnFailure: false);
         }
@@ -245,12 +245,52 @@ namespace AmtPtpControlPanel.WinUI3
             Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(ClickSection, ClickFeedbackTitle.Text);
             Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(LiftSection, LiftFingerTitle.Text);
             Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(TouchSection, OtherOptionsTitle.Text);
+            CopyDetailsButton.Content = T("Details.Copy", "Copy device details");
+            DefaultsButton.Content = T("Defaults.Restore", "Restore trackpad defaults");
+            DefaultsHint.Text = T("Defaults.Hint", "Review the defaults, then select Save changes.");
             GitHubLink.Content = T("Link.GitHub", "Project on GitHub");
         }
 
-        private void LoadSettings()
+        private void Footer_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            TrackpadSettings s = SettingsService.Load();
+            bool narrow = e.NewSize.Width < 660;
+            Grid.SetColumnSpan(HelpActions, narrow ? 3 : 1);
+            Grid.SetRow(TouchpadSettingsButton, narrow ? 1 : 0);
+            Grid.SetRow(ApplyButton, narrow ? 1 : 0);
+        }
+
+        private void RestoreDefaults_Click(object sender, RoutedEventArgs e)
+        {
+            ShowTrackpadSettings(new TrackpadSettings(), false);
+            DefaultsHint.Visibility = Visibility.Visible;
+            DefaultsHint.StartBringIntoView();
+        }
+
+        private async void CopyDetails_Click(object sender, RoutedEventArgs e)
+        {
+            CopyDetailsButton.IsEnabled = false;
+            try
+            {
+                var data = new Windows.ApplicationModel.DataTransfer.DataPackage();
+                data.SetText(await Task.Run(DeviceDetails.Read));
+                Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(data);
+                Windows.ApplicationModel.DataTransfer.Clipboard.Flush();
+                CopyDetailsButton.Content = "✓ " + T("Details.Copy", "Copy device details");
+                await Task.Delay(1000);
+            }
+            catch (Exception ex)
+            {
+                await ShowErrorAsync(T("Message.Error", "Error"), ex.Message);
+            }
+            finally
+            {
+                CopyDetailsButton.Content = T("Details.Copy", "Copy device details");
+                CopyDetailsButton.IsEnabled = true;
+            }
+        }
+
+        private void ShowTrackpadSettings(TrackpadSettings s, bool independentRelease)
+        {
 
             if (s.ButtonDisabled != 0)
             {
@@ -264,18 +304,19 @@ namespace AmtPtpControlPanel.WinUI3
             {
                 MacOSClickOptions.IsChecked = true;
 
-                if ((s.FeedbackClick & 0xffff00) == 0 && (s.FeedbackRelease & 0xffff00) == 0)
-                    SilentClicking.IsChecked = true;
+                SilentClicking.IsChecked = (s.FeedbackClick & 0xffff00) == 0 && (s.FeedbackRelease & 0xffff00) == 0;
 
                 int press = StrengthIndex(PressValues, s.FeedbackClick);
                 int release = StrengthIndex(ReleaseValues, s.FeedbackRelease);
                 FeedbackSlider.Value = press;
-                ReleaseStrength.SelectedIndex = release != press || AppPreferences.Enabled(AppPreferences.IndependentRelease, false)
+                ReleaseStrength.SelectedIndex = release != press || independentRelease
                     ? release + 1 : 0;
                 initialPresets = PresetFeedback();
                 initialFeedback = (s.FeedbackClick, s.FeedbackRelease);
             }
 
+            StopPressureValue.Value = s.StopPressure < 0 ? 0 : s.StopPressure;
+            StopSizeValue.Value = s.StopSize < 0 ? 7 : s.StopSize;
             if (s.StopPressure == -1 && s.StopSize == -1)
             {
                 StopDoNothing.IsChecked = true;
@@ -283,12 +324,10 @@ namespace AmtPtpControlPanel.WinUI3
             else if (s.StopPressure != -1)
             {
                 StopPressure.IsChecked = true;
-                StopPressureValue.Value = s.StopPressure;
             }
             else
             {
                 StopSize.IsChecked = true;
-                StopSizeValue.Value = s.StopSize;
             }
 
             IgnoreButtonFinger.IsChecked = s.IgnoreButtonFinger != 0;
@@ -357,6 +396,7 @@ namespace AmtPtpControlPanel.WinUI3
             {
                 if (await SaveSettingsAsync())
                 {
+                    DefaultsHint.Visibility = Visibility.Collapsed;
                     await Task.Run(TrackpadDevice.ReloadSettings);
 
                     ApplyButton.Content = "✓ " + T("ctlApply", "Save changes");

@@ -1,6 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <Localization>
   <Language id="en">
+    <String id="Details.Copy">Copy device details</String>
+    <String id="Defaults.Restore">Restore trackpad defaults</String>
+    <String id="Defaults.Hint">Review the defaults, then select Save changes.</String>
     <String id="Update.Check">Check for updates</String>
     <String id="Update.Restart">Restart and update</String>
     <String id="Update.Latest">You’re up to date.</String>
@@ -54,6 +57,9 @@
   </Language>
 
   <Language id="ar">
+    <String id="Details.Copy">نسخ تفاصيل الجهاز</String>
+    <String id="Defaults.Restore">استعادة إعدادات لوحة التعقب الافتراضية</String>
+    <String id="Defaults.Hint">راجع الإعدادات الافتراضية ثم اختر حفظ التغييرات.</String>
     <String id="Update.Check">البحث عن تحديثات</String>
     <String id="Update.Restart">إعادة التشغيل والتحديث</String>
     <String id="Update.Latest">لديك أحدث إصدار.</String>
@@ -115,6 +121,9 @@
   </Language>
 
   <Language id="it">
+    <String id="Details.Copy">Copia dettagli dispositivo</String>
+    <String id="Defaults.Restore">Ripristina impostazioni trackpad</String>
+    <String id="Defaults.Hint">Controlla i valori predefiniti e salva le modifiche.</String>
     <String id="Update.Check">Cerca aggiornamenti</String>
     <String id="Update.Restart">Riavvia e aggiorna</String>
     <String id="Update.Latest">L’app è aggiornata.</String>
@@ -168,6 +177,9 @@
   </Language>
 
   <Language id="es">
+    <String id="Details.Copy">Copiar detalles del dispositivo</String>
+    <String id="Defaults.Restore">Restaurar ajustes del trackpad</String>
+    <String id="Defaults.Hint">Revisa los valores predeterminados y guarda los cambios.</String>
     <String id="Update.Check">Buscar actualizaciones</String>
     <String id="Update.Restart">Reiniciar y actualizar</String>
     <String id="Update.Latest">La aplicación está al día.</String>
@@ -221,6 +233,9 @@
   </Language>
 
   <Language id="fr">
+    <String id="Details.Copy">Copier les détails de l’appareil</String>
+    <String id="Defaults.Restore">Rétablir les réglages du trackpad</String>
+    <String id="Defaults.Hint">Vérifiez les réglages par défaut puis enregistrez les modifications.</String>
     <String id="Update.Check">Rechercher des mises à jour</String>
     <String id="Update.Restart">Redémarrer et mettre à jour</String>
     <String id="Update.Latest">Votre application est à jour.</String>
@@ -274,6 +289,9 @@
   </Language>
 
   <Language id="de">
+    <String id="Details.Copy">Gerätedetails kopieren</String>
+    <String id="Defaults.Restore">Trackpad zurücksetzen</String>
+    <String id="Defaults.Hint">Prüfe die Standardwerte und speichere die Änderungen.</String>
     <String id="Update.Check">Nach Updates suchen</String>
     <String id="Update.Restart">Neu starten und aktualisieren</String>
     <String id="Update.Latest">Die App ist aktuell.</String>
@@ -327,6 +345,9 @@
   </Language>
 
   <Language id="pt">
+    <String id="Details.Copy">Copiar detalhes do dispositivo</String>
+    <String id="Defaults.Restore">Restaurar padrões do trackpad</String>
+    <String id="Defaults.Hint">Revise os padrões e salve as alterações.</String>
     <String id="Update.Check">Verificar atualizações</String>
     <String id="Update.Restart">Reiniciar e atualizar</String>
     <String id="Update.Latest">O aplicativo está atualizado.</String>
@@ -380,6 +401,9 @@
   </Language>
 
   <Language id="ru">
+    <String id="Details.Copy">Копировать сведения об устройстве</String>
+    <String id="Defaults.Restore">Сбросить настройки трекпада</String>
+    <String id="Defaults.Hint">Проверьте значения по умолчанию и сохраните изменения.</String>
     <String id="Update.Check">Проверить обновления</String>
     <String id="Update.Restart">Перезапустить и обновить</String>
     <String id="Update.Latest">Установлена актуальная версия.</String>
@@ -433,6 +457,9 @@
   </Language>
 
   <Language id="zh">
+    <String id="Details.Copy">复制设备信息</String>
+    <String id="Defaults.Restore">恢复触控板默认设置</String>
+    <String id="Defaults.Hint">检查默认设置，然后保存更改。</String>
     <String id="Update.Check">检查更新</String>
     <String id="Update.Restart">重启并更新</String>
     <String id="Update.Latest">已是最新版本。</String>
@@ -486,6 +513,9 @@
   </Language>
 
   <Language id="ja">
+    <String id="Details.Copy">デバイス情報をコピー</String>
+    <String id="Defaults.Restore">トラックパッドを初期設定に戻す</String>
+    <String id="Defaults.Hint">初期設定を確認してから変更を保存してください。</String>
     <String id="Update.Check">更新を確認</String>
     <String id="Update.Restart">再起動して更新</String>
     <String id="Update.Latest">最新の状態です。</String>
@@ -539,6 +569,9 @@
   </Language>
 
   <Language id="ko">
+    <String id="Details.Copy">기기 정보 복사</String>
+    <String id="Defaults.Restore">트랙패드 기본값 복원</String>
+    <String id="Defaults.Hint">기본값을 확인한 후 변경 사항을 저장하세요.</String>
     <String id="Update.Check">업데이트 확인</String>
     <String id="Update.Restart">다시 시작하고 업데이트</String>
     <String id="Update.Latest">최신 버전입니다.</String>

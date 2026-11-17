@@ -188,6 +188,8 @@
                         <TextBlock x:Name="LanguageLabel" Style="{StaticResource BodyTextBlockStyle}" Text="UI language" TextWrapping="Wrap"/>
 
                         <ComboBox x:Name="LanguageComboBox" HorizontalAlignment="Left" MinWidth="180" SelectionChanged="LanguageComboBox_SelectionChanged"/>
+                        <Button x:Name="DefaultsButton" Click="RestoreDefaults_Click"/>
+                        <TextBlock x:Name="DefaultsHint" Visibility="Collapsed" AutomationProperties.LiveSetting="Polite" TextWrapping="Wrap" Style="{StaticResource CaptionTextBlockStyle}"/>
                         <Button x:Name="UpdateAppButton" Click="CheckUpdates_Click" Content="Check for updates"/>
                         <StackPanel Spacing="4">
                             <ProgressBar x:Name="UpdateProgressBar" Visibility="Collapsed" Width="240" HorizontalAlignment="Left" AutomationProperties.LabeledBy="{Binding ElementName=UpdateStatus}"/>
@@ -201,14 +203,18 @@
         </ScrollViewer>
 
         <!-- Footer actions -->
-        <Grid Grid.Row="2" Padding="28,8,28,20" ColumnSpacing="8">
+        <Grid Grid.Row="2" SizeChanged="Footer_SizeChanged" Padding="28,8,28,20" ColumnSpacing="8">
+            <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <HyperlinkButton x:Name="GitHubLink" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="Project on GitHub" NavigateUri="https://github.com/vax1ne0/magic-trackpad-setup"/>
+            <StackPanel x:Name="HelpActions" Orientation="Horizontal" Spacing="4">
+                <HyperlinkButton x:Name="GitHubLink" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="Project on GitHub" NavigateUri="https://github.com/vax1ne0/magic-trackpad-setup"/>
+                <Button x:Name="CopyDetailsButton" Style="{StaticResource SubtleButtonStyle}" Click="CopyDetails_Click"/>
+            </StackPanel>
 
             <Button x:Name="TouchpadSettingsButton" Grid.Column="1" Click="TouchpadSettingsButton_Click" Content="Windows Touchpad Settings"/>
 
