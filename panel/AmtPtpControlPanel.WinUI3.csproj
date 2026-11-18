@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Input/Keyboard.svg" LogicalName="Keyboard.svg" />
     <EmbeddedResource Include="UpdateAndRestart.ps1" LogicalName="UpdateAndRestart.ps1" />
     <EmbeddedResource Include="AmtPtpControlPanel.Localization.xml" LogicalName="AmtPtpControlPanel.WinUI3.AmtPtpControlPanel.Localization.xml" />
   </ItemGroup>

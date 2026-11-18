@@ -41,7 +41,13 @@
         </StackPanel>
 
         <!-- Settings -->
-        <ScrollViewer Grid.Row="1" Padding="28,10,28,14" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled">
+        <Grid Grid.Row="1" Padding="28,0" RowSpacing="8">
+          <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+          <SelectorBar x:Name="Pages" SelectionChanged="PageChanged" Margin="-12,0,0,0">
+            <SelectorBarItem x:Name="SettingsTab" Text="Trackpad" IsSelected="True"/>
+            <SelectorBarItem x:Name="KeyboardTab" Text="Keyboard"/>
+          </SelectorBar>
+        <ScrollViewer x:Name="TrackpadPage" Grid.Row="1" Padding="0,2,0,10" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled">
             <StackPanel Spacing="8">
 
                 <!-- Battery -->
@@ -114,6 +120,24 @@
                         <RadioButton x:Name="MaximumFeedback" Content="Maximum haptic feedback (very clicky and loud!)" Checked="ClickOptions_Checked"/>
                     </StackPanel>
                     </local:SectionExpander>
+
+                <local:SectionExpander x:Name="GesturesSection" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Expanding="Section_Expanding">
+                    <Expander.Header>
+                        <StackPanel Orientation="Horizontal" Spacing="12" Padding="0,8">
+                            <Border Style="{StaticResource SettingsIconTileStyle}">
+                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE815;" FontSize="20"/>
+                            </Border>
+                            <TextBlock Text="Extra gestures" Style="{StaticResource CardTitleStyle}" VerticalAlignment="Center" Margin="0"/>
+                        </StackPanel>
+                    </Expander.Header>
+                    <StackPanel Spacing="12">
+                        <ToggleSwitch x:Name="MediaSwitch" Header="Five-finger gestures" Toggled="InputOptionChanged"/>
+                        <StackPanel x:Name="GestureRows"/>
+                        <TextBlock x:Name="GuardInfo" Style="{StaticResource CaptionTextBlockStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" TextWrapping="Wrap"/>
+                        <HyperlinkButton Content="Three- and four-finger settings in Windows" Click="TouchpadSettingsButton_Click"/>
+                        <TextBlock x:Name="MediaFeedback" AutomationProperties.LiveSetting="Polite" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </local:SectionExpander>
 
                 <!-- Non-macOS click options -->
                 <!-- Lift finger behavior -->
@@ -206,8 +230,37 @@
             </StackPanel>
         </ScrollViewer>
 
+          <ScrollViewer x:Name="KeyboardPage" Grid.Row="1" Visibility="Collapsed"><StackPanel Spacing="12">
+            <ToggleSwitch x:Name="KeyboardSwitch" Header="Sticker keyboard" Toggled="InputOptionChanged"/>
+            <CheckBox x:Name="TapSwitch" Content="Tap to type" Click="InputOptionChanged"/>
+            <CheckBox x:Name="ExternalKeys" Content="Type in other apps while Magic Trackpad is open" Click="InputOptionChanged"/>
+            <TextBlock x:Name="KeyboardHint" Text="Turn on Sticker keyboard, then click the top-right corner to switch between typing and pointing. Hold a click in that corner to move the overlay. Click the corner again to finish. For shortcuts, rest one finger on Shift, Ctrl, Alt, or Win and press a second key. Ctrl+Alt+F10 also restores the pointer." TextWrapping="Wrap"/>
+            <StackPanel Orientation="Horizontal" Spacing="8"><ToggleButton x:Name="OverlayButton" Content="Floating keyboard" Click="ToggleOverlay"/><ToggleButton x:Name="PositionButton" Content="Position overlay" Visibility="Collapsed" Click="PositionOverlay"/></StackPanel>
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel Spacing="12">
+                    <Grid ColumnSpacing="12">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                        <Slider x:Name="OverlayTransparency" Header="Transparency" Minimum="0" Maximum="90" StepFrequency="1" ValueChanged="OverlayAppearanceChanged"/>
+                        <TextBlock x:Name="TransparencyValue" Grid.Column="1" VerticalAlignment="Center"/>
+                    </Grid>
+                    <ToggleSwitch x:Name="FadeIdle" Header="Fade when idle" Toggled="FadeIdleChanged"/>
+                    <Grid ColumnSpacing="12">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                        <Slider x:Name="OverlayScale" Header="Scale" Minimum="50" Maximum="150" StepFrequency="1" ValueChanged="OverlayAppearanceChanged"/>
+                        <TextBlock x:Name="ScaleValue" Grid.Column="1" VerticalAlignment="Center"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+            <Viewbox Stretch="Uniform" MaxHeight="350" HorizontalAlignment="Center" FlowDirection="LeftToRight">
+                <Canvas x:Name="Sticker" Width="640" Height="459.6" IsHitTestVisible="False"/>
+            </Viewbox>
+            <TextBox x:Name="Practice" PlaceholderText="Try typing here" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="60"/>
+            <TextBlock x:Name="KeyFeedback" TextWrapping="Wrap"/>
+          </StackPanel></ScrollViewer>
+        </Grid>
+
         <!-- Footer actions -->
-        <Grid Grid.Row="2" SizeChanged="Footer_SizeChanged" Padding="28,8,28,20" ColumnSpacing="8">
+        <Grid x:Name="SettingsFooter" Grid.Row="2" SizeChanged="Footer_SizeChanged" Padding="28,8,28,20" ColumnSpacing="8">
             <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>

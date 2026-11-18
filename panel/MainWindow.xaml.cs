@@ -1,4 +1,4 @@
-// Adapted for Magic Trackpad Setup for Windows, 2026-11-17. GPLv2.
+﻿// Adapted for Magic Trackpad Setup for Windows, 2026-11-17. GPLv2.
 using System;
 using System.Diagnostics;
 using System.Globalization;
@@ -39,6 +39,7 @@ namespace AmtPtpControlPanel.WinUI3
 
             string iconPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "MagicTrackpad.ico"));
             if (File.Exists(iconPath)) AppWindow.SetIcon(iconPath);
+            InitializeInput();
             RootGrid.Loaded += MainWindow_Loaded;
             RootGrid.ActualThemeChanged += (s, e) => UpdateTitleBarButtonColors();
         }
