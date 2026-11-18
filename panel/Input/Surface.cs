@@ -52,7 +52,20 @@ internal sealed class Surface
     public Surface() { mode=Keys.Single(k=>k.Name=="MODE"); }
     public Action<string> Emit;
     public Action ModeChanged;
-    public bool Positioning;
+    public bool Positioning, TwoFingerPointer;
+    public bool Pointing { get; private set; }
+    public Action<bool,bool> PointerChanged;
+    public Action<float,float> PointerMoved;
+    public Action<bool> PointerButton;
+    public Action<int> PointerScroll;
+    bool scrollContact,scrollMoved,scrollAnchorValid;
+    PointF scrollAnchor;
+    public Action<float,float,bool,long> NormalPointerSample;
+    bool pointerClickArmed;
+    PointF pointerCenter;
+    long pointerStart;
+    bool pointerTap, pointerPair;
+    const int PointerSettleMs = 80;
     public const int PositionHoldMs=700;
     public Action<bool> CornerTimer;
     long? cornerDown;
@@ -116,12 +129,22 @@ internal sealed class Surface
     StickerKey first;
     public void Reset(bool keepModeContact=false)
     {
+        SetPointerButton(false);
+        scrollContact=scrollMoved=scrollAnchorValid=false;
+        if(Pointing){Pointing=false;PointerChanged?.Invoke(false,false);}
         if(!keepModeContact)CancelCorner();
         ModifierContact=null; HasContacts=false; chordTap=null;
         SetHeldKey(null);
         if(peak==5 && GuardFourFingerSwipe!=null) GuardFourFingerSwipe(false);
         adjustingVolume=false; origin.Clear(); peak=0; button=clicked=invalid=moved=gestureDone=false; modeDone=keepModeContact && modeDone; Hover=first=null;
     }
+    void SetPointerButton(bool down)
+    {
+        if(pointerClickArmed==down)return;
+        pointerClickArmed=down;
+        PointerButton?.Invoke(down);
+    }
+
     public void Frame(byte[] data,int offset,long now,bool allowKeys=true,bool allowGestures=true)
     {
         bool down=(data[offset+111]&1)!=0, edge=down&&!button;
@@ -151,6 +174,8 @@ internal sealed class Surface
             else second=Math.Max(second,pressure);
             count++; xsum+=x;ysum+=y;
         }
+        NormalPointerSample?.Invoke(xsum,ysum,TwoFingerPointer && !Keyboard && !Positioning &&
+            count==1 && !invalid && !down,now);
         bool onCorner=count==1 && candidate==mode;
         if(cornerDown.HasValue)
         {
@@ -167,7 +192,7 @@ internal sealed class Surface
                 }
             }
         }
-        if(ModeEnabled && !modeDone && !invalid && !moved && onCorner && peak<=1 &&
+        if(!Pointing && ModeEnabled && !modeDone && !invalid && !moved && onCorner && peak<=1 &&
            (peak==0 || first==mode) && edge && !cornerDown.HasValue)
         {
             if(Positioning)
@@ -189,6 +214,80 @@ internal sealed class Surface
             Hover=ModifierContact=chordTap=null;
             SetHeldKey(null);
             if(count==0)Reset();
+            return;
+        }
+        // Three fingers landing together can arrive as a brief two-contact report.
+        if(Pointing && pointerPair && TwoFingerPointer && Keyboard && ModeEnabled && count==3 &&
+           (now-pointerStart>=PointerSettleMs || !pointerTap))
+        {
+            SetPointerButton(false);
+            Pointing=false;
+            PointerChanged?.Invoke(false,false);
+            scrollContact=true;
+            Hover=ModifierContact=chordTap=null;
+            SetHeldKey(null);
+        }
+        if(Pointing && count>=3)
+        {
+            SetPointerButton(false);
+            Pointing=false;
+            PointerChanged?.Invoke(false,false);
+        }
+        if(scrollContact)
+        {
+            HasContacts=count>0;
+            if(count==3 && !invalid && !down)
+            {
+                var center=new PointF(xsum/3,ysum/3);
+                if(!scrollAnchorValid){scrollAnchor=center;scrollAnchorValid=true;}
+                float dy=center.Y-scrollAnchor.Y;
+                int steps=(int)(dy/4);
+                if(steps!=0 && (scrollMoved || Math.Abs(dy)>Math.Abs(center.X-scrollAnchor.X)))
+                {
+                    scrollMoved=true;
+                    PointerScroll?.Invoke(-steps);
+                    scrollAnchor.Y+=steps*4;
+                }
+            }
+            else scrollAnchorValid=false;
+            if(count==0){Reset();return;}
+            // Let a five-finger gesture form before the first scroll step.
+            if(count<5 || scrollMoved)return;
+            scrollContact=false;
+        }
+        // A modifier held before the second finger keeps its typing shortcut.
+        bool modifierHeld=StickerKey.ModifierCode(first?.Name)!=0 && now-began>=110;
+        if(!Pointing && TwoFingerPointer && Keyboard && ModeEnabled && count==2 && peak<2 &&
+            !modeDone && (!clicked || (edge && peak==0)) && !invalid && !(modifierCount==1 && modifierHeld))
+        {
+            Pointing=true;
+            pointerTap=true;
+            pointerClickArmed=false;
+            pointerPair=false;
+            pointerStart=now;
+            SetHeldKey(null);
+            Hover=ModifierContact=chordTap=null;
+            PointerChanged?.Invoke(true,false);
+        }
+        if(Pointing)
+        {
+            HasContacts=count>0;
+            pointerTap &= !clicked && !invalid && !moved && count<=2 && origin.Count<=2;
+            if(invalid || count!=2 || !down)SetPointerButton(false);
+            else if(edge)SetPointerButton(true);
+            if(count==2)
+            {
+                var center=new PointF(xsum/2,ysum/2);
+                if(pointerPair)PointerMoved?.Invoke(center.X-pointerCenter.X,center.Y-pointerCenter.Y);
+                pointerCenter=center;
+            }
+            pointerPair=count==2;
+            if(count==0)
+            {
+                Pointing=false;
+                PointerChanged?.Invoke(false,pointerTap && now-pointerStart<=280);
+                Reset();
+            }
             return;
         }
         bool chord = count==2 && modifierCount==1 && otherKey!=null && otherKey!=mode && peak<=2;
@@ -256,7 +355,7 @@ internal sealed class Surface
                 if(adjustingVolume) ContinueVolume(ysum/5);
             }
         }
-        if(allowKeys && Keyboard && (!TapMode || chord) && edge && peak<5 && Hover!=null && Hover!=mode && (peak==1 || StickerKey.ModifierCode(Hover.Name)==0))
+        if(allowKeys && Keyboard && (!TapMode || chord) && edge && peak<=2 && Hover!=null && Hover!=mode && (peak==1 || StickerKey.ModifierCode(Hover.Name)==0))
         {
             Emit(Hover.Name);
             if (!TapMode && (peak==1 || chord)) SetHeldKey(Hover);

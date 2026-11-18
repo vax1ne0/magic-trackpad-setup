@@ -133,10 +133,19 @@ internal sealed class KeyboardOverlay : InputPopup
         transparencyPercent=percent;
         UpdateOpacity();
     }
+    bool pointing;
+    public void SetPointing(bool value)
+    {
+        pointing=value;
+        if(value)Highlight(null);
+        UpdateOpacity();
+    }
+
     void UpdateOpacity()
     {
         double opacity=255*(100-transparencyPercent)/100.0;
-        if(fadeIdle && !positioning)opacity*=1-fadeProgress*idleFadePercent/100;
+        if(pointing)opacity*=0.45;
+        else if(fadeIdle && !positioning)opacity*=1-fadeProgress*idleFadePercent/100;
         SetLayeredWindowAttributes(handle,0,(byte)Math.Round(opacity),2);
     }
     public void SetIdleFade(bool enabled,int amount,int durationMs)

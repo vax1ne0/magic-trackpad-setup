@@ -6,6 +6,22 @@
             <SolidColorBrush x:Key="ExpanderChevronBorderPointerOverBrush" Color="Transparent"/>
             <SolidColorBrush x:Key="ExpanderChevronPressedBackground" Color="Transparent"/>
             <SolidColorBrush x:Key="ExpanderChevronBorderPressedBrush" Color="Transparent"/>
+            <DataTemplate x:Key="ReleaseNotesTemplate">
+                <Border Padding="14,12" CornerRadius="6" Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                    <ItemsControl ItemsSource="{Binding}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnSpacing="10" Margin="0,3">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <TextBlock Text="•" AutomationProperties.AccessibilityView="Raw"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding}" TextWrapping="Wrap"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Border>
+            </DataTemplate>
             <Style x:Key="CardStyle" TargetType="Border">
                 <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>
                 <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
@@ -242,6 +258,7 @@
         </ScrollViewer>
 
           <ScrollViewer x:Name="KeyboardPage" Grid.Row="1" Visibility="Collapsed"><StackPanel Spacing="12">
+            <InfoBar x:Name="KeyboardError" Severity="Warning" IsOpen="False"/>
             <ToggleSwitch x:Name="KeyboardSwitch" Header="Sticker keyboard" Toggled="InputOptionChanged"/>
             <Border Style="{StaticResource CardStyle}">
                 <StackPanel Spacing="8">
@@ -249,6 +266,11 @@
                         <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
                         <TextBlock Text="•" AutomationProperties.AccessibilityView="Raw"/>
                         <TextBlock Grid.Column="1" TextWrapping="Wrap"><Run FontWeight="SemiBold" Text="Switch modes. "/><Run Text="Click the top-right corner to switch between typing and pointing."/></TextBlock>
+                    </Grid>
+                    <Grid ColumnSpacing="8">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                        <TextBlock Text="•" AutomationProperties.AccessibilityView="Raw"/>
+                        <TextBlock Grid.Column="1" TextWrapping="Wrap"><Run FontWeight="SemiBold" Text="Point and scroll. "/><Run Text="With two-finger pointing enabled, move two fingers to use the pointer while typing. Keep them down, add a third finger, then slide up or down to scroll. Lift all fingers to resume typing."/></TextBlock>
                     </Grid>
                     <Grid ColumnSpacing="8">
                         <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
@@ -268,7 +290,7 @@
                 </StackPanel>
             </Border>
             <CheckBox x:Name="TapSwitch" Content="Tap to type" Click="InputOptionChanged"/>
-            <CheckBox x:Name="ExternalKeys" Content="Type in other apps while Magic Trackpad is open" Click="InputOptionChanged"/>
+            <CheckBox x:Name="CursorGesture" Content="Use two fingers to point, click, and drag in keyboard mode" Click="InputOptionChanged"/>
             <StackPanel Orientation="Horizontal" Spacing="8"><ToggleButton x:Name="OverlayButton" Content="Floating keyboard" Click="ToggleOverlay"/><ToggleButton x:Name="PositionButton" Content="Position overlay" Visibility="Collapsed" Click="PositionOverlay"/></StackPanel>
             <Border Style="{StaticResource CardStyle}">
                 <StackPanel Spacing="12">
@@ -311,7 +333,6 @@
                 <Canvas x:Name="Sticker" Width="640" Height="459.6" IsHitTestVisible="False"/>
             </Viewbox>
             <TextBox x:Name="Practice" PlaceholderText="Try typing here" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="60"/>
-            <TextBlock x:Name="KeyFeedback" TextWrapping="Wrap"/>
           </StackPanel></ScrollViewer>
         </Grid>
 

@@ -49,12 +49,22 @@ public sealed partial class MainWindow
         inputWindow=WindowNative.GetWindowHandle(this);
         KeyboardSwitch.IsOn=AppPreferences.Enabled("StickerEnabled",false);
         TapSwitch.IsChecked=AppPreferences.Enabled("StickerTap",false);
-        ExternalKeys.IsChecked=AppPreferences.Enabled("StickerOutside",false);
+        CursorGesture.IsChecked=surface.TwoFingerPointer=AppPreferences.Enabled("TwoFingerPointer",false);
         MediaSwitch.IsOn=AppPreferences.Enabled("MediaGestures",false);
         surface.ModeEnabled=KeyboardSwitch.IsOn;
         surface.Keyboard=false;
         surface.TapMode=TapSwitch.IsChecked==true;
         InitializeGestureRows();
+        parking=new PointerParking(ExitKeyboardMode);
+        surface.NormalPointerSample=parking.ObserveNormalPointer;
+        surface.PointerButton=parking.SetLeftButton;
+        surface.PointerScroll=parking.Scroll;
+        surface.PointerMoved=(dx,dy)=>parking?.MovePointer(dx,dy);
+        surface.PointerChanged=(active,tap)=>
+        {
+            overlay?.SetPointing(active);
+            if(parking?.Active==true)parking.SetPointing(active,tap);
+        };
         surface.Emit=EmitInput;
         surface.RepeatChanged = SetRepeat;
         repeatTimer.Tick += (_, _) =>
@@ -89,7 +99,17 @@ public sealed partial class MainWindow
         }
         syncingInput=false;
         UpdateReceiver();
-        Activated+=(_,_)=>ResetInput(keepModeContact:true);
+        Activated+=(_,_)=>{if(!surface.Pointing)ResetInput(keepModeContact:true);};
+        AppWindow.Closing+=(_,args)=>
+        {
+            if(!surface.ModeEnabled || exitingPanel)return;
+            args.Cancel=true;
+            if(surface.Positioning){surface.Positioning=false;ApplyInputMode();}
+            string tray=System.IO.Path.GetFullPath(System.IO.Path.Combine(AppContext.BaseDirectory,"..","TrackpadBattery.exe"));
+            if(System.IO.File.Exists(tray))
+                Process.Start(new ProcessStartInfo(tray,"--resume"){UseShellExecute=true})?.Dispose();
+            AppWindow.Hide();
+        };
         Closed+=(_,_)=>{StopTabSlide();ResetInput();touchInput?.Dispose();swipeGuard?.Dispose();overlay?.Dispose();parking?.Dispose();};
     }
     void InitializeGestureRows()
@@ -138,11 +158,11 @@ public sealed partial class MainWindow
             parking?.Release();
             return;
         }
-        parking ??= new PointerParking(ExitKeyboardMode);
+        if(parking==null)return;
         if (!parking.Engage())
         {
             ExitKeyboardMode();
-            KeyFeedback.Text="Pointer control is unavailable. Check whether another app uses Ctrl+Alt+F10.";
+            ShowKeyboardError("Pointer control is unavailable. Check whether another app uses Ctrl+Alt+F10.");
         }
     }
 
@@ -195,6 +215,7 @@ public sealed partial class MainWindow
         var color = ((SolidColorBrush)Application.Current.Resources["AccentFillColorDefaultBrush"]).Color;
         overlay = new KeyboardOverlay(surface.Keys, display.WorkArea, RootGrid.XamlRoot.RasterizationScale, dark,
             (uint)(color.R | color.G << 8 | color.B << 16),(int)OverlayScale.Value,(int)OverlayTransparency.Value);
+        overlay.SetPointing(surface.Pointing);
         overlay.Highlight(surface.Hover,surface.ModifierContact);
         overlay.SetTouching(surface.HasContacts);
         ApplyIdleAppearance();
@@ -246,7 +267,7 @@ public sealed partial class MainWindow
     {
         // The leading edge reaches first. Interpolate from the currently drawn
         // shape so reversing direction mid-slide starts at the same two edges.
-        double ms=tabSlide.Elapsed.TotalMilliseconds;
+        double ms=tabSlide.Elapsed.TotalMilliseconds*1.25;
         double distance=indicatorTarget-slideFrom;
         double direction=Math.Sign(distance);
         double reach=Math.Min(10,Math.Abs(distance)*0.15);
@@ -327,7 +348,8 @@ public sealed partial class MainWindow
         if(!surface.ModeEnabled){surface.Keyboard=false;surface.Positioning=false;}
         surface.TapMode=TapSwitch.IsChecked==true;
         AppPreferences.Set("StickerEnabled",surface.ModeEnabled);AppPreferences.Set("StickerTap",surface.TapMode);
-        AppPreferences.Set("StickerOutside",ExternalKeys.IsChecked==true);
+        surface.TwoFingerPointer=CursorGesture.IsChecked==true;
+        AppPreferences.Set("TwoFingerPointer",surface.TwoFingerPointer);
         AppPreferences.Set("MediaGestures",MediaSwitch.IsOn);
         ApplyInputMode();
         UpdateReceiver();
@@ -355,12 +377,11 @@ public sealed partial class MainWindow
             surface.GuardFourFingerSwipe=active=>swipeGuard?.Set(active);
             GuardInfo.Text=swipeGuard==null?"Windows manages four-finger swipes on this PC.":
                 "Four-finger swipe protection works while this window is in front. Windows handles four-finger swipes in other apps.";
-        }catch(InvalidOperationException ex){KeyFeedback.Text=MediaFeedback.Text=ex.Message;}
+        }catch(InvalidOperationException ex){MediaFeedback.Text=ex.Message;ShowKeyboardError(ex.Message);}
     }
     void ReceiveFrame(byte[] data,int offset)
     {
-        bool foreground=GetForegroundWindow()==inputWindow;
-        bool keys=!surface.Positioning && (foreground?KeyboardSelected:ExternalKeys.IsChecked==true);
+        bool keys=surface.ModeEnabled && !surface.Positioning;
         bool gestures=MediaSwitch.IsOn && !surface.Positioning;
         if(!deviceReady)
         {
@@ -380,11 +401,18 @@ public sealed partial class MainWindow
         if(surface.Hover!=null)keyViews[surface.Hover].Background=accent;
         if(surface.ModifierContact!=null)keyViews[surface.ModifierContact].Background=accent;
     }
+    void ShowKeyboardError(string message)
+    {
+        KeyboardError.Message=message;
+        KeyboardError.IsOpen=true;
+    }
+
     void EmitInput(string name)
     {
         bool media=name is "Play / pause" or "Previous track" or "Next track" or "Volume up" or "Volume down";
-        if(!media && GetForegroundWindow()==inputWindow)Practice.Focus(FocusState.Programmatic);
+        if(!media && KeyboardSelected && GetForegroundWindow()==inputWindow)Practice.Focus(FocusState.Programmatic);
         string result=keyOutput.Send(name,StickerKey.ModifierCode(surface.ModifierContact?.Name));
-        if(media)MediaFeedback.Text=result;else KeyFeedback.Text=result;
+        if(media)MediaFeedback.Text=result;
+        else if(result is "Windows declined key input" or "Unknown key")ShowKeyboardError(result);
     }
 }

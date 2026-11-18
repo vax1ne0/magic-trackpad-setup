@@ -7,7 +7,7 @@ try {
     $generated = New-Item -ItemType Directory -Path ../payload -Force
     $info = Join-Path $generated.FullName 'AppVersion.cs'
     ('[assembly:System.Reflection.AssemblyFileVersion("{0}.0")]' -f $version) | Set-Content $info
-    & $compiler @common /out:TrackpadBattery.exe $info TrackpadBattery.cs BatteryArt.cs ..\panel\DeviceInterop.cs ..\panel\AppPreferences.cs ..\panel\StartupPreference.cs
+    & $compiler @common /out:TrackpadBattery.exe $info TrackpadBattery.cs BatteryArt.cs ..\panel\PanelSignals.cs ..\panel\DeviceInterop.cs ..\panel\AppPreferences.cs ..\panel\StartupPreference.cs
     if ($LASTEXITCODE) { throw 'Battery app compilation failed' }
     & $compiler @common /out:MagicTrackpadSetup.exe $info Setup.cs SetupCleanup.cs ..\panel\StartupPreference.cs
     if ($LASTEXITCODE) { throw 'Setup compilation failed' }

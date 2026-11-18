@@ -70,8 +70,10 @@ namespace AmtPtpControlPanel.WinUI3
                 if(AppPreferences.ReadText("LastUpdateSummary","")!=version)
                 {
                     AppPreferences.Set("LastUpdateSummary",version);
-                    await ShowMessageAsync(string.Format(T("Update.Installed","Updated to {0}"),version),
-                        T("Update.Notes."+version,T("Update.Complete","Your update is ready.")));
+                    var notes=T("Update.Notes."+version,T("Update.Complete","Your update is ready."));
+                    await ShowMessageAsync("v"+version,
+                        notes.Split('\n',StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries),
+                        (DataTemplate)RootGrid.Resources["ReleaseNotesTemplate"]);
                 }
             }
             await UpdateBatteryAsync(showErrorOnFailure: false);
@@ -592,13 +594,14 @@ namespace AmtPtpControlPanel.WinUI3
             return true;
         }
 
-        private async Task ShowMessageAsync(string title, string message)
+        private async Task ShowMessageAsync(string title, object message, DataTemplate? template=null)
         {
             ContentDialog dialog = new ContentDialog
             {
                 XamlRoot = RootGrid.XamlRoot,
                 Title = title,
                 Content = message,
+                ContentTemplate = template,
                 FlowDirection = RootGrid.FlowDirection,
                 CloseButtonText = T("Dialog.OK", "OK"),
                 DefaultButton = ContentDialogButton.Close

@@ -101,11 +101,11 @@ internal sealed class TrayApp : ApplicationContext
         menu.Items.Add("Check battery now", null, delegate { Refresh(); });
         menu.Items.Add("Trackpad settings", null, delegate
         {
-            Open(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+            if (!PanelSignals.Send(PanelSignals.Show)) Open(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 "MagicTrackpadSetup.exe"));
         });
         menu.Items.Add(new ToolStripSeparator());
-        menu.Items.Add("Quit", null, delegate { ExitThread(); });
+        menu.Items.Add("Quit", null, delegate { PanelSignals.Send(PanelSignals.Quit); ExitThread(); });
         tray.ContextMenuStrip = menu;
         tray.DoubleClick += delegate { Refresh(); };
         timer.Interval = 15000;
@@ -215,6 +215,9 @@ internal static class Program
         using (var mutex = new Mutex(true, @"Local\MagicTrackpadSetup.Battery.Tray", out first))
         {
             if (!first) return;
+            if(args.Length==0 && AppPreferences.Enabled("StickerEnabled",false))
+                System.Diagnostics.Process.Start(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                    @"Panel\AmtPtpControlPanel.WinUI3.exe"), "--keyboard-background");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new TrayApp());

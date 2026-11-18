@@ -4,6 +4,8 @@ Keep the app small, understandable, and consistent with Windows 11. Prefer nativ
 
 ## Development
 
+Build a complete local preview with `Build-Preview.ps1` and open its `MagicTrackpadSetup.exe` launcher so the tray monitor is available. Use a local app preview for UI and behavior changes so several rounds of feedback can go into one release. Build a local MSI when testing installation or upgrades. When the maintainer asks to ship, follow the release checklist for the batch. A request to commit and push publishes the source only.
+
 See [build instructions](docs/technical-details.md#build-from-source). The supported installer target is Windows 11 x64. Keep upstream credits and licenses intact. Avoid committing generated binaries, driver downloads, local settings, or build output.
 
 For a pull request, explain the user-visible problem, what changes, and how it was verified. UI changes should include a screenshot. Check both USB and Bluetooth when changing device behavior; distinguish tested hardware from inferred compatibility.
@@ -12,7 +14,7 @@ For a pull request, explain the user-visible problem, what changes, and how it w
 
 When shipping app or installer changes, publish the matching MSI and checksum as part of the same release as the source changes.
 
-1. Update the application version, add a one-line localized summary under `Update.Notes.<version>`, and build with `Build.ps1`. It creates the MSI and `SHA256SUMS.txt` in `dist`.
+1. Update the application version, add localized release notes (one short change per line) under `Update.Notes.<version>`, and build with `Build.ps1`. It creates the MSI and `SHA256SUMS.txt` in `dist`.
 2. Check fresh full and driver-only installs, upgrade with the app running, repair, and uninstall. Verify both states of **Launch Magic Trackpad**. Use a test machine or an isolated installer fixture where appropriate and state the scope of testing.
 3. Check in-app updates, preserved preferences, and the battery indicator. Verify the published MSI's name matches the version expected by the updater.
 4. Commit and push the source. Create a draft GitHub release with the version tag, matching MSI, checksum file, and short user-facing notes.

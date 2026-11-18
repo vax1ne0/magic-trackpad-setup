@@ -10,8 +10,17 @@ public sealed partial class MainWindow
     readonly CancellationTokenSource updateLifetime = new();
     AppRelease? pendingRelease;
     string? pendingInstaller;
+    internal async void ShowBuildSwitchNotice()
+    {
+        Activate();
+        if(Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopupsForXamlRoot(RootGrid.XamlRoot).Count!=0)return;
+        await ShowMessageAsync("Magic Trackpad is already open",
+            "Save any changes, then close Settings and open the other build again.");
+    }
     bool checkingUpdate;
     bool scheduled;
+    bool exitingPanel;
+    internal void ExitPanel(){exitingPanel=true;Close();}
     string updateMessageKey = "";
 
     void UpdateLabels()
@@ -75,7 +84,7 @@ public sealed partial class MainWindow
         string root = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, ".."));
         try
         {
-            if (scheduled && AppUpdates.TryStartPending(root, false)) { Close(); return; }
+            if (scheduled && AppUpdates.TryStartPending(root, false)) { ExitPanel(); return; }
             if (scheduled) { scheduled = false; pendingInstaller = null; }
             if (pendingInstaller == null)
             {
@@ -109,7 +118,7 @@ public sealed partial class MainWindow
             {
                 AppUpdates.Restart(root, pendingInstaller, pendingRelease!.Digest);
                 pendingInstaller = null;
-                Close();
+                ExitPanel();
             }
         }
         catch (Exception) { updateMessageKey = "Update.Failed"; }

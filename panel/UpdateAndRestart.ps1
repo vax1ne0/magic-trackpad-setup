@@ -28,10 +28,19 @@ try {
     Add-Type -AssemblyName System.Windows.Forms
     [void][Windows.Forms.MessageBox]::Show(("The update did not finish. " + $_.Exception.Message), 'Magic Trackpad')
 } finally {
-    try {
-        [IO.File]::Delete($file)
-        [IO.Directory]::Delete([IO.Path]::GetDirectoryName($file))
-    } catch [IO.IOException] { }
+    # A scanner can briefly keep the MSI open after Windows Installer exits.
+    for ($attempt = 0; $attempt -lt 6; $attempt++) {
+        try {
+            [IO.File]::Delete($file)
+            [IO.Directory]::Delete([IO.Path]::GetDirectoryName($file))
+            break
+        } catch [IO.DirectoryNotFoundException] { break }
+        catch [IO.IOException] {
+            $code = $_.Exception.GetBaseException().HResult -band 0xffff
+            if ($code -notin 32,33 -or $attempt -eq 5) { break }
+            Start-Sleep -Milliseconds 250
+        } catch [UnauthorizedAccessException] { break }
+    }
     $env:TRACKPAD_UPDATE_SHA = $null
     if (($hadTray -or $env:TRACKPAD_START_TRAY -eq "1") -and (Test-Path -LiteralPath $tray)) { Start-Process -FilePath $tray -ArgumentList "--resume" -WindowStyle Hidden }
     if ($env:TRACKPAD_BACKGROUND -ne '1' -and (Test-Path -LiteralPath $panel)) {
