@@ -244,11 +244,29 @@ public sealed partial class MainWindow
 
     void AnimateTabIndicator(object? sender,object e)
     {
-        double t=Math.Min(1,tabSlide.Elapsed.TotalMilliseconds/245);
-        double remaining=Math.Pow(1-t,3);
-        TabMotion.TranslateX=indicatorTarget+(slideFrom-indicatorTarget)*remaining;
-        TabMotion.ScaleX=1+(initialStretch-1)*remaining+0.45*Math.Sin(Math.PI*t);
-        if(t>=1)StopTabSlide();
+        // The leading edge reaches first. Interpolate from the currently drawn
+        // shape so reversing direction mid-slide starts at the same two edges.
+        double ms=tabSlide.Elapsed.TotalMilliseconds;
+        double distance=indicatorTarget-slideFrom;
+        double direction=Math.Sign(distance);
+        double reach=Math.Min(10,Math.Abs(distance)*0.15);
+        double settle=Math.Min(2.4,Math.Abs(distance)*0.04);
+        double pull=Ease(ms/150);
+        double glide=Ease((ms-150)/310);
+        double recoil=Ease((ms-460)/105);
+        double rest=Ease((ms-565)/95);
+
+        double extension=reach*pull*(1-glide);
+        TabMotion.ScaleX=1+(initialStretch-1)*(1-glide)+extension/TabIndicator.Width;
+        TabMotion.TranslateX=slideFrom+distance*glide+direction*(extension/2
+            +settle*(glide-1.35*recoil+0.35*rest));
+        if(ms>=660)StopTabSlide();
+
+        static double Ease(double t)
+        {
+            t=Math.Clamp(t,0,1);
+            return t*t*(3-2*t);
+        }
     }
 
     void TabLayoutUpdated(object? sender, object e) => UpdateTabIndicator();

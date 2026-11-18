@@ -2,7 +2,7 @@
 <Localization>
   <Language id="en">
     <String id="Update.Installed">Updated to {0}</String>
-    <String id="Update.Notes.1.7.5">Settings now reopens after updates, and keys stay inactive while you move the floating keyboard.</String>
+    <String id="Update.Notes.1.7.6">The tab underline stretches toward the next tab, then gently bounces into place.</String>
     <String id="Details.Copy">Copy device details</String>
     <String id="Defaults.Restore">Restore trackpad defaults</String>
     <String id="Defaults.Hint">Review the defaults, then select Save changes.</String>
@@ -59,7 +59,7 @@
 
   <Language id="ar">
     <String id="Update.Installed">تم التحديث إلى {0}</String>
-    <String id="Update.Notes.1.7.5">تُفتح الإعدادات مجددًا بعد التحديث، وتبقى المفاتيح غير نشطة أثناء تحريك لوحة المفاتيح العائمة.</String>
+    <String id="Update.Notes.1.7.6">يتمدد خط التحديد نحو علامة التبويب التالية ثم يستقر بارتداد خفيف.</String>
     <String id="Details.Copy">نسخ تفاصيل الجهاز</String>
     <String id="Defaults.Restore">استعادة إعدادات لوحة التعقب الافتراضية</String>
     <String id="Defaults.Hint">راجع الإعدادات الافتراضية ثم اختر حفظ التغييرات.</String>
@@ -124,7 +124,7 @@
 
   <Language id="it">
     <String id="Update.Installed">Aggiornato alla versione {0}</String>
-    <String id="Update.Notes.1.7.5">Le impostazioni si riaprono dopo gli aggiornamenti e i tasti restano inattivi mentre sposti la tastiera mobile.</String>
+    <String id="Update.Notes.1.7.6">La sottolineatura si allunga verso la scheda successiva e si assesta con un leggero rimbalzo.</String>
     <String id="Details.Copy">Copia dettagli dispositivo</String>
     <String id="Defaults.Restore">Ripristina impostazioni trackpad</String>
     <String id="Defaults.Hint">Controlla i valori predefiniti e salva le modifiche.</String>
@@ -181,7 +181,7 @@
 
   <Language id="es">
     <String id="Update.Installed">Actualizado a {0}</String>
-    <String id="Update.Notes.1.7.5">Los ajustes se abren tras actualizar y las teclas permanecen inactivas mientras mueves el teclado flotante.</String>
+    <String id="Update.Notes.1.7.6">El subrayado se estira hacia la otra pestaña y se asienta con un pequeño rebote.</String>
     <String id="Details.Copy">Copiar detalles del dispositivo</String>
     <String id="Defaults.Restore">Restaurar ajustes del trackpad</String>
     <String id="Defaults.Hint">Revisa los valores predeterminados y guarda los cambios.</String>
@@ -238,7 +238,7 @@
 
   <Language id="fr">
     <String id="Update.Installed">Mise à jour vers la version {0}</String>
-    <String id="Update.Notes.1.7.5">Les paramètres se rouvrent après la mise à jour et les touches restent inactives pendant le déplacement du clavier flottant.</String>
+    <String id="Update.Notes.1.7.6">Le trait s’étire vers l’autre onglet, puis se stabilise avec un léger rebond.</String>
     <String id="Details.Copy">Copier les détails de l’appareil</String>
     <String id="Defaults.Restore">Rétablir les réglages du trackpad</String>
     <String id="Defaults.Hint">Vérifiez les réglages par défaut puis enregistrez les modifications.</String>
@@ -295,7 +295,7 @@
 
   <Language id="de">
     <String id="Update.Installed">Auf Version {0} aktualisiert</String>
-    <String id="Update.Notes.1.7.5">Nach dem Update öffnen sich die Einstellungen. Beim Verschieben der schwebenden Tastatur bleiben die Tasten inaktiv.</String>
+    <String id="Update.Notes.1.7.6">Der Unterstrich dehnt sich zum nächsten Tab und federt sanft in Position.</String>
     <String id="Details.Copy">Gerätedetails kopieren</String>
     <String id="Defaults.Restore">Trackpad zurücksetzen</String>
     <String id="Defaults.Hint">Prüfe die Standardwerte und speichere die Änderungen.</String>
@@ -352,7 +352,7 @@
 
   <Language id="pt">
     <String id="Update.Installed">Atualizado para {0}</String>
-    <String id="Update.Notes.1.7.5">As configurações reabrem após a atualização e as teclas ficam inativas enquanto você move o teclado flutuante.</String>
+    <String id="Update.Notes.1.7.6">O sublinhado se estica em direção à outra aba e se acomoda com um leve balanço.</String>
     <String id="Details.Copy">Copiar detalhes do dispositivo</String>
     <String id="Defaults.Restore">Restaurar padrões do trackpad</String>
     <String id="Defaults.Hint">Revise os padrões e salve as alterações.</String>
@@ -409,7 +409,7 @@
 
   <Language id="ru">
     <String id="Update.Installed">Обновлено до {0}</String>
-    <String id="Update.Notes.1.7.5">После обновления снова открываются настройки, а при перемещении плавающей клавиатуры клавиши остаются неактивными.</String>
+    <String id="Update.Notes.1.7.6">Индикатор тянется к другой вкладке и мягко пружинит на месте.</String>
     <String id="Details.Copy">Копировать сведения об устройстве</String>
     <String id="Defaults.Restore">Сбросить настройки трекпада</String>
     <String id="Defaults.Hint">Проверьте значения по умолчанию и сохраните изменения.</String>
@@ -466,7 +466,7 @@
 
   <Language id="zh">
     <String id="Update.Installed">已更新至 {0}</String>
-    <String id="Update.Notes.1.7.5">更新后会重新打开设置，移动浮动键盘时按键不会响应。</String>
+    <String id="Update.Notes.1.7.6">下划线会朝另一个标签页伸展，然后轻轻回弹就位。</String>
     <String id="Details.Copy">复制设备信息</String>
     <String id="Defaults.Restore">恢复触控板默认设置</String>
     <String id="Defaults.Hint">检查默认设置，然后保存更改。</String>
@@ -523,7 +523,7 @@
 
   <Language id="ja">
     <String id="Update.Installed">バージョン {0} に更新しました</String>
-    <String id="Update.Notes.1.7.5">更新後に設定が再び開きます。フローティングキーボードの移動中はキー入力が無効になります。</String>
+    <String id="Update.Notes.1.7.6">下線が次のタブに向かって伸び、軽く弾んで止まります。</String>
     <String id="Details.Copy">デバイス情報をコピー</String>
     <String id="Defaults.Restore">トラックパッドを初期設定に戻す</String>
     <String id="Defaults.Hint">初期設定を確認してから変更を保存してください。</String>
@@ -580,7 +580,7 @@
 
   <Language id="ko">
     <String id="Update.Installed">{0} 버전으로 업데이트됨</String>
-    <String id="Update.Notes.1.7.5">업데이트 후 설정이 다시 열리며, 플로팅 키보드를 이동하는 동안 키 입력이 비활성화됩니다.</String>
+    <String id="Update.Notes.1.7.6">밑줄이 다음 탭을 향해 늘어났다가 살짝 튕기며 자리를 잡습니다.</String>
     <String id="Details.Copy">기기 정보 복사</String>
     <String id="Defaults.Restore">트랙패드 기본값 복원</String>
     <String id="Defaults.Hint">기본값을 확인한 후 변경 사항을 저장하세요.</String>
