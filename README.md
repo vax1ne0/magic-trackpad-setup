@@ -16,6 +16,10 @@ The development version also lets you [type directly on the trackpad](#turn-your
 
 ## Turn your trackpad into a keyboard
 
+![Concept render of a black Magic Trackpad with an illuminated QWERTY layout](docs/trackpad-keyboard-concept.png)
+
+*Keyboard concept mockup. The app displays the live key layout on your screen.*
+
 The development version adds a full QWERTY keyboard to the surface of your Magic Trackpad. Rest a finger on the glass and the matching key lights up on a floating keyboard. Slide to find the key you want, then click to type. The overlay follows the proportions of the trackpad, so you can learn the layout by feel. A sticker is optional.
 
 1. Open **Keyboard** and turn on **Sticker keyboard**. Click the **top-right corner of the trackpad** to start typing. Click it again to bring back the pointer.
