@@ -169,8 +169,9 @@ internal sealed class Surface
     {
         edgeControl=null;
         SetPointerButton(false);
-        scrollContact=scrollMoved=scrollAnchorValid=false;
-        if(Pointing){Pointing=false;PointerChanged?.Invoke(false,false);}
+        bool hadPointer=PointingOrScrolling;
+        Pointing=scrollContact=scrollMoved=scrollAnchorValid=false;
+        if(hadPointer)PointerChanged?.Invoke(false,false);
         if(!keepModeContact)CancelCorner();
         ModifierContact=null; HasContacts=false; chordTap=null;
         SetHeldKey(null);
@@ -261,8 +262,8 @@ internal sealed class Surface
            (now-pointerStart>=PointerSettleMs || !pointerTap))
         {
             SetPointerButton(false);
+            // Keep the cursor visible from pointing through the last scrolling contact.
             Pointing=false;
-            PointerChanged?.Invoke(false,false);
             scrollContact=true;
             Hover=ModifierContact=chordTap=null;
             SetHeldKey(null);
@@ -294,6 +295,7 @@ internal sealed class Surface
             // Let a five-finger gesture form before the first scroll step.
             if(count<5 || scrollMoved)return;
             scrollContact=false;
+            PointerChanged?.Invoke(false,false);
         }
         // A modifier held before the second finger keeps its typing shortcut.
         bool modifierHeld=StickerKey.ModifierCode(first?.Name)!=0 && now-began>=110;

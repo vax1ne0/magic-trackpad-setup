@@ -38,6 +38,7 @@ internal sealed class EdgeLevels : IDisposable
                         output.AudioEndpointVolume.MasterVolumeLevelScalar=level/100f;
                     }
                     else SetBrightness(level);
+                    SystemFlyout.Refresh(control);
                     status($"{control} {level}%");
                 }
                 catch(Exception ex) when(ex is ManagementException or System.Runtime.InteropServices.COMException

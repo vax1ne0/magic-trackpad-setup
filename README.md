@@ -10,7 +10,7 @@ You can also [type directly on the trackpad](#turn-your-trackpad-into-a-keyboard
 
 ## Get started
 
-1. **[Download the Windows installer (1.7.8)](https://github.com/vax1ne0/magic-trackpad-setup/releases/download/v1.7.8/Magic-Trackpad-Setup-1.7.8-x64.msi)** and run it.
+1. **[Download the Windows installer (1.7.9)](https://github.com/vax1ne0/magic-trackpad-setup/releases/download/v1.7.9/Magic-Trackpad-Setup-1.7.9-x64.msi)** and run it.
 2. **Connect your trackpad.** Plug it in with a USB data cable, or unplug the cable and pair it under **Settings → Bluetooth & devices → Add device → Magic Trackpad**.
 3. **Enjoy your full Magic Trackpad experience.** Try a two-finger scroll or pinch to zoom.
 
@@ -34,7 +34,7 @@ Open **Trackpad → Extra gestures** and enable **Five-finger gestures**. By def
 
 ## Features
 
-- **Edge sliders.** Turn on **Trackpad → Extra gestures → Edge sliders**. In trackpad mode, slide one finger along the left edge for built-in display brightness or the right edge for volume. Slide toward the top for 100% or the bottom for 0%. Brightness requires a display that Windows can adjust.
+- **Edge sliders.** Turn on **Trackpad → Extra gestures → Edge sliders**. In trackpad mode, slide one finger along the left edge for built-in display brightness or the right edge for volume. Slide toward the top for 100% or the bottom for 0%. The Windows brightness or volume slider shows the level as you move. Brightness requires a display that Windows can adjust.
 - **Installer choices.** The recommended setup includes the driver, control panel, and taskbar battery indicator. Choose **Driver only** if Windows touchpad settings are all you need. Leave **Launch Magic Trackpad** checked on the final page to open the app when setup finishes.
 - **Taskbar battery status.** Hover over the color-coded icon for the charge percentage and estimated hours left. The estimate learns from Bluetooth use. The icon hides when the trackpad disconnects. Under **App settings**, you can enable a 20% Bluetooth battery alert and turn on **Open at startup** to show the indicator when you sign in.
 - **In-app updates.** Open **App settings → Check for updates**. A compact progress bar shows the percentage downloaded, megabytes left, and speed in MB/s. When the download finishes, choose **Restart and update** or **Update on next launch**. The second option saves the download and applies it the next time you open Magic Trackpad, or when you sign in with **Open at startup** enabled. **Restart and update** brings Settings back with a short summary of what changed.
