@@ -206,6 +206,22 @@ namespace AmtPtpControlPanel.WinUI3
         private static string T(string key, string fallback) =>
             LocalizationManager.GetString(key, fallback);
 
+        private void OpenChangelog_Click(object sender, RoutedEventArgs e)
+        {
+            ChangelogEntries.ItemsSource = LocalizationManager.GetReleaseHistory();
+            SettingsBody.Visibility = SettingsFooter.Visibility = Visibility.Collapsed;
+            ChangelogPage.Visibility = Visibility.Visible;
+            ChangelogScroll.ChangeView(null, 0, null, true);
+            ChangelogBack.Focus(FocusState.Programmatic);
+        }
+
+        private void CloseChangelog_Click(object sender, RoutedEventArgs e)
+        {
+            ChangelogPage.Visibility = Visibility.Collapsed;
+            SettingsBody.Visibility = SettingsFooter.Visibility = Visibility.Visible;
+            ChangelogButton.Focus(FocusState.Programmatic);
+        }
+
         private void ApplyLocalization()
         {
             var language = LocalizationManager.CurrentLanguage;
@@ -213,6 +229,11 @@ namespace AmtPtpControlPanel.WinUI3
             RootGrid.FlowDirection = language == "ar" ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
             Title = T("Main", "Magic Trackpad");
             TitleText.Text = Title;
+            ChangelogTitle.Text = T("History.Title", "Changelog");
+            ChangelogButton.Content = ChangelogTitle.Text;
+            var back = T("History.Back", "Back");
+            Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(ChangelogBack, back);
+            ToolTipService.SetToolTip(ChangelogBack, back);
             SettingsTab.Text = T("Input.SettingsTab", "Trackpad");
             KeyboardTab.Text = T("Input.KeyboardTab", "Keyboard");
             GestureTitle.Text = T("Input.GestureTitle", "Extra gestures");

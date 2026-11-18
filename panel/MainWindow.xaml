@@ -57,7 +57,7 @@
         </StackPanel>
 
         <!-- Settings -->
-        <Grid Grid.Row="1" Padding="28,0" RowSpacing="8">
+        <Grid x:Name="SettingsBody" Grid.Row="1" Padding="28,0" RowSpacing="8">
           <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
           <Grid>
           <SelectorBar x:Name="Pages" SelectionChanged="PageChanged" Margin="-12,0,0,0">
@@ -238,7 +238,10 @@
                         <TextBlock x:Name="LanguageLabel" Style="{StaticResource BodyTextBlockStyle}" Text="UI language" TextWrapping="Wrap"/>
 
                         <ComboBox x:Name="LanguageComboBox" HorizontalAlignment="Left" MinWidth="180" SelectionChanged="LanguageComboBox_SelectionChanged"/>
-                        <Button x:Name="UpdateAppButton" Click="CheckUpdates_Click" Content="Check for updates"/>
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Button x:Name="UpdateAppButton" Click="CheckUpdates_Click" Content="Check for updates"/>
+                            <HyperlinkButton x:Name="ChangelogButton" Click="OpenChangelog_Click"/>
+                        </StackPanel>
                         <StackPanel Spacing="4">
                             <ProgressBar x:Name="UpdateProgressBar" Visibility="Collapsed" Width="240" HorizontalAlignment="Left" AutomationProperties.LabeledBy="{Binding ElementName=UpdateStatus}"/>
                             <TextBlock x:Name="UpdateStatus" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite" Style="{StaticResource CaptionTextBlockStyle}"/>
@@ -333,6 +336,32 @@
             </Viewbox>
             <TextBox x:Name="Practice" PlaceholderText="Try typing here" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="60"/>
           </StackPanel></ScrollViewer>
+        </Grid>
+
+        <Grid x:Name="ChangelogPage" Grid.Row="1" Grid.RowSpan="2" Padding="28,8,28,20" RowSpacing="16" Visibility="Collapsed">
+            <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" Spacing="12">
+                <Button x:Name="ChangelogBack" Style="{StaticResource SubtleButtonStyle}" Click="CloseChangelog_Click">
+                    <SymbolIcon Symbol="Back"/>
+                    <Button.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="Escape"/>
+                        <KeyboardAccelerator Key="Left" Modifiers="Menu"/>
+                    </Button.KeyboardAccelerators>
+                </Button>
+                <TextBlock x:Name="ChangelogTitle" VerticalAlignment="Center" Style="{StaticResource SubtitleTextBlockStyle}" AutomationProperties.HeadingLevel="Level1"/>
+            </StackPanel>
+            <ScrollViewer x:Name="ChangelogScroll" Grid.Row="1" HorizontalScrollMode="Disabled">
+                <ItemsControl x:Name="ChangelogEntries">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="local:ReleaseEntry">
+                            <StackPanel Spacing="6" Margin="0,0,0,16">
+                                <TextBlock Text="{x:Bind Heading}" Style="{StaticResource BodyStrongTextBlockStyle}" AutomationProperties.HeadingLevel="Level2"/>
+                                <ContentPresenter HorizontalContentAlignment="Stretch" Content="{x:Bind Notes}" ContentTemplate="{StaticResource ReleaseNotesTemplate}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
         </Grid>
 
         <!-- Footer actions -->

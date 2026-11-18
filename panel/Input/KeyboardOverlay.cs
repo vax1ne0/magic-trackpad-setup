@@ -183,22 +183,35 @@ internal sealed class KeyboardOverlay : InputPopup
         SetWindowPos(handle,0,x,y,width,WindowHeight,0x14);
         InvalidateRect(handle,0,false);
     }
-    const int CapsLockTimer=4;
+    const int LegendTimer=4;
     bool capsLockOn, shown;
 
-    void RefreshCapsLock()
+    nint arabicLayout;
+    readonly Dictionary<string, string> arabicLetters = new();
+
+    void RefreshLegends()
     {
         bool current=KeyOutput.CapsLockOn;
-        if(current==capsLockOn)return;
+        var layout = ArabicKeyboardLayout.ForForegroundWindow();
+        if (current == capsLockOn && layout == arabicLayout) return;
+        if (layout != arabicLayout)
+        {
+            arabicLayout = layout;
+            arabicLetters.Clear();
+            foreach (var key in keys)
+                if (ArabicKeyboardLayout.Letter(key.Name, layout) is string letter)
+                    arabicLetters[key.Name] = letter;
+        }
         capsLockOn=current;
         InvalidateRect(handle,0,false);
     }
 
-    static string DisplayLabel(StickerKey key,bool capsLock)
+    string DisplayLabel(StickerKey key)
     {
+        if (arabicLetters.TryGetValue(key.Name, out var letter)) return letter;
         if(key.Name=="MODE")return "MODE";
         if(key.Name.Length==1 && key.Name[0] is >= 'A' and <= 'Z')
-            return capsLock ? key.Name : key.Name.ToLowerInvariant();
+            return capsLockOn ? key.Name : key.Name.ToLowerInvariant();
         return key.Label;
     }
 
@@ -208,12 +221,12 @@ internal sealed class KeyboardOverlay : InputPopup
         shown=visible;
         if(visible)
         {
-            RefreshCapsLock();
-            SetTimer(handle,CapsLockTimer,150,0);
+            RefreshLegends();
+            SetTimer(handle,LegendTimer,150,0);
         }
         else
         {
-            KillTimer(handle,CapsLockTimer);
+            KillTimer(handle,LegendTimer);
             EndInteraction();
         }
         ShowWindow(handle,visible ? 8 : 0); // SW_SHOWNA keeps the typing destination focused.
@@ -243,9 +256,9 @@ internal sealed class KeyboardOverlay : InputPopup
     }
     protected override nint Message(nint w,uint m,nint a,nint b)
     {
-        if(m==0x113 && a==CapsLockTimer)
+        if(m==0x113 && a==LegendTimer)
         {
-            RefreshCapsLock();
+            RefreshLegends();
             return 0;
         }
         if(m==0x113 && a==2)
@@ -351,7 +364,7 @@ internal sealed class KeyboardOverlay : InputPopup
                 Top=KeyboardTop+(int)(b.Top*height/Surface.DepthMm),Bottom=KeyboardTop+(int)(b.Bottom*height/Surface.DepthMm)};
             bool highlighted=key==hover || key==modifierContact;
             Box(r,highlighted?accent:cap);
-            Label(r,DisplayLabel(key,capsLockOn),highlighted?(foreground==0xFFFFFFu?0u:0xFFFFFFu):foreground,1);
+            Label(r,DisplayLabel(key),highlighted?(foreground==0xFFFFFFu?0u:0xFFFFFFu):foreground,1);
         }
         SelectClipRgn(dc,0);
         if(positioning)

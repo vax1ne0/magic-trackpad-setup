@@ -52,7 +52,12 @@ internal sealed class KeyOutput
             int index=lower.IndexOf(ch);
             if(char.IsLetter(ch))ch=(shift^CapsLockOn)?char.ToUpperInvariant(ch):char.ToLowerInvariant(ch);
             else if(shift && index>=0)ch=upper[index];
-            strokes.Add(new Stroke{type=1,scan=ch,flags=4});strokes.Add(new Stroke{type=1,scan=ch,flags=6});
+            string text = ArabicKeyboardLayout.Letter(name, ArabicKeyboardLayout.ForForegroundWindow(), shift) ?? ch.ToString();
+            foreach (char unit in text)
+            {
+                strokes.Add(new Stroke { type=1, scan=unit, flags=4 });
+                strokes.Add(new Stroke { type=1, scan=unit, flags=6 });
+            }
         }
         else
         {

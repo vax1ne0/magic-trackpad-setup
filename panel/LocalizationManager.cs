@@ -8,6 +8,8 @@ using Microsoft.Win32;
 
 namespace AmtPtpControlPanel.WinUI3
 {
+    public sealed record ReleaseEntry(string Heading, string[] Notes);
+
     /// <summary>
     /// Localization manager.
     ///
@@ -81,6 +83,26 @@ namespace AmtPtpControlPanel.WinUI3
                 return value;
 
             return fallback;
+        }
+
+        public static IReadOnlyList<ReleaseEntry> GetReleaseHistory()
+        {
+            const string prefix = "Update.Notes.";
+            var english = _document?.Root?.Elements("Language").FirstOrDefault(e => (string?)e.Attribute("id") == "en");
+            var entries = new List<(Version Version, ReleaseEntry Entry)>();
+            if (english != null)
+            {
+                foreach (var note in english.Elements("String"))
+                {
+                    var key = (string?)note.Attribute("id");
+                    if (key == null || !key.StartsWith(prefix, StringComparison.Ordinal) ||
+                        !Version.TryParse(key.Substring(prefix.Length), out var version)) continue;
+
+                    var lines = GetString(key, note.Value).Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                    entries.Add((version, new ReleaseEntry("v" + version, lines)));
+                }
+            }
+            return entries.OrderByDescending(item => item.Version).Select(item => item.Entry).ToList();
         }
 
         public static void SetLanguage(string languageId)

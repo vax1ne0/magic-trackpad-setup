@@ -14,7 +14,7 @@ For a pull request, explain the user-visible problem, what changes, and how it w
 
 When shipping app or installer changes, publish the matching MSI and checksum as part of the same release as the source changes.
 
-1. Update the application version, replace the previous in-app summary with localized release notes (one short change per line) under `Update.Notes.<version>`, and build with `Build.ps1`. It creates the MSI and `SHA256SUMS.txt` in `dist`.
+1. Update the application version, keep previous entries for the Changelog page and add localized release notes (one short change per line) under `Update.Notes.<version>`, and build with `Build.ps1`. It creates the MSI and `SHA256SUMS.txt` in `dist`.
 2. Check fresh full and driver-only installs, upgrade with the app running, repair, and uninstall. Verify both states of **Launch Magic Trackpad**. Use a test machine or an isolated installer fixture where appropriate and state the scope of testing.
 3. Check in-app updates, preserved preferences, and the battery indicator. Verify the published MSI's name matches the version expected by the updater.
 4. Commit and push the source. Create a draft GitHub release with the version tag, matching MSI, checksum file, and short user-facing notes.

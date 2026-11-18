@@ -1,6 +1,22 @@
 <?xml version='1.0' encoding='utf-8'?>
 <Localization>
   <Language id="en">
+    <String id="Update.Notes.1.7.13">Switch your Windows input language to Arabic to see and type Arabic letters on the floating keyboard.&#10;Open Changelog in App settings to browse past releases offline.</String>
+    <String id="History.Title">Changelog</String>
+    <String id="History.Back">Back</String>
+    <String id="Update.Notes.1.7.11">Press Win on the sticker keyboard to open Start and type to search. Hold Win while pressing another key for shortcuts.</String>
+    <String id="Update.Notes.1.7.10">The pointer stays in place while you slide along an edge to adjust brightness or volume.</String>
+    <String id="Update.Notes.1.7.9">Edge slides show the Windows brightness or volume slider.&#10;The cursor stays visible when you add a third finger to scroll.</String>
+    <String id="Update.Notes.1.7.8">Slide along the left edge for brightness or the right edge for volume. Turn on Edge sliders under Extra gestures.&#10;The floating keyboard stays dim while you point with two fingers and add a third to scroll.</String>
+    <String id="Update.Notes.1.7.7">Point with two fingers in keyboard mode. Keep them down and add a third to scroll.</String>
+    <String id="Update.Notes.1.7.6">The tab underline stretches toward the next tab, then gently bounces into place.&#10;Switch tabs mid-slide and the underline smoothly reverses direction.</String>
+    <String id="Update.Notes.1.7.5">Settings now reopens after updates, and keys stay inactive while you move the floating keyboard.</String>
+    <String id="Update.Notes.1.6.7">Choose driver-only or full setup and whether to open Magic Trackpad when setup finishes.</String>
+    <String id="Update.Notes.1.7.0">Type on the trackpad with the sticker keyboard and assign actions to five-finger gestures.</String>
+    <String id="Update.Notes.1.7.1">Keyboard letters follow Caps Lock. Adjust idle dimming and fade duration, or use the handle above the keyboard to move it.</String>
+    <String id="Update.Notes.1.7.2">Settings sections close more smoothly. The floating keyboard starts at 60% scale with 85% idle dimming and a one-second fade.</String>
+    <String id="Update.Notes.1.7.3">The underline glides between the Trackpad and Keyboard tabs and follows the Windows animation setting.</String>
+    <String id="Update.Notes.1.7.4">The floating keyboard now starts at 10% transparency while active.</String>
     <String id="Update.Notes.1.7.12">Arabic now covers keyboard settings, gesture actions, edge sliders, and the battery menu.&#10;Press Win on the sticker keyboard to open Start and type to search. Hold Win while pressing another key for shortcuts.</String>
     <String id="Details.Copy">Copy device details</String>
     <String id="Defaults.Restore">Restore trackpad defaults</String>
@@ -57,6 +73,22 @@
   </Language>
 
   <Language id="ar">
+    <String id="Update.Notes.1.7.13">بدّل لغة الإدخال في Windows إلى العربية لعرض الأحرف العربية والكتابة بها على لوحة المفاتيح العائمة.&#10;افتح سجل التغييرات في إعدادات التطبيق للاطلاع على الإصدارات السابقة دون اتصال.</String>
+    <String id="History.Title">سجل التغييرات</String>
+    <String id="History.Back">رجوع</String>
+    <String id="Update.Notes.1.7.11">اضغط على Win في لوحة المفاتيح الملصقة لفتح قائمة ابدأ، ثم اكتب للبحث. لاستخدام اختصار، أبقِ إصبعك على Win واضغط مفتاحًا آخر.</String>
+    <String id="Update.Notes.1.7.10">يبقى المؤشر ثابتًا أثناء السحب على الحافة لضبط السطوع أو الصوت.</String>
+    <String id="Update.Notes.1.7.9">تعرض إيماءات الحواف شريط السطوع أو الصوت في Windows.&#10;يبقى المؤشر ظاهرًا عند إضافة إصبع ثالث للتمرير.</String>
+    <String id="Update.Notes.1.7.8">اسحب على الحافة اليسرى لضبط السطوع أو اليمنى لضبط الصوت. فعّل عناصر التحكم بالحواف ضمن الإيماءات الإضافية.&#10;تظل لوحة المفاتيح العائمة خافتة أثناء تحريك المؤشر بإصبعين وإضافة إصبع ثالث للتمرير.</String>
+    <String id="Update.Notes.1.7.7">حرّك المؤشر بإصبعين في وضع لوحة المفاتيح، ثم أضف إصبعًا ثالثًا دون رفعهما للتمرير.</String>
+    <String id="Update.Notes.1.7.6">يتمدد خط التحديد نحو علامة التبويب التالية ثم يستقر بارتداد خفيف.&#10;إذا بدّلت علامة التبويب أثناء الحركة، ينعكس اتجاه الخط بسلاسة.</String>
+    <String id="Update.Notes.1.7.5">تُفتح الإعدادات مجددًا بعد التحديث، وتبقى المفاتيح غير نشطة أثناء تحريك لوحة المفاتيح العائمة.</String>
+    <String id="Update.Notes.1.6.7">اختر تثبيت برنامج التشغيل وحده أو مع التطبيق، وحدّد ما إذا كنت تريد فتح التطبيق بعد التثبيت.</String>
+    <String id="Update.Notes.1.7.0">اكتب على لوحة التعقب باستخدام لوحة المفاتيح الملصقة، وخصّص إجراءات لإيماءات الأصابع الخمسة.</String>
+    <String id="Update.Notes.1.7.1">يتغيّر شكل الأحرف حسب حالة Caps Lock. يمكنك ضبط التعتيم عند الخمول ومدته، أو تحريك لوحة المفاتيح من المقبض العلوي.</String>
+    <String id="Update.Notes.1.7.2">أصبح طيّ أقسام الإعدادات أكثر سلاسة. الحجم الافتراضي للوحة المفاتيح العائمة ٦٠٪، والتعتيم عند الخمول ٨٥٪ خلال ثانية واحدة.</String>
+    <String id="Update.Notes.1.7.3">ينزلق خط التحديد بين تبويبي لوحة التعقب ولوحة المفاتيح وفق إعداد الحركة في Windows.</String>
+    <String id="Update.Notes.1.7.4">أصبحت الشفافية الافتراضية للوحة المفاتيح العائمة أثناء الاستخدام ١٠٪.</String>
     <String id="Update.Complete">تحديثك جاهز.</String>
     <String id="App.AlreadyOpen">تطبيق Magic Trackpad مفتوح بالفعل</String>
     <String id="App.Reopen">احفظ تغييراتك وأغلق الإعدادات، ثم افتح النسخة الأخرى من التطبيق.</String>
@@ -190,6 +222,16 @@
   </Language>
 
   <Language id="it">
+    <String id="Update.Notes.1.7.13">Seleziona l’arabo come lingua di input di Windows per visualizzare e digitare lettere arabe sulla tastiera mobile.&#10;Consulta la cronologia delle modifiche offline nelle impostazioni dell’app.</String>
+    <String id="History.Title">Cronologia delle modifiche</String>
+    <String id="History.Back">Indietro</String>
+    <String id="Update.Notes.1.7.11">Premi Win sulla tastiera adesiva per aprire Start e digita per cercare. Per le scorciatoie, tieni un dito su Win e premi un altro tasto.</String>
+    <String id="Update.Notes.1.7.10">Il puntatore resta fermo mentre scorri lungo il bordo per regolare luminosità o volume.</String>
+    <String id="Update.Notes.1.7.9">I gesti sui bordi mostrano il cursore di luminosità o volume di Windows.&#10;Il puntatore resta visibile quando aggiungi un terzo dito per scorrere.</String>
+    <String id="Update.Notes.1.7.8">Scorri sul bordo sinistro per regolare la luminosità o sul destro per il volume. Attiva i controlli sui bordi in Gesti aggiuntivi.&#10;La tastiera mobile rimane attenuata quando punti con due dita e ne aggiungi un terzo per scorrere.</String>
+    <String id="Update.Notes.1.7.7">In modalità tastiera, sposta il puntatore con due dita. Tienile appoggiate e aggiungi un terzo dito per scorrere.</String>
+    <String id="Update.Notes.1.7.6">La sottolineatura si allunga verso la scheda successiva e si assesta con un leggero rimbalzo.&#10;Se cambi scheda durante il movimento, la sottolineatura inverte la direzione in modo fluido.</String>
+    <String id="Update.Notes.1.7.5">Le impostazioni si riaprono dopo gli aggiornamenti e i tasti restano inattivi mentre sposti la tastiera mobile.</String>
     <String id="Update.Notes.1.7.12">La traduzione araba ora include le impostazioni della tastiera, i gesti, i controlli sui bordi e il menu della batteria.&#10;Premi Win sulla tastiera adesiva per aprire Start e digita per cercare. Per le scorciatoie, tieni un dito su Win e premi un altro tasto.</String>
     <String id="Details.Copy">Copia dettagli dispositivo</String>
     <String id="Defaults.Restore">Ripristina impostazioni trackpad</String>
@@ -246,6 +288,16 @@
   </Language>
 
   <Language id="es">
+    <String id="Update.Notes.1.7.13">Cambia el idioma de entrada de Windows a árabe para ver y escribir letras árabes en el teclado flotante.&#10;Consulta el historial de cambios sin conexión en los ajustes de la aplicación.</String>
+    <String id="History.Title">Historial de cambios</String>
+    <String id="History.Back">Atrás</String>
+    <String id="Update.Notes.1.7.11">Pulsa Win en el teclado adhesivo para abrir Inicio y escribe para buscar. Para usar un atajo, mantén un dedo sobre Win y pulsa otra tecla.</String>
+    <String id="Update.Notes.1.7.10">El puntero permanece quieto mientras deslizas el dedo por el borde para ajustar el brillo o el volumen.</String>
+    <String id="Update.Notes.1.7.9">Los gestos de borde muestran el control de brillo o volumen de Windows.&#10;El puntero permanece visible al añadir un tercer dedo para desplazarte.</String>
+    <String id="Update.Notes.1.7.8">Desliza un dedo por el borde izquierdo para ajustar el brillo o por el derecho para el volumen. Activa los controles de borde en Gestos adicionales.&#10;El teclado flotante permanece atenuado al apuntar con dos dedos y añadir un tercero para desplazarte.</String>
+    <String id="Update.Notes.1.7.7">En modo teclado, mueve el puntero con dos dedos. Sin levantarlos, añade un tercero para desplazarte.</String>
+    <String id="Update.Notes.1.7.6">El subrayado se estira hacia la otra pestaña y se asienta con un pequeño rebote.&#10;Si cambias de pestaña durante el movimiento, el subrayado invierte su dirección suavemente.</String>
+    <String id="Update.Notes.1.7.5">Los ajustes se abren tras actualizar y las teclas permanecen inactivas mientras mueves el teclado flotante.</String>
     <String id="Update.Notes.1.7.12">La traducción al árabe ahora incluye el teclado, los gestos, los controles de borde y el menú de batería.&#10;Pulsa Win en el teclado adhesivo para abrir Inicio y escribe para buscar. Para usar un atajo, mantén un dedo sobre Win y pulsa otra tecla.</String>
     <String id="Details.Copy">Copiar detalles del dispositivo</String>
     <String id="Defaults.Restore">Restaurar ajustes del trackpad</String>
@@ -302,6 +354,16 @@
   </Language>
 
   <Language id="fr">
+    <String id="Update.Notes.1.7.13">Passez la langue de saisie de Windows à l’arabe pour afficher et saisir des lettres arabes sur le clavier flottant.&#10;Consultez l’historique des versions hors ligne dans les paramètres de l’application.</String>
+    <String id="History.Title">Historique des versions</String>
+    <String id="History.Back">Retour</String>
+    <String id="Update.Notes.1.7.11">Appuyez sur Win sur le clavier autocollant pour ouvrir Démarrer, puis tapez votre recherche. Pour un raccourci, gardez un doigt sur Win et appuyez sur une autre touche.</String>
+    <String id="Update.Notes.1.7.10">Le pointeur reste en place lorsque vous glissez le long du bord pour régler la luminosité ou le volume.</String>
+    <String id="Update.Notes.1.7.9">Les gestes sur les bords affichent le curseur de luminosité ou de volume de Windows.&#10;Le pointeur reste visible lorsque vous ajoutez un troisième doigt pour faire défiler.</String>
+    <String id="Update.Notes.1.7.8">Glissez le long du bord gauche pour régler la luminosité ou du bord droit pour le volume. Activez les curseurs de bord dans les gestes supplémentaires.&#10;Le clavier flottant reste estompé lorsque vous pointez avec deux doigts et en ajoutez un troisième pour faire défiler.</String>
+    <String id="Update.Notes.1.7.7">En mode clavier, déplacez le pointeur avec deux doigts. Gardez-les posés et ajoutez un troisième doigt pour faire défiler.</String>
+    <String id="Update.Notes.1.7.6">Le trait s’étire vers l’autre onglet, puis se stabilise avec un léger rebond.&#10;Si vous changez d’onglet pendant le mouvement, le trait repart en douceur dans l’autre sens.</String>
+    <String id="Update.Notes.1.7.5">Les paramètres se rouvrent après la mise à jour et les touches restent inactives pendant le déplacement du clavier flottant.</String>
     <String id="Update.Notes.1.7.12">La traduction arabe couvre désormais le clavier, les gestes, les curseurs de bord et le menu de la batterie.&#10;Appuyez sur Win sur le clavier autocollant pour ouvrir Démarrer, puis tapez votre recherche. Pour un raccourci, gardez un doigt sur Win et appuyez sur une autre touche.</String>
     <String id="Details.Copy">Copier les détails de l’appareil</String>
     <String id="Defaults.Restore">Rétablir les réglages du trackpad</String>
@@ -358,6 +420,16 @@
   </Language>
 
   <Language id="de">
+    <String id="Update.Notes.1.7.13">Stelle die Windows-Eingabesprache auf Arabisch, um arabische Buchstaben auf der schwebenden Tastatur anzuzeigen und zu tippen.&#10;Öffne den Änderungsverlauf in den App-Einstellungen, um frühere Versionen offline anzusehen.</String>
+    <String id="History.Title">Änderungsverlauf</String>
+    <String id="History.Back">Zurück</String>
+    <String id="Update.Notes.1.7.11">Drücke Win auf der Aufkleber-Tastatur, um das Startmenü zu öffnen, und tippe deinen Suchbegriff ein. Für Tastenkürzel halte einen Finger auf Win und drücke eine weitere Taste.</String>
+    <String id="Update.Notes.1.7.10">Der Zeiger bleibt beim Streichen am Rand zum Anpassen der Helligkeit oder Lautstärke an Ort und Stelle.</String>
+    <String id="Update.Notes.1.7.9">Beim Streichen am Rand erscheint der Windows-Regler für Helligkeit oder Lautstärke.&#10;Beim Scrollen mit einem dritten Finger bleibt der Zeiger sichtbar.</String>
+    <String id="Update.Notes.1.7.8">Streiche am linken Rand für die Helligkeit oder am rechten für die Lautstärke. Aktiviere die Randregler unter Zusätzliche Gesten.&#10;Die schwebende Tastatur bleibt beim Zeigen mit zwei Fingern und beim Scrollen mit einem dritten Finger abgedunkelt.</String>
+    <String id="Update.Notes.1.7.7">Bewege den Zeiger im Tastaturmodus mit zwei Fingern. Lass beide aufliegen und lege zum Scrollen einen dritten Finger dazu.</String>
+    <String id="Update.Notes.1.7.6">Der Unterstrich dehnt sich zum nächsten Tab und federt sanft in Position.&#10;Beim Zurückwechseln während der Bewegung kehrt der Strich sanft um.</String>
+    <String id="Update.Notes.1.7.5">Nach dem Update öffnen sich die Einstellungen. Beim Verschieben der schwebenden Tastatur bleiben die Tasten inaktiv.</String>
     <String id="Update.Notes.1.7.12">Die arabische Übersetzung umfasst jetzt Tastatureinstellungen, Gesten, Randregler und das Akkumenü.&#10;Drücke Win auf der Aufkleber-Tastatur, um das Startmenü zu öffnen, und tippe deinen Suchbegriff ein. Für Tastenkürzel halte einen Finger auf Win und drücke eine weitere Taste.</String>
     <String id="Details.Copy">Gerätedetails kopieren</String>
     <String id="Defaults.Restore">Trackpad zurücksetzen</String>
@@ -414,6 +486,16 @@
   </Language>
 
   <Language id="pt">
+    <String id="Update.Notes.1.7.13">Mude o idioma de entrada do Windows para árabe para ver e digitar letras árabes no teclado flutuante.&#10;Consulte o histórico de alterações offline nas configurações do aplicativo.</String>
+    <String id="History.Title">Histórico de alterações</String>
+    <String id="History.Back">Voltar</String>
+    <String id="Update.Notes.1.7.11">Pressione Win no teclado adesivo para abrir o menu Iniciar e digite para pesquisar. Para usar um atalho, mantenha um dedo em Win e pressione outra tecla.</String>
+    <String id="Update.Notes.1.7.10">O ponteiro fica parado enquanto você desliza pela borda para ajustar o brilho ou o volume.</String>
+    <String id="Update.Notes.1.7.9">Os gestos de borda mostram o controle de brilho ou volume do Windows.&#10;O ponteiro permanece visível ao adicionar um terceiro dedo para rolar.</String>
+    <String id="Update.Notes.1.7.8">Deslize pela borda esquerda para ajustar o brilho ou pela direita para ajustar o volume. Ative os controles de borda em Gestos extras.&#10;O teclado flutuante permanece esmaecido ao apontar com dois dedos e adicionar um terceiro para rolar.</String>
+    <String id="Update.Notes.1.7.7">No modo teclado, mova o ponteiro com dois dedos. Sem levantá-los, adicione um terceiro dedo para rolar.</String>
+    <String id="Update.Notes.1.7.6">O sublinhado se estica em direção à outra aba e se acomoda com um leve balanço.&#10;Se você trocar de aba durante o movimento, o sublinhado inverte a direção suavemente.</String>
+    <String id="Update.Notes.1.7.5">As configurações reabrem após a atualização e as teclas ficam inativas enquanto você move o teclado flutuante.</String>
     <String id="Update.Notes.1.7.12">A tradução em árabe agora inclui configurações do teclado, gestos, controles de borda e o menu da bateria.&#10;Pressione Win no teclado adesivo para abrir o menu Iniciar e digite para pesquisar. Para usar um atalho, mantenha um dedo em Win e pressione outra tecla.</String>
     <String id="Details.Copy">Copiar detalhes do dispositivo</String>
     <String id="Defaults.Restore">Restaurar padrões do trackpad</String>
@@ -470,6 +552,16 @@
   </Language>
 
   <Language id="ru">
+    <String id="Update.Notes.1.7.13">Переключите язык ввода Windows на арабский, чтобы видеть и вводить арабские буквы на плавающей клавиатуре.&#10;История изменений доступна в настройках приложения без подключения к интернету.</String>
+    <String id="History.Title">История изменений</String>
+    <String id="History.Back">Назад</String>
+    <String id="Update.Notes.1.7.11">Нажмите Win на клавиатуре-наклейке, чтобы открыть меню «Пуск», и введите запрос. Для сочетаний удерживайте палец на Win и нажмите другую клавишу.</String>
+    <String id="Update.Notes.1.7.10">Указатель остаётся на месте при регулировке яркости или громкости движением вдоль края.</String>
+    <String id="Update.Notes.1.7.9">При движении по краю появляется индикатор яркости или громкости Windows.&#10;Указатель остаётся видимым при добавлении третьего пальца для прокрутки.</String>
+    <String id="Update.Notes.1.7.8">Проводите по левому краю для регулировки яркости или по правому для регулировки громкости. Включите управление по краям в дополнительных жестах.&#10;Плавающая клавиатура остаётся затемнённой при перемещении указателя двумя пальцами и прокрутке третьим.</String>
+    <String id="Update.Notes.1.7.7">В режиме клавиатуры перемещайте указатель двумя пальцами. Чтобы прокрутить страницу, добавьте третий палец, не поднимая первые два.</String>
+    <String id="Update.Notes.1.7.6">Индикатор тянется к другой вкладке и мягко пружинит на месте.&#10;Если переключить вкладку во время движения, индикатор плавно сменит направление.</String>
+    <String id="Update.Notes.1.7.5">После обновления снова открываются настройки, а при перемещении плавающей клавиатуры клавиши остаются неактивными.</String>
     <String id="Update.Notes.1.7.12">На арабский переведены настройки клавиатуры, жесты, управление по краям и меню батареи.&#10;Нажмите Win на клавиатуре-наклейке, чтобы открыть меню «Пуск», и введите запрос. Для сочетаний удерживайте палец на Win и нажмите другую клавишу.</String>
     <String id="Details.Copy">Копировать сведения об устройстве</String>
     <String id="Defaults.Restore">Сбросить настройки трекпада</String>
@@ -526,6 +618,16 @@
   </Language>
 
   <Language id="zh">
+    <String id="Update.Notes.1.7.13">将 Windows 输入语言切换为阿拉伯语，即可在浮动键盘上查看和输入阿拉伯字母。&#10;在应用设置中打开更新日志，即可离线查看各版本的更改。</String>
+    <String id="History.Title">更新日志</String>
+    <String id="History.Back">返回</String>
+    <String id="Update.Notes.1.7.11">按贴纸键盘上的 Win 键打开开始菜单，输入文字即可搜索。将一根手指放在 Win 键上，再按其他键即可使用快捷键。</String>
+    <String id="Update.Notes.1.7.10">沿边缘滑动调节亮度或音量时，指针会停留在原处。</String>
+    <String id="Update.Notes.1.7.9">沿边缘滑动时显示 Windows 亮度或音量滑块。&#10;加入第三根手指滚动时，指针保持可见。</String>
+    <String id="Update.Notes.1.7.8">沿左边缘滑动可调节亮度，沿右边缘滑动可调节音量。在额外手势中开启边缘滑动控制。&#10;双指移动指针并加入第三根手指滚动时，浮动键盘会保持暗淡。</String>
+    <String id="Update.Notes.1.7.7">在键盘模式下，用两根手指移动指针。保持接触，再放上第三根手指即可滚动。</String>
+    <String id="Update.Notes.1.7.6">下划线会朝另一个标签页伸展，然后轻轻回弹就位。&#10;在滑动过程中切换标签页，下划线会平滑地反向移动。</String>
+    <String id="Update.Notes.1.7.5">更新后会重新打开设置，移动浮动键盘时按键不会响应。</String>
     <String id="Update.Notes.1.7.12">新增键盘设置、手势操作、边缘滑块和电池菜单的阿拉伯语翻译。&#10;按贴纸键盘上的 Win 键打开开始菜单，输入文字即可搜索。将一根手指放在 Win 键上，再按其他键即可使用快捷键。</String>
     <String id="Details.Copy">复制设备信息</String>
     <String id="Defaults.Restore">恢复触控板默认设置</String>
@@ -582,6 +684,16 @@
   </Language>
 
   <Language id="ja">
+    <String id="Update.Notes.1.7.13">Windows の入力言語をアラビア語に切り替えると、フローティングキーボードでアラビア文字を表示・入力できます。&#10;アプリ設定の変更履歴から、過去の更新内容をオフラインで確認できます。</String>
+    <String id="History.Title">変更履歴</String>
+    <String id="History.Back">戻る</String>
+    <String id="Update.Notes.1.7.11">ステッカーキーボードの Win キーを押すとスタートが開き、そのまま入力して検索できます。ショートカットを使うには、Win に指を置いたまま別のキーを押します。</String>
+    <String id="Update.Notes.1.7.10">端をなぞって明るさや音量を調整している間、ポインターは動きません。</String>
+    <String id="Update.Notes.1.7.9">端をなぞると、Windows の明るさまたは音量のスライダーが表示されます。&#10;3本目の指を加えてスクロールしてもポインターが表示されたままになります。</String>
+    <String id="Update.Notes.1.7.8">左端をなぞると明るさ、右端をなぞると音量を調整できます。追加ジェスチャーでエッジスライダーをオンにしてください。&#10;2本指でポインターを動かし、3本目の指を加えてスクロールする間も、フローティングキーボードは薄く表示されます。</String>
+    <String id="Update.Notes.1.7.7">キーボードモードでは、2本の指でポインターを動かせます。そのまま3本目の指を置くとスクロールできます。</String>
+    <String id="Update.Notes.1.7.6">下線が次のタブに向かって伸び、軽く弾んで止まります。&#10;移動中にタブを切り替えると、下線は滑らかに向きを変えます。</String>
+    <String id="Update.Notes.1.7.5">更新後に設定が再び開きます。フローティングキーボードの移動中はキー入力が無効になります。</String>
     <String id="Update.Notes.1.7.12">キーボード設定、ジェスチャー、エッジスライダー、バッテリーメニューがアラビア語に対応しました。&#10;ステッカーキーボードの Win キーを押すとスタートが開き、そのまま入力して検索できます。ショートカットを使うには、Win に指を置いたまま別のキーを押します。</String>
     <String id="Details.Copy">デバイス情報をコピー</String>
     <String id="Defaults.Restore">トラックパッドを初期設定に戻す</String>
@@ -638,6 +750,16 @@
   </Language>
 
   <Language id="ko">
+    <String id="Update.Notes.1.7.13">Windows 입력 언어를 아랍어로 전환하면 플로팅 키보드에서 아랍 문자를 보고 입력할 수 있습니다.&#10;앱 설정의 변경 기록에서 이전 버전의 변경 사항을 오프라인으로 확인할 수 있습니다.</String>
+    <String id="History.Title">변경 기록</String>
+    <String id="History.Back">뒤로</String>
+    <String id="Update.Notes.1.7.11">스티커 키보드에서 Win을 눌러 시작 메뉴를 열고 검색어를 입력하세요. 단축키를 사용하려면 Win에 손가락을 댄 채 다른 키를 누르세요.</String>
+    <String id="Update.Notes.1.7.10">가장자리를 쓸어 밝기나 음량을 조절하는 동안 포인터는 제자리에 있습니다.</String>
+    <String id="Update.Notes.1.7.9">가장자리를 쓸면 Windows 밝기 또는 음량 슬라이더가 표시됩니다.&#10;세 번째 손가락을 더해 스크롤하는 동안에도 포인터가 계속 표시됩니다.</String>
+    <String id="Update.Notes.1.7.8">왼쪽 가장자리를 쓸어 밝기를, 오른쪽 가장자리를 쓸어 음량을 조절하세요. 추가 제스처에서 가장자리 슬라이더를 켤 수 있습니다.&#10;두 손가락으로 포인터를 움직이다 세 번째 손가락을 더해 스크롤할 때도 플로팅 키보드는 흐리게 유지됩니다.</String>
+    <String id="Update.Notes.1.7.7">키보드 모드에서 두 손가락으로 포인터를 움직이세요. 두 손가락을 댄 채 세 번째 손가락을 올리면 스크롤할 수 있습니다.</String>
+    <String id="Update.Notes.1.7.6">밑줄이 다음 탭을 향해 늘어났다가 살짝 튕기며 자리를 잡습니다.&#10;이동 중에 탭을 바꾸면 밑줄이 부드럽게 방향을 바꿉니다.</String>
+    <String id="Update.Notes.1.7.5">업데이트 후 설정이 다시 열리며, 플로팅 키보드를 이동하는 동안 키 입력이 비활성화됩니다.</String>
     <String id="Update.Notes.1.7.12">키보드 설정, 제스처 동작, 가장자리 슬라이더, 배터리 메뉴에 아랍어 번역을 추가했습니다.&#10;스티커 키보드에서 Win을 눌러 시작 메뉴를 열고 검색어를 입력하세요. 단축키를 사용하려면 Win에 손가락을 댄 채 다른 키를 누르세요.</String>
     <String id="Details.Copy">기기 정보 복사</String>
     <String id="Defaults.Restore">트랙패드 기본값 복원</String>
