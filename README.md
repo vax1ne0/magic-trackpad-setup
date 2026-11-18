@@ -4,7 +4,7 @@ Use your Apple Magic Trackpad on Windows 11. Scroll with two fingers, adjust how
 
 Built on Vito Plantamura’s [MagicTrackpad2ForWindows](https://github.com/vitoplantamura/MagicTrackpad2ForWindows) driver and control panel.
 
-You can also [type directly on the trackpad](#turn-your-trackpad-into-a-keyboard) and [control media with five fingers](#five-finger-gestures).
+You can also [type directly on the trackpad](#turn-your-trackpad-into-a-keyboard) and [use customizable five-finger gestures](#five-finger-gestures) beyond the built-in four-finger gestures in Windows.
 
 ![Magic Trackpad settings on Windows 11 showing 100% battery over Bluetooth, click feel, and pointer settings](docs/magic-trackpad-settings.png)
 
