@@ -40,11 +40,11 @@ public sealed partial class MainWindow
     void InitializeInput()
     {
         OverlayTransparency.Value=Math.Clamp(AppPreferences.ReadInt("OverlayTransparency",38),0,90);
-        OverlayScale.Value=Math.Clamp(AppPreferences.ReadInt("OverlayScale",100),50,150);
+        OverlayScale.Value=Math.Clamp(AppPreferences.ReadInt("OverlayScale",KeyboardOverlay.DefaultScale),50,150);
         OverlayButton.IsChecked=AppPreferences.Enabled("FloatingKeyboard",true);
         FadeIdle.IsOn=AppPreferences.Enabled("OverlayIdleFade",true);
-        IdleAmount.Value=Math.Clamp(AppPreferences.ReadInt("OverlayIdleAmount",65),10,95);
-        IdleDuration.Value=Math.Clamp(AppPreferences.ReadInt("OverlayIdleDuration",650),200,2000);
+        IdleAmount.Value=Math.Clamp(AppPreferences.ReadInt("OverlayIdleAmount",KeyboardOverlay.DefaultIdleDimming),10,95);
+        IdleDuration.Value=Math.Clamp(AppPreferences.ReadInt("OverlayIdleDuration",KeyboardOverlay.DefaultFadeDurationMs),200,2000);
         UpdateAppearanceLabels();
         inputWindow=WindowNative.GetWindowHandle(this);
         KeyboardSwitch.IsOn=AppPreferences.Enabled("StickerEnabled",false);

@@ -10,7 +10,7 @@ You can also [type directly on the trackpad](#turn-your-trackpad-into-a-keyboard
 
 ## Get started
 
-1. **[Download the Windows installer (1.7.1)](https://github.com/vax1ne0/magic-trackpad-setup/releases/download/v1.7.1/Magic-Trackpad-Setup-1.7.1-x64.msi)** and run it.
+1. **[Download the Windows installer (1.7.2)](https://github.com/vax1ne0/magic-trackpad-setup/releases/download/v1.7.2/Magic-Trackpad-Setup-1.7.2-x64.msi)** and run it.
 2. **Connect your trackpad.** Plug it in with a USB data cable, or unplug the cable and pair it under **Settings → Bluetooth & devices → Add device → Magic Trackpad**.
 3. **Enjoy your full Magic Trackpad experience.** Try a two-finger scroll or pinch to zoom.
 

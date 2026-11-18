@@ -22,7 +22,10 @@ internal sealed class KeyboardOverlay : InputPopup
     StickerKey? hover, modifierContact;
     bool touching, idle=true, fadeIdle;
     int transparencyPercent;
-    int idleFadePercent=65, fadeDurationMs=650;
+    public const int DefaultIdleDimming=85;
+    public const int DefaultFadeDurationMs=1000;
+    public const int DefaultScale=60;
+    int idleFadePercent=DefaultIdleDimming, fadeDurationMs=DefaultFadeDurationMs;
     const int FadeTimer=3;
     long fadeStarted;
     double fadeProgress;
@@ -110,7 +113,7 @@ internal sealed class KeyboardOverlay : InputPopup
         // Windows owns the region after SetWindowRgn succeeds.
         if(region!=0 && SetWindowRgn(handle,region,true)==0)DeleteObject(region);
     }
-    public KeyboardOverlay(List<StickerKey> keys, RectInt32 area, double scale, bool dark, uint accent,int scalePercent=100,int transparency=38)
+    public KeyboardOverlay(List<StickerKey> keys, RectInt32 area, double scale, bool dark, uint accent,int scalePercent=DefaultScale,int transparency=38)
         : base("Floating keyboard",Layered|0x20)
     {
         this.keys=keys;this.accent=accent;

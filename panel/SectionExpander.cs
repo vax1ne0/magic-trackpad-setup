@@ -14,7 +14,7 @@ public sealed class SectionExpander : Expander
 
     private Border? contentClip;
     private Storyboard? closing;
-    private static readonly TimeSpan CloseDuration=TimeSpan.FromMilliseconds(300);
+    private static readonly TimeSpan CloseDuration=TimeSpan.FromMilliseconds(200);
 
     public SectionExpander()
     {
@@ -36,13 +36,13 @@ public sealed class SectionExpander : Expander
         var motion=new DoubleAnimation {
             From=contentClip.ActualHeight, To=0, Duration=CloseDuration,
             EnableDependentAnimation=true,
-            EasingFunction=new SineEase { EasingMode=EasingMode.EaseInOut }
+            EasingFunction=new QuadraticEase { EasingMode=EasingMode.EaseOut }
         };
         var storyboard=new Storyboard();
         Storyboard.SetTarget(motion,contentClip);
         Storyboard.SetTargetProperty(motion,"Height");
         storyboard.Children.Add(motion);
-        storyboard.Completed+=(_,_)=> { if(ReferenceEquals(closing,storyboard))StopClosing(); };
+        // Hold zero until the next expansion so the last frame cannot jump back to Auto.
         closing=storyboard;
         storyboard.Begin();
     }
@@ -58,14 +58,6 @@ public sealed class SectionExpander : Expander
         StopClosing();
         base.OnApplyTemplate();
         contentClip=GetTemplateChild("ExpanderContentClip") as Border;
-        // Keep WinUI's slide and visibility change in step with the shrinking row.
-        if(contentClip?.Parent is FrameworkElement root && new UISettings().AnimationsEnabled)
-        {
-            foreach(var group in VisualStateManager.GetVisualStateGroups(root))
-                foreach(var state in group.States)
-                    if(state.Name=="CollapseUp" && state.Storyboard is Storyboard slide)
-                        slide.SpeedRatio=167.0/CloseDuration.TotalMilliseconds;
-        }
         header = GetTemplateChild("ExpanderHeader") as ToggleButton;
         if (header == null) return;
         header.PointerEntered += OnHeaderEntered;
