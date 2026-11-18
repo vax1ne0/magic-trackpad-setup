@@ -4,23 +4,23 @@ Use your Apple Magic Trackpad on Windows 11. Scroll with two fingers, adjust how
 
 Built on Vito Plantamura’s [MagicTrackpad2ForWindows](https://github.com/vitoplantamura/MagicTrackpad2ForWindows) driver and control panel.
 
-The development version also lets you [type directly on the trackpad](#turn-your-trackpad-into-a-keyboard) and [control media with five fingers](#five-finger-gestures).
+You can also [type directly on the trackpad](#turn-your-trackpad-into-a-keyboard) and [control media with five fingers](#five-finger-gestures).
 
 ![Magic Trackpad settings on Windows 11 showing 100% battery over Bluetooth, click feel, and pointer settings](docs/magic-trackpad-settings.png)
 
 ## Get started
 
-1. **[Download the Windows installer (1.6.7)](https://github.com/vax1ne0/magic-trackpad-setup/releases/download/v1.6.7/Magic-Trackpad-Setup-1.6.7-x64.msi)** and run it.
+1. **[Download the Windows installer (1.7.0)](https://github.com/vax1ne0/magic-trackpad-setup/releases/download/v1.7.0/Magic-Trackpad-Setup-1.7.0-x64.msi)** and run it.
 2. **Connect your trackpad.** Plug it in with a USB data cable, or unplug the cable and pair it under **Settings → Bluetooth & devices → Add device → Magic Trackpad**.
 3. **Enjoy your full Magic Trackpad experience.** Try a two-finger scroll or pinch to zoom.
 
 ## Turn your trackpad into a keyboard
 
-![Concept render of a black Magic Trackpad with an illuminated QWERTY layout](docs/trackpad-keyboard-concept.png)
+<a href="docs/trackpad-keyboard-concept.png"><img src="docs/trackpad-keyboard-concept.png" alt="Concept render of a black Magic Trackpad with an illuminated QWERTY layout" width="440"></a>
 
 *Keyboard concept mockup. The app displays the live key layout on your screen.*
 
-The development version adds a full QWERTY keyboard to the surface of your Magic Trackpad. Rest a finger on the glass and the matching key lights up on a floating keyboard. Slide to find the key you want, then click to type. The overlay follows the proportions of the trackpad, so you can learn the layout by feel. A sticker is optional.
+Turn the surface of your Magic Trackpad into a full QWERTY keyboard. Rest a finger on the glass and the matching key lights up on a floating keyboard. Slide to find the key you want, then click to type. The overlay follows the proportions of the trackpad, so you can learn the layout by feel. A sticker is optional.
 
 1. Open **Keyboard** and turn on **Sticker keyboard**. Click the **top-right corner of the trackpad** to start typing. Click it again to bring back the pointer.
 2. Try the practice box, or enable **Type in other apps** to use your editor or chat. Hold a click to repeat a key. For shortcuts, rest one finger on **Shift**, **Ctrl**, **Alt**, or **Win** and press another key. Try **Shift + 2** for **@** or **Ctrl + C** to copy a selection.
@@ -31,8 +31,6 @@ If you prefer a physical guide, print the [A4 keyboard template](docs/trackpad-k
 ## Five-finger gestures
 
 Open **Trackpad → Extra gestures** and enable **Five-finger gestures**. By default, tap with five fingers to play or pause, swipe left or right to change tracks, and slide up or down to adjust volume. A longer vertical slide changes the volume further. Each gesture has its own action picker, including **Nothing**. Gestures work while another app has focus as long as the control panel stays open.
-
-The keyboard and five-finger gestures are available in the [development source](docs/technical-details.md). The **1.6.7** installer predates both features.
 
 ## Features
 
