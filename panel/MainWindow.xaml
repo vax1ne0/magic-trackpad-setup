@@ -153,17 +153,17 @@
                             <Border Style="{StaticResource SettingsIconTileStyle}">
                                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE815;" FontSize="20"/>
                             </Border>
-                            <TextBlock Text="Extra gestures" Style="{StaticResource CardTitleStyle}" VerticalAlignment="Center" Margin="0"/>
+                            <TextBlock x:Name="GestureTitle" Text="Extra gestures" Style="{StaticResource CardTitleStyle}" VerticalAlignment="Center" Margin="0"/>
                         </StackPanel>
                     </Expander.Header>
                     <StackPanel Spacing="12">
                         <ToggleSwitch x:Name="EdgeSwitch" Header="Edge sliders" Toggled="InputOptionChanged"/>
-                        <TextBlock Text="In trackpad mode, slide one finger along the left edge for screen brightness or the right edge for volume. The bottom is 0% and the top is 100%." TextWrapping="Wrap" Style="{StaticResource CaptionTextBlockStyle}"/>
+                        <TextBlock x:Name="EdgeHelp" Text="In trackpad mode, slide one finger along the left edge for screen brightness or the right edge for volume. The bottom is 0% and the top is 100%." TextWrapping="Wrap" Style="{StaticResource CaptionTextBlockStyle}"/>
                         <TextBlock x:Name="EdgeStatus" Visibility="Collapsed" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="Wrap"/>
                         <ToggleSwitch x:Name="MediaSwitch" Header="Five-finger gestures" Toggled="InputOptionChanged"/>
                         <StackPanel x:Name="GestureRows"/>
                         <TextBlock x:Name="GuardInfo" Style="{StaticResource CaptionTextBlockStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" TextWrapping="Wrap"/>
-                        <HyperlinkButton Content="Three- and four-finger settings in Windows" Click="TouchpadSettingsButton_Click"/>
+                        <HyperlinkButton x:Name="WindowsGestureLink" Content="Three- and four-finger settings in Windows" Click="TouchpadSettingsButton_Click"/>
                         <TextBlock x:Name="MediaFeedback" AutomationProperties.LiveSetting="Polite" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="Wrap"/>
                     </StackPanel>
                 </local:SectionExpander>
@@ -264,27 +264,27 @@
                     <Grid ColumnSpacing="8">
                         <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
                         <TextBlock Text="•" AutomationProperties.AccessibilityView="Raw"/>
-                        <TextBlock Grid.Column="1" TextWrapping="Wrap"><Run FontWeight="SemiBold" Text="Switch modes. "/><Run Text="Click the top-right corner to switch between typing and pointing."/></TextBlock>
+                        <TextBlock Grid.Column="1" TextWrapping="Wrap"><Run x:Name="ModeTitle" FontWeight="SemiBold" Text="Switch modes. "/><Run x:Name="ModeHelp" Text="Click the top-right corner to switch between typing and pointing."/></TextBlock>
                     </Grid>
                     <Grid ColumnSpacing="8">
                         <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
                         <TextBlock Text="•" AutomationProperties.AccessibilityView="Raw"/>
-                        <TextBlock Grid.Column="1" TextWrapping="Wrap"><Run FontWeight="SemiBold" Text="Point and scroll. "/><Run Text="With two-finger pointing enabled, move two fingers to use the pointer while typing. Keep them down, add a third finger, then slide up or down to scroll. Lift all fingers to resume typing."/></TextBlock>
+                        <TextBlock Grid.Column="1" TextWrapping="Wrap"><Run x:Name="PointerTitle" FontWeight="SemiBold" Text="Point and scroll. "/><Run x:Name="PointerHelp" Text="With two-finger pointing enabled, move two fingers to use the pointer while typing. Keep them down, add a third finger, then slide up or down to scroll. Lift all fingers to resume typing."/></TextBlock>
                     </Grid>
                     <Grid ColumnSpacing="8">
                         <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
                         <TextBlock Text="•" AutomationProperties.AccessibilityView="Raw"/>
-                        <TextBlock Grid.Column="1" TextWrapping="Wrap"><Run FontWeight="SemiBold" Text="Move the overlay. "/><Run Text="Hold a click in that corner, then drag the handle. Click or hold the corner again to resume typing."/></TextBlock>
+                        <TextBlock Grid.Column="1" TextWrapping="Wrap"><Run x:Name="MoveTitle" FontWeight="SemiBold" Text="Move the overlay. "/><Run x:Name="MoveHelp" Text="Hold a click in that corner, then drag the handle. Click or hold the corner again to resume typing."/></TextBlock>
                     </Grid>
                     <Grid ColumnSpacing="8">
                         <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
                         <TextBlock Text="•" AutomationProperties.AccessibilityView="Raw"/>
-                        <TextBlock Grid.Column="1" TextWrapping="Wrap"><Run FontWeight="SemiBold" Text="Use shortcuts. "/><Run Text="Rest one finger on Shift, Ctrl, Alt, or Win and press another key."/></TextBlock>
+                        <TextBlock Grid.Column="1" TextWrapping="Wrap"><Run x:Name="ShortcutTitle" FontWeight="SemiBold" Text="Use shortcuts. "/><Run x:Name="ShortcutHelp" Text="Rest one finger on Shift, Ctrl, Alt, or Win and press another key."/></TextBlock>
                     </Grid>
                     <Grid ColumnSpacing="8">
                         <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
                         <TextBlock Text="•" AutomationProperties.AccessibilityView="Raw"/>
-                        <TextBlock Grid.Column="1" TextWrapping="Wrap"><Run FontWeight="SemiBold" Text="Return to pointing. "/><Run Text="Press Ctrl+Alt+F10 on your physical keyboard."/></TextBlock>
+                        <TextBlock Grid.Column="1" TextWrapping="Wrap"><Run x:Name="RestorePointerTitle" FontWeight="SemiBold" Text="Return to pointing. "/><Run x:Name="RestorePointerHelp" Text="Press Ctrl+Alt+F10 on your physical keyboard."/></TextBlock>
                     </Grid>
                 </StackPanel>
             </Border>
@@ -297,7 +297,7 @@
                         <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
                         <StackPanel Spacing="2">
                             <Slider x:Name="OverlayTransparency" Header="Transparency" Minimum="0" Maximum="90" StepFrequency="1" ValueChanged="OverlayAppearanceChanged"/>
-                            <TextBlock Text="Higher makes the keyboard more see-through." Style="{StaticResource CaptionTextBlockStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" TextWrapping="Wrap"/>
+                            <TextBlock x:Name="TransparencyHelp" Text="Higher makes the keyboard more see-through." Style="{StaticResource CaptionTextBlockStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" TextWrapping="Wrap"/>
                         </StackPanel>
                         <TextBlock x:Name="TransparencyValue" Grid.Column="1" VerticalAlignment="Center"/>
                     </Grid>
@@ -306,7 +306,7 @@
                         <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
                         <StackPanel Spacing="2">
                             <Slider x:Name="IdleAmount" IsEnabled="{Binding IsOn, ElementName=FadeIdle}" Header="Idle dimming" Minimum="10" Maximum="95" StepFrequency="1" ValueChanged="IdleAppearanceChanged"/>
-                            <TextBlock Text="Higher makes the keyboard more see-through when you're not using it" Style="{StaticResource CaptionTextBlockStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" TextWrapping="Wrap"/>
+                            <TextBlock x:Name="IdleHelp" Text="Higher makes the keyboard more see-through when you're not using it" Style="{StaticResource CaptionTextBlockStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" TextWrapping="Wrap"/>
                         </StackPanel>
                         <TextBlock x:Name="IdleAmountValue" Grid.Column="1" VerticalAlignment="Center"/>
                     </Grid>
@@ -314,7 +314,7 @@
                         <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
                         <StackPanel Spacing="2">
                             <Slider x:Name="IdleDuration" IsEnabled="{Binding IsOn, ElementName=FadeIdle}" Header="Fade duration" Minimum="200" Maximum="2000" StepFrequency="50" ValueChanged="IdleAppearanceChanged"/>
-                            <TextBlock Text="Higher makes idle dimming take more time to work." Style="{StaticResource CaptionTextBlockStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" TextWrapping="Wrap"/>
+                            <TextBlock x:Name="DurationHelp" Text="Higher makes idle dimming take more time to work." Style="{StaticResource CaptionTextBlockStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" TextWrapping="Wrap"/>
                         </StackPanel>
                         <TextBlock x:Name="IdleDurationValue" Grid.Column="1" VerticalAlignment="Center"/>
                     </Grid>
@@ -322,7 +322,7 @@
                         <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
                         <StackPanel Spacing="2">
                             <Slider x:Name="OverlayScale" Header="Scale" Minimum="50" Maximum="150" StepFrequency="1" ValueChanged="OverlayAppearanceChanged"/>
-                            <TextBlock Text="Higher makes the keyboard larger." Style="{StaticResource CaptionTextBlockStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" TextWrapping="Wrap"/>
+                            <TextBlock x:Name="ScaleHelp" Text="Higher makes the keyboard larger." Style="{StaticResource CaptionTextBlockStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" TextWrapping="Wrap"/>
                         </StackPanel>
                         <TextBlock x:Name="ScaleValue" Grid.Column="1" VerticalAlignment="Center"/>
                     </Grid>

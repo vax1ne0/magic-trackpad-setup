@@ -14,8 +14,8 @@ public sealed partial class MainWindow
     {
         Activate();
         if(Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopupsForXamlRoot(RootGrid.XamlRoot).Count!=0)return;
-        await ShowMessageAsync("Magic Trackpad is already open",
-            "Save any changes, then close Settings and open the other build again.");
+        await ShowMessageAsync(T("App.AlreadyOpen","Magic Trackpad is already open"),
+            T("App.Reopen","Save any changes, then close Settings and open the other build again."));
     }
     bool checkingUpdate;
     bool scheduled;

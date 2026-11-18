@@ -62,7 +62,6 @@ public sealed partial class MainWindow
         surface.ModeEnabled=KeyboardSwitch.IsOn;
         surface.Keyboard=false;
         surface.TapMode=TapSwitch.IsChecked==true;
-        InitializeGestureRows();
         parking=new PointerParking(ExitKeyboardMode);
         surface.EdgeContactChanged=parking.HoldEdgeCursor;
         surface.NormalPointerSample=parking.ObserveNormalPointer;
@@ -122,10 +121,12 @@ public sealed partial class MainWindow
     }
     void InitializeGestureRows()
     {
+        GestureRows.Children.Clear();
         string[] actions = ["Nothing", "Play / pause", "Previous track", "Next track", "Volume up", "Volume down"];
         foreach (var gesture in Enum.GetValues<Surface.Gesture>())
         {
             string label = gesture == Surface.Gesture.Tap ? "Tap" : "Swipe " + gesture.ToString().ToLowerInvariant();
+            label=T("Gesture."+gesture,label);
             string preference = "FiveFinger" + gesture;
             string saved = AppPreferences.ReadText(preference, surface.Actions[gesture]);
             if (actions.Contains(saved)) surface.Actions[gesture] = saved;
@@ -134,13 +135,19 @@ public sealed partial class MainWindow
             row.ColumnDefinitions.Add(new ColumnDefinition());
             row.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             row.Children.Add(new TextBlock { Text = label, VerticalAlignment = VerticalAlignment.Center });
-            var picker = new ComboBox { Width = 154, ItemsSource = actions, SelectedItem = surface.Actions[gesture],
+            var picker = new ComboBox { MinWidth = 154,
                 HorizontalAlignment = HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Center };
+            foreach(string action in actions)
+            {
+                var item=new ComboBoxItem{Content=GestureActionLabel(action),Tag=action};
+                picker.Items.Add(item);
+                if(action==surface.Actions[gesture])picker.SelectedItem=item;
+            }
             Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(picker, label);
             Microsoft.UI.Xaml.Automation.AutomationProperties.SetAutomationId(picker, preference);
             picker.SelectionChanged += (_, _) =>
             {
-                if (picker.SelectedItem is not string action) return;
+                if (picker.SelectedItem is not ComboBoxItem { Tag: string action }) return;
                 surface.Actions[gesture] = action;
                 AppPreferences.Set(preference, action);
             };
@@ -150,6 +157,8 @@ public sealed partial class MainWindow
                 BorderBrush = (Brush)Application.Current.Resources["DividerStrokeColorDefaultBrush"] });
         }
     }
+
+    static string GestureActionLabel(string action)=>T("Gesture.Action."+action,action);
 
     bool KeyboardSelected => Pages.SelectedItem == KeyboardTab;
     KeyboardOverlay? overlay;
@@ -187,7 +196,7 @@ public sealed partial class MainWindow
     {
         TransparencyValue.Text=$"{OverlayTransparency.Value:0}%";
         IdleAmountValue.Text=$"{IdleAmount.Value:0}%";
-        IdleDurationValue.Text=$"{IdleDuration.Value/1000:0.##} s";
+        IdleDurationValue.Text=$"{IdleDuration.Value/1000:0.##} {T("Input.Seconds","s")}";
         ScaleValue.Text=$"{OverlayScale.Value:0}%";
     }
 
@@ -387,10 +396,16 @@ public sealed partial class MainWindow
             });
             swipeGuard=SwipeGuard.Open();
             surface.GuardFourFingerSwipe=active=>swipeGuard?.Set(active);
-            GuardInfo.Text=swipeGuard==null?"Windows manages four-finger swipes on this PC.":
-                "Four-finger swipe protection works while this window is in front. Windows handles four-finger swipes in other apps.";
-        }catch(InvalidOperationException ex){MediaFeedback.Text=ex.Message;ShowKeyboardError(ex.Message);}
+            UpdateGestureHint();
+        }catch(InvalidOperationException ex){MediaFeedback.Text=T("InputError."+ex.Message,ex.Message);ShowKeyboardError(ex.Message);}
     }
+    void UpdateGestureHint()
+    {
+        GuardInfo.Text=touchInput==null ? "" : swipeGuard==null
+            ? T("Gesture.SystemGuard","Windows manages four-finger swipes on this PC.")
+            : T("Gesture.WindowGuard","Four-finger swipe protection works while this window is in front. Windows handles four-finger swipes in other apps.");
+    }
+
     void ReceiveFrame(byte[] data,int offset)
     {
         bool keys=surface.ModeEnabled && !surface.Positioning;
@@ -416,7 +431,7 @@ public sealed partial class MainWindow
     }
     void ShowKeyboardError(string message)
     {
-        KeyboardError.Message=message;
+        KeyboardError.Message=T("InputError."+message,message);
         KeyboardError.IsOpen=true;
     }
 
@@ -425,7 +440,7 @@ public sealed partial class MainWindow
         bool media=name is "Play / pause" or "Previous track" or "Next track" or "Volume up" or "Volume down";
         if(!media && KeyboardSelected && GetForegroundWindow()==inputWindow)Practice.Focus(FocusState.Programmatic);
         string result=keyOutput.Send(name,StickerKey.ModifierCode(surface.ModifierContact?.Name));
-        if(media)MediaFeedback.Text=result;
+        if(media)MediaFeedback.Text=result==name ? GestureActionLabel(name) : T("InputError."+result,result);
         else if(result is "Windows declined key input" or "Unknown key")ShowKeyboardError(result);
     }
 }

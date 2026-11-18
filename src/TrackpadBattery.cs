@@ -38,7 +38,7 @@ internal sealed class RuntimeEstimate
         {
             last = -1;
             anchor = DateTime.MinValue;
-            return connection == "USB" ? "Connected by USB" : "Time remaining unavailable";
+            return connection == "USB" ? TrayText.Get("USB","Connected by USB") : TrayText.Get("NoTime","Time remaining unavailable");
         }
         var gap = now - previous;
         if (last < 0 || gap.TotalSeconds > 100 || gap.TotalSeconds < 0 || level > last)
@@ -65,11 +65,11 @@ internal sealed class RuntimeEstimate
         }
         previous = now;
         last = level;
-        if (level == 0) return "Battery empty";
-        if (points < 5 || seconds < 3600) return "Estimating battery life";
+        if (level == 0) return TrayText.Get("Empty","Battery empty");
+        if (points < 5 || seconds < 3600) return TrayText.Get("Estimating","Estimating battery life");
         double hours = level * (double)seconds / (3600 * points);
-        return hours < 1 ? "About " + Math.Max(1, Math.Round(hours * 60)) + " min left"
-            : "About " + Math.Round(hours) + " h left";
+        return hours < 1 ? string.Format(TrayText.Get("Minutes","About {0} min left"), Math.Max(1, Math.Round(hours * 60)))
+            : string.Format(TrayText.Get("Hours","About {0} h left"), Math.Round(hours));
     }
 }
 
@@ -98,14 +98,20 @@ internal sealed class TrayApp : ApplicationContext
         menu.Items.Add(runtime);
         menu.Items.Add(updated);
         menu.Items.Add(new ToolStripSeparator());
-        menu.Items.Add("Check battery now", null, delegate { Refresh(); });
-        menu.Items.Add("Trackpad settings", null, delegate
+        var refreshItem=menu.Items.Add("Check battery now", null, delegate { Refresh(); });
+        var settingsItem=menu.Items.Add("Trackpad settings", null, delegate
         {
             if (!PanelSignals.Send(PanelSignals.Show)) Open(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 "MagicTrackpadSetup.exe"));
         });
         menu.Items.Add(new ToolStripSeparator());
-        menu.Items.Add("Quit", null, delegate { PanelSignals.Send(PanelSignals.Quit); ExitThread(); });
+        var quitItem=menu.Items.Add("Quit", null, delegate { PanelSignals.Send(PanelSignals.Quit); ExitThread(); });
+        menu.Opening += delegate {
+            menu.RightToLeft=TrayText.IsArabic ? RightToLeft.Yes : RightToLeft.No;
+            refreshItem.Text=TrayText.Get("Refresh","Check battery now");
+            settingsItem.Text=TrayText.Get("Settings","Trackpad settings");
+            quitItem.Text=TrayText.Get("Quit","Quit");
+        };
         tray.ContextMenuStrip = menu;
         tray.DoubleClick += delegate { Refresh(); };
         timer.Interval = 15000;
@@ -149,7 +155,7 @@ internal sealed class TrayApp : ApplicationContext
                         return;
                     }
                     status.Text = "Magic Trackpad: " + reading;
-                    updated.Text = "Last checked " + DateTime.Now.ToString("t");
+                    updated.Text = string.Format(TrayText.Get("Checked","Last checked {0}"),DateTime.Now.ToString("t"));
                     runtime.Text = remaining;
                     tray.Text = "Magic Trackpad: " + reading + "\n" + remaining;
                     SetIcon(level);
@@ -160,7 +166,7 @@ internal sealed class TrayApp : ApplicationContext
                         AppPreferences.Enabled(AppPreferences.LowBatteryAlert, true))
                     {
                         warnedLow = true;
-                        tray.ShowBalloonTip(5000, "Magic Trackpad", "Low battery (" + level + "%).", ToolTipIcon.Info);
+                        tray.ShowBalloonTip(5000, "Magic Trackpad", string.Format(TrayText.Get("Low","Low battery ({0}%)."),level), ToolTipIcon.Info);
                     }
                 });
             }

@@ -39,13 +39,13 @@ internal sealed class EdgeLevels : IDisposable
                     }
                     else SetBrightness(level);
                     SystemFlyout.Refresh(control);
-                    status($"{control} {level}%");
+                    status($"{LocalizationManager.GetString("Edge."+control,control.ToString())} {level}%");
                 }
                 catch(Exception ex) when(ex is ManagementException or System.Runtime.InteropServices.COMException
                     or UnauthorizedAccessException or InvalidOperationException)
                 {
-                    status(control==Surface.EdgeControl.Volume ? "Volume is unavailable for this audio output." :
-                        "Windows could not adjust brightness on this display.");
+                    status(control==Surface.EdgeControl.Volume ? LocalizationManager.GetString("Edge.NoVolume","Volume is unavailable for this audio output.") :
+                        LocalizationManager.GetString("Edge.NoBrightness","Windows could not adjust brightness on this display."));
                 }
                 await Task.Delay(65,token);
             }

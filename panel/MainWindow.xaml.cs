@@ -213,6 +213,44 @@ namespace AmtPtpControlPanel.WinUI3
             RootGrid.FlowDirection = language == "ar" ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
             Title = T("Main", "Magic Trackpad");
             TitleText.Text = Title;
+            SettingsTab.Text = T("Input.SettingsTab", "Trackpad");
+            KeyboardTab.Text = T("Input.KeyboardTab", "Keyboard");
+            GestureTitle.Text = T("Input.GestureTitle", "Extra gestures");
+            EdgeSwitch.Header = T("Input.EdgeSwitch", "Edge sliders");
+            EdgeHelp.Text = T("Input.EdgeHelp", "In trackpad mode, slide one finger along the left edge for screen brightness or the right edge for volume. The bottom is 0% and the top is 100%.");
+            MediaSwitch.Header = T("Input.MediaSwitch", "Five-finger gestures");
+            WindowsGestureLink.Content = T("Input.WindowsGestureLink", "Three- and four-finger settings in Windows");
+            KeyboardSwitch.Header = T("Input.KeyboardSwitch", "Sticker keyboard");
+            ModeTitle.Text = T("Input.ModeTitle", "Switch modes.") + " ";
+            ModeHelp.Text = T("Input.ModeHelp", "Click the top-right corner to switch between typing and pointing.");
+            PointerTitle.Text = T("Input.PointerTitle", "Point and scroll.") + " ";
+            PointerHelp.Text = T("Input.PointerHelp", "With two-finger pointing enabled, move two fingers to use the pointer while typing. Keep them down, add a third finger, then slide up or down to scroll. Lift all fingers to resume typing.");
+            MoveTitle.Text = T("Input.MoveTitle", "Move the overlay.") + " ";
+            MoveHelp.Text = T("Input.MoveHelp", "Hold a click in that corner, then drag the handle. Click or hold the corner again to resume typing.");
+            ShortcutTitle.Text = T("Input.ShortcutTitle", "Use shortcuts.") + " ";
+            ShortcutHelp.Text = T("Input.ShortcutHelp", "Rest one finger on Shift, Ctrl, Alt, or Win and press another key.");
+            RestorePointerTitle.Text = T("Input.RestorePointerTitle", "Return to pointing.") + " ";
+            RestorePointerHelp.Text = T("Input.RestorePointerHelp", "Press Ctrl+Alt+F10 on your physical keyboard.");
+            TapSwitch.Content = T("Input.TapSwitch", "Tap to type");
+            CursorGesture.Content = T("Input.CursorGesture", "Use two fingers to point, click, and drag in keyboard mode");
+            OverlayButton.Content = T("Input.OverlayButton", "Floating keyboard");
+            PositionButton.Content = T("Input.PositionButton", "Position overlay");
+            OverlayTransparency.Header = T("Input.OverlayTransparency", "Transparency");
+            TransparencyHelp.Text = T("Input.TransparencyHelp", "Higher makes the keyboard more see-through.");
+            FadeIdle.Header = T("Input.FadeIdle", "Fade when idle");
+            IdleAmount.Header = T("Input.IdleAmount", "Idle dimming");
+            IdleHelp.Text = T("Input.IdleHelp", "Higher makes the keyboard more see-through when you're not using it");
+            IdleDuration.Header = T("Input.IdleDuration", "Fade duration");
+            DurationHelp.Text = T("Input.DurationHelp", "Higher makes idle dimming take more time to work.");
+            OverlayScale.Header = T("Input.OverlayScale", "Scale");
+            ScaleHelp.Text = T("Input.ScaleHelp", "Higher makes the keyboard larger.");
+            Practice.PlaceholderText = T("Input.Practice", "Try typing here");
+            Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(GesturesSection, GestureTitle.Text);
+            InitializeGestureRows();
+            UpdateGestureHint();
+            UpdateAppearanceLabels();
+            MediaFeedback.Text = "";
+            EdgeStatus.Visibility = Visibility.Collapsed;
 
             ClickFeedbackTitle.Text = T("Section.ClickFeedbackMacOS", "Click feel");
             MacOSClickOptions.Content = T("ctlMacOSClickOptions", "Adjust click strength");
@@ -246,15 +284,18 @@ namespace AmtPtpControlPanel.WinUI3
             AllowNonAdminAccessText.Text = T("ctlAllowNonAdminAccess", "Allow other apps to control haptics without administrator access");
             AppSettingsTitle.Text = T("App.Title", "App settings");
             StartupSwitch.Header = T("Startup.Title", "Open at startup");
-            if (language == "ar")
+            foreach(var toggle in new[]{StartupSwitch,EdgeSwitch,MediaSwitch,KeyboardSwitch,FadeIdle})
             {
-                StartupSwitch.OnContent = T("Startup.On", "On");
-                StartupSwitch.OffContent = T("Startup.Off", "Off");
-            }
-            else
-            {
-                StartupSwitch.ClearValue(ToggleSwitch.OnContentProperty);
-                StartupSwitch.ClearValue(ToggleSwitch.OffContentProperty);
+                if (language == "ar")
+                {
+                    toggle.OnContent = T("Startup.On", "On");
+                    toggle.OffContent = T("Startup.Off", "Off");
+                }
+                else
+                {
+                    toggle.ClearValue(ToggleSwitch.OnContentProperty);
+                    toggle.ClearValue(ToggleSwitch.OffContentProperty);
+                }
             }
             StartupHint.Text = T("Startup.Hint", "Show the battery beside the clock when you sign in. The settings window opens when you need it.");
             Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(AppSection, AppSettingsTitle.Text);
