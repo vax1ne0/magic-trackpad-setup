@@ -15,6 +15,9 @@ internal static class AppUpdates
     static readonly HttpClient Client = new() { Timeout = TimeSpan.FromMinutes(10) };
     internal static readonly Version Current = new(typeof(AppUpdates).Assembly.GetName().Version!.ToString(3));
 
+    [System.Runtime.InteropServices.DllImport("user32")]
+    static extern bool AllowSetForegroundWindow(int processId);
+
     static AppUpdates() => Client.DefaultRequestHeaders.UserAgent.ParseAdd("MagicTrackpad/" + Current);
 
     internal static async Task<AppRelease?> Check(CancellationToken token)
@@ -142,6 +145,7 @@ internal static class AppUpdates
         start.Environment["TRACKPAD_PANEL_PID"] = Environment.ProcessId.ToString();
         start.Environment["TRACKPAD_BACKGROUND"] = background ? "1" : "0";
         start.Environment["TRACKPAD_START_TRAY"] = startTray ? "1" : "0";
-        Process.Start(start)!.Dispose();
+        using var helper=Process.Start(start)!;
+        if(!background)AllowSetForegroundWindow(helper.Id);
     }
 }

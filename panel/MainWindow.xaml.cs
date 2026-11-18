@@ -16,8 +16,13 @@ namespace AmtPtpControlPanel.WinUI3
     {
         private bool _updatingLanguageCombo;
 
-        public MainWindow()
+        private bool showUpdateSummary;
+        [System.Runtime.InteropServices.DllImport("user32")]
+        private static extern bool SetForegroundWindow(nint hwnd);
+
+        public MainWindow(bool updated=false)
         {
+            showUpdateSummary=updated;
             InitializeComponent();
             Closed += (_, _) => { updateLifetime.Cancel(); DiscardUpdate(); };
 
@@ -53,6 +58,22 @@ namespace AmtPtpControlPanel.WinUI3
             BatteryAlert.IsChecked = AppPreferences.Enabled(AppPreferences.LowBatteryAlert, true);
             ShowTrackpadSettings(SettingsService.Load(), AppPreferences.Enabled(AppPreferences.IndependentRelease, false));
 
+            if(showUpdateSummary)
+            {
+                showUpdateSummary=false;
+                AppSection.IsExpanded=true;
+                AppWindow.Show();
+                AppWindow.MoveInZOrderAtTop();
+                Activate();
+                SetForegroundWindow(WinRT.Interop.WindowNative.GetWindowHandle(this));
+                string version=AppUpdates.Current.ToString();
+                if(AppPreferences.ReadText("LastUpdateSummary","")!=version)
+                {
+                    AppPreferences.Set("LastUpdateSummary",version);
+                    await ShowMessageAsync(string.Format(T("Update.Installed","Updated to {0}"),version),
+                        T("Update.Notes."+version,T("Update.Complete","Your update is ready.")));
+                }
+            }
             await UpdateBatteryAsync(showErrorOnFailure: false);
         }
 
@@ -95,7 +116,7 @@ namespace AmtPtpControlPanel.WinUI3
             catch (Exception ex)
             {
                 LoadStartupPreference();
-                await ShowErrorAsync(T("Startup.Title", "Open at startup"), ex.Message);
+                await ShowMessageAsync(T("Startup.Title", "Open at startup"), ex.Message);
             }
         }
         private async void BatteryAlert_Click(object sender, RoutedEventArgs e)
@@ -104,7 +125,7 @@ namespace AmtPtpControlPanel.WinUI3
             catch (Exception ex)
             {
                 BatteryAlert.IsChecked = BatteryAlert.IsChecked != true;
-                await ShowErrorAsync(Title, ex.Message);
+                await ShowMessageAsync(Title, ex.Message);
             }
         }
 
@@ -281,7 +302,7 @@ namespace AmtPtpControlPanel.WinUI3
             }
             catch (Exception ex)
             {
-                await ShowErrorAsync(T("Message.Error", "Error"), ex.Message);
+                await ShowMessageAsync(T("Message.Error", "Error"), ex.Message);
             }
             finally
             {
@@ -450,7 +471,7 @@ namespace AmtPtpControlPanel.WinUI3
                 BatteryProgressBar.Value = 0;
                 BatteryTitle.Text = T("Section.Battery", "Battery");
                 BatteryStatusText.Text = T("Message.NoDevice", "Connect your trackpad, then refresh.");
-                if (showErrorOnFailure) await ShowErrorAsync(T("Main", "Magic Trackpad"), BatteryStatusText.Text);
+                if (showErrorOnFailure) await ShowMessageAsync(T("Main", "Magic Trackpad"), BatteryStatusText.Text);
             }
             finally { UpdateBatteryButton.IsEnabled = true; }
         }
@@ -518,7 +539,7 @@ namespace AmtPtpControlPanel.WinUI3
 
                 if (!TryReadInt(StopPressureValue, out s.StopPressure) || s.StopPressure < 0)
                 {
-                    await ShowErrorAsync(
+                    await ShowMessageAsync(
                         T("Message.Error", "Error"),
                         T("Message.PressureInvalid", "Pressure must be greater than or equal to 0."));
                     return false;
@@ -530,7 +551,7 @@ namespace AmtPtpControlPanel.WinUI3
 
                 if (!TryReadInt(StopSizeValue, out s.StopSize) || s.StopSize < 0)
                 {
-                    await ShowErrorAsync(
+                    await ShowMessageAsync(
                         T("Message.Error", "Error"),
                         T("Message.SizeInvalid", "Size must be greater than or equal to 0."));
                     return false;
@@ -552,7 +573,7 @@ namespace AmtPtpControlPanel.WinUI3
             }
             catch (Exception ex)
             {
-                await ShowErrorAsync(
+                await ShowMessageAsync(
                     T("Message.Error", "Error"),
                     string.Format(T("Message.RegistryWriteError", "Error writing to the registry: {0}"), ex.Message));
                 return false;
@@ -571,7 +592,7 @@ namespace AmtPtpControlPanel.WinUI3
             return true;
         }
 
-        private async Task ShowErrorAsync(string title, string message)
+        private async Task ShowMessageAsync(string title, string message)
         {
             ContentDialog dialog = new ContentDialog
             {

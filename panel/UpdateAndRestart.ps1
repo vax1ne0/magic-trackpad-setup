@@ -5,6 +5,7 @@ $panel = Join-Path $root 'Panel\AmtPtpControlPanel.WinUI3.exe'
 $tray = Join-Path $root 'TrackpadBattery.exe'
 $session = [Diagnostics.Process]::GetCurrentProcess().SessionId
 $hadTray = $false
+$installed = $false
 try {
     $parent = Get-Process -Id $env:TRACKPAD_PANEL_PID -ErrorAction SilentlyContinue
     if ($parent -and $parent.Path -eq $panel -and !$parent.WaitForExit(20000)) { throw 'The settings window is still open.' }
@@ -17,6 +18,7 @@ try {
         $installer = Join-Path ([Environment]::SystemDirectory) 'msiexec.exe'
         $result = Start-Process $installer -ArgumentList @('/i', ('"' + $file + '"'), '/quiet', '/norestart', 'ADDLOCAL=Main,App') -Wait -PassThru
         if ($result.ExitCode -notin 0,3010) { throw "Windows Installer returned $($result.ExitCode)." }
+        $installed = $true
         if ($result.ExitCode -eq 3010) {
             Add-Type -AssemblyName System.Windows.Forms
             [void][Windows.Forms.MessageBox]::Show('Restart Windows to finish updating Magic Trackpad.', 'Magic Trackpad')
@@ -30,6 +32,13 @@ try {
         [IO.File]::Delete($file)
         [IO.Directory]::Delete([IO.Path]::GetDirectoryName($file))
     } catch [IO.IOException] { }
-    if ($env:TRACKPAD_BACKGROUND -ne "1" -and (Test-Path -LiteralPath $panel)) { Start-Process -FilePath $panel }
+    $env:TRACKPAD_UPDATE_SHA = $null
     if (($hadTray -or $env:TRACKPAD_START_TRAY -eq "1") -and (Test-Path -LiteralPath $tray)) { Start-Process -FilePath $tray -ArgumentList "--resume" -WindowStyle Hidden }
+    if ($env:TRACKPAD_BACKGROUND -ne '1' -and (Test-Path -LiteralPath $panel)) {
+        Add-Type -TypeDefinition 'using System.Runtime.InteropServices; public static class UpdateFocus { [DllImport("user32")] public static extern bool AllowSetForegroundWindow(int id); }'
+        $launch = @{ FilePath = $panel; WindowStyle = 'Normal'; PassThru = $true }
+        if ($installed) { $launch.ArgumentList = '--updated' }
+        $settings = Start-Process @launch
+        try { [void][UpdateFocus]::AllowSetForegroundWindow($settings.Id) } finally { $settings.Dispose() }
+    }
 }

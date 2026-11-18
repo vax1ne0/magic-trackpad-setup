@@ -30,7 +30,12 @@ namespace AmtPtpControlPanel.WinUI3
                 Exit();
                 return;
             }
-            var window = new MainWindow();
+            // Older updaters start the new panel without arguments and pass the handoff in its environment.
+            bool legacyRestart = Environment.GetEnvironmentVariable("TRACKPAD_BACKGROUND") == "0"
+                && Environment.GetEnvironmentVariable("TRACKPAD_UPDATE_SHA") is { Length: 64 }
+                && string.Equals(root, Environment.GetEnvironmentVariable("TRACKPAD_UPDATE_ROOT"), StringComparison.OrdinalIgnoreCase);
+            Environment.SetEnvironmentVariable("TRACKPAD_UPDATE_SHA", null);
+            var window = new MainWindow(Environment.GetCommandLineArgs().Contains("--updated") || legacyRestart);
 
             // Set the size before activation so the window does not visibly
             // resize shortly after it appears.

@@ -184,6 +184,13 @@ internal sealed class Surface
                 CornerTimer?.Invoke(true);
             }
         }
+        if(Positioning)
+        {
+            Hover=ModifierContact=chordTap=null;
+            SetHeldKey(null);
+            if(count==0)Reset();
+            return;
+        }
         bool chord = count==2 && modifierCount==1 && otherKey!=null && otherKey!=mode && peak<=2;
         HasContacts=count>0;
         var previousModifier=ModifierContact;

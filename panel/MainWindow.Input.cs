@@ -130,6 +130,7 @@ public sealed partial class MainWindow
 
     void ApplyInputMode()
     {
+        if(surface.Positioning)ResetInput(keepModeContact:true);
         bool typing = surface.Keyboard && deviceReady && !surface.Positioning;
         UpdateOverlayVisibility();
         if (!typing)
