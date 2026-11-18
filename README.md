@@ -10,7 +10,7 @@ You can also [type directly on the trackpad](#turn-your-trackpad-into-a-keyboard
 
 ## Get started
 
-1. **[Download the Windows installer (1.7.9)](https://github.com/vax1ne0/magic-trackpad-setup/releases/download/v1.7.9/Magic-Trackpad-Setup-1.7.9-x64.msi)** and run it.
+1. **[Download the Windows installer (1.7.10)](https://github.com/vax1ne0/magic-trackpad-setup/releases/download/v1.7.10/Magic-Trackpad-Setup-1.7.10-x64.msi)** and run it.
 2. **Connect your trackpad.** Plug it in with a USB data cable, or unplug the cable and pair it under **Settings → Bluetooth & devices → Add device → Magic Trackpad**.
 3. **Enjoy your full Magic Trackpad experience.** Try a two-finger scroll or pinch to zoom.
 
@@ -22,9 +22,17 @@ You can also [type directly on the trackpad](#turn-your-trackpad-into-a-keyboard
 
 Turn the surface of your Magic Trackpad into a full QWERTY keyboard. Rest a finger on the glass and the matching key lights up on a floating keyboard. Slide to find the key you want, then click to type. The overlay follows the proportions of the trackpad, so you can learn the layout by feel. A sticker is optional.
 
-1. Open **Keyboard** and turn on **Sticker keyboard**. Click the **top-right corner of the trackpad** to start typing. Click it again, or press **Ctrl+Alt+F10** on your physical keyboard, to switch back to pointing.
-2. Try the practice box or type in your editor or chat. Closing Settings keeps Sticker keyboard available. Enable **Use two fingers to point, click, and drag in keyboard mode** to move the pointer with two fingers and physically click while both fingers rest on the glass. Keep the click held and move both fingers to select text or drag. A two-finger tap also left-clicks. While pointing, keep both fingers down and add a third. Slide up or down to scroll, then lift all fingers to resume typing. Hold a click to repeat a key. For shortcuts, rest one finger on **Shift**, **Ctrl**, **Alt**, or **Win** and press another key. Try **Shift + 2** for **@** or **Ctrl + C** to copy a selection.
-3. To move the floating keyboard, hold a click in the top-right corner until the pointer and drag handle appear. Drag the handle above the keyboard into place, then click or hold the corner again to resume typing. Under **Keyboard**, you can adjust scale and transparency, enable **Tap to type**, or adjust how far and how quickly the overlay fades when idle.
+Open **Keyboard** and turn on **Sticker keyboard**. Click the top-right corner of the trackpad to switch between typing and pointing. Closing Settings keeps the keyboard available in other apps.
+
+| In keyboard mode | What to do |
+| --- | --- |
+| Type | Rest a finger on a key to preview it, then click. Hold the click to repeat, or enable **Tap to type**. |
+| Use a shortcut | Rest one finger on **Shift**, **Ctrl**, **Alt**, or **Win**, then press another key. |
+| Point or drag | Enable **Use two fingers to point, click, and drag in keyboard mode**. Move two fingers to point, tap or click to select, or hold the click and move to drag. |
+| Scroll | Start pointing with two fingers, then add a third and slide up or down. The cursor stays visible and the overlay stays dim until you lift your fingers. |
+| Move the overlay | Hold a click in the top-right corner, drag the handle above the keyboard, then click the corner again to resume typing. |
+
+Under **Keyboard**, adjust overlay scale, transparency, and idle dimming. Press **Ctrl+Alt+F10** on your physical keyboard to return to pointing.
 
 If you prefer a physical guide, print the [A4 keyboard template](docs/trackpad-keyboard-a4.pdf) at **100% / Actual size**.
 
@@ -34,7 +42,7 @@ Open **Trackpad → Extra gestures** and enable **Five-finger gestures**. By def
 
 ## Features
 
-- **Edge sliders.** Turn on **Trackpad → Extra gestures → Edge sliders**. In trackpad mode, slide one finger along the left edge for built-in display brightness or the right edge for volume. Slide toward the top for 100% or the bottom for 0%. The Windows brightness or volume slider shows the level as you move. Brightness requires a display that Windows can adjust.
+- **Edge sliders.** Turn on **Trackpad → Extra gestures → Edge sliders**. In trackpad mode, slide one finger along the left edge for built-in display brightness or the right edge for volume. Slide toward the top for 100% or the bottom for 0%. The pointer stays in place while you slide, and the built-in Windows indicator shows the level. Lift your finger or move off the edge to resume pointing. Brightness requires a display that Windows can adjust.
 - **Installer choices.** The recommended setup includes the driver, control panel, and taskbar battery indicator. Choose **Driver only** if Windows touchpad settings are all you need. Leave **Launch Magic Trackpad** checked on the final page to open the app when setup finishes.
 - **Taskbar battery status.** Hover over the color-coded icon for the charge percentage and estimated hours left. The estimate learns from Bluetooth use. The icon hides when the trackpad disconnects. Under **App settings**, you can enable a 20% Bluetooth battery alert and turn on **Open at startup** to show the indicator when you sign in.
 - **In-app updates.** Open **App settings → Check for updates**. A compact progress bar shows the percentage downloaded, megabytes left, and speed in MB/s. When the download finishes, choose **Restart and update** or **Update on next launch**. The second option saves the download and applies it the next time you open Magic Trackpad, or when you sign in with **Open at startup** enabled. **Restart and update** brings Settings back with a short summary of what changed.

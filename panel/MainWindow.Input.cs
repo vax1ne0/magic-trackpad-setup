@@ -64,6 +64,7 @@ public sealed partial class MainWindow
         surface.TapMode=TapSwitch.IsChecked==true;
         InitializeGestureRows();
         parking=new PointerParking(ExitKeyboardMode);
+        surface.EdgeContactChanged=parking.HoldEdgeCursor;
         surface.NormalPointerSample=parking.ObserveNormalPointer;
         surface.PointerButton=parking.SetLeftButton;
         surface.PointerScroll=parking.Scroll;

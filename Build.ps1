@@ -1,9 +1,10 @@
 $ErrorActionPreference = 'Stop'
 Push-Location $PSScriptRoot
+$publishRoot = Join-Path $PSScriptRoot 'panel/bin/publish'
+$panelOutput = Join-Path $publishRoot ([Guid]::NewGuid().ToString())
 try {
     $version = ([xml](Get-Content panel/AmtPtpControlPanel.WinUI3.csproj -Raw)).Project.PropertyGroup.Version
     & ./Prepare-Payload.ps1
-    $panelOutput = Join-Path $PSScriptRoot ("panel/bin/publish/" + [Guid]::NewGuid())
     dotnet publish panel/AmtPtpControlPanel.WinUI3.csproj -c Release -p:PublishProfile=win-x64 -o $panelOutput
     if ($LASTEXITCODE) { throw 'Settings panel compilation failed' }
     & ./installer/PanelFiles.ps1 $panelOutput
@@ -18,4 +19,14 @@ try {
     $installerName = "Magic-Trackpad-Setup-$version-x64.msi"
     $digest = (Get-FileHash (Join-Path 'dist' $installerName) -Algorithm SHA256).Hash.ToLowerInvariant()
     "$digest  $installerName" | Set-Content dist/SHA256SUMS.txt -Encoding ascii
-} finally { Pop-Location }
+} finally {
+    try {
+        if (Test-Path -LiteralPath $panelOutput) {
+            $staging = Get-Item -LiteralPath $panelOutput
+            if ($staging.Parent.FullName -eq [IO.Path]::GetFullPath($publishRoot) -and
+                !($staging.Attributes -band [IO.FileAttributes]::ReparsePoint)) {
+                Remove-Item -LiteralPath $staging.FullName -Recurse -Force
+            }
+        }
+    } finally { Pop-Location }
+}

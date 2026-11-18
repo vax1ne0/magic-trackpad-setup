@@ -40,6 +40,7 @@ internal sealed class PointerParking : InputPopup
     [DllImport("user32")] static extern bool ClipCursor(in Rect rect);
     [DllImport("user32",EntryPoint="ClipCursor")] static extern bool ReleaseClip(nint none);
     [DllImport("user32")] static extern nint SetCursor(nint cursor);
+    [DllImport("user32")] static extern bool GetClipCursor(out Rect rect);
     [DllImport("user32")] static extern bool RegisterHotKey(nint hwnd,int id,uint modifiers,uint vk);
     [DllImport("user32")] static extern bool UnregisterHotKey(nint hwnd,int id);
     [DllImport("user32")] static extern bool SetLayeredWindowAttributes(nint hwnd,uint color,byte alpha,uint flags);
@@ -64,6 +65,25 @@ internal sealed class PointerParking : InputPopup
         // Consume precision pan messages on the parking window before Windows promotes them to wheel events.
         try { RegisterTouchpadCapableWindow(handle,true); } catch(EntryPointNotFoundException) { }
     }
+    Rect? edgeClip;
+    public void HoldEdgeCursor(bool hold)
+    {
+        if(!hold)
+        {
+            if(edgeClip is Rect saved && GetClipCursor(out var current) && current.Equals(saved))
+                ReleaseClip(0);
+            edgeClip=null;
+            return;
+        }
+        if(Active || edgeClip.HasValue || !GetCursorPos(out var p) || !GetClipCursor(out var bounds))return;
+        // Leave another application's cursor confinement alone.
+        int left=GetSystemMetrics(76),top=GetSystemMetrics(77);
+        if(bounds.Left!=left || bounds.Top!=top || bounds.Right!=left+GetSystemMetrics(78) ||
+            bounds.Bottom!=top+GetSystemMetrics(79))return;
+        var pixel=new Rect{Left=p.X,Top=p.Y,Right=p.X+1,Bottom=p.Y+1};
+        if(ClipCursor(in pixel))edgeClip=pixel;
+    }
+
     public PointerSpeed Speed { get; }=new();
     long lastMove;
     double fractionX,fractionY;
@@ -150,6 +170,7 @@ internal sealed class PointerParking : InputPopup
     public bool Engage()
     {
         if(Active) return true;
+        HoldEdgeCursor(false);
         if(!GetCursorPos(out var pt) || !RegisterHotKey(handle,1,0x4003,0x79)) return false;
         var bounds=new Rect {Left=pt.X,Top=pt.Y,Right=pt.X+1,Bottom=pt.Y+1};
         // Nonzero alpha keeps this one pixel hit-testable. Its mouse messages
@@ -196,5 +217,5 @@ internal sealed class PointerParking : InputPopup
         if(m>=0x200 && m<=0x20E) return 0;
         return base.Message(w,m,a,b);
     }
-    public override void Dispose(){Release();base.Dispose();}
+    public override void Dispose(){HoldEdgeCursor(false);Release();base.Dispose();}
 }

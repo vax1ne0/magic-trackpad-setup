@@ -61,7 +61,15 @@ internal sealed class Surface
     public bool EdgeSliders;
     public enum EdgeControl { Brightness, Volume }
     public Action<EdgeControl,int> EdgeLevel;
+    public Action<bool> EdgeContactChanged;
     EdgeControl? edgeControl;
+    void SetEdgeContact(EdgeControl? side)
+    {
+        if(edgeControl==side)return;
+        edgeControl=side;
+        EdgeContactChanged?.Invoke(side.HasValue);
+    }
+
     float edgeStartY;
     int lastEdgeLevel = -1;
     const float EdgeWidthMm = 4, EdgeTravelMm = 5, ActiveEdgeWidthMm = 7;
@@ -71,7 +79,7 @@ internal sealed class Surface
     {
         if(!EdgeSliders || Keyboard || Positioning || modeDone || clicked || invalid || count!=1 || origin.Count!=1)
         {
-            edgeControl=null;
+            SetEdgeContact(null);
             return;
         }
         float width=lastEdgeLevel>=0 && peak!=0 ? ActiveEdgeWidthMm : EdgeWidthMm;
@@ -79,11 +87,11 @@ internal sealed class Surface
             x>=WidthMm-width ? EdgeControl.Volume : null;
         if(peak==0)
         {
-            edgeControl=side;
+            SetEdgeContact(side);
             edgeStartY=y;
             lastEdgeLevel=-1;
         }
-        if(side!=edgeControl)edgeControl=null;
+        if(side!=edgeControl)SetEdgeContact(null);
         if(!edgeControl.HasValue || (lastEdgeLevel<0 && Math.Abs(y-edgeStartY)<EdgeTravelMm))return;
         // Leave a small margin at the physical rim so both endpoints are reachable.
         float percent=Math.Clamp(100*(DepthMm-EndMarginMm-y)/(DepthMm-2*EndMarginMm),0,100);
@@ -167,7 +175,7 @@ internal sealed class Surface
     StickerKey first;
     public void Reset(bool keepModeContact=false)
     {
-        edgeControl=null;
+        SetEdgeContact(null);
         SetPointerButton(false);
         bool hadPointer=PointingOrScrolling;
         Pointing=scrollContact=scrollMoved=scrollAnchorValid=false;

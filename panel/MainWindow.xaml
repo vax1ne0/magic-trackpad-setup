@@ -53,7 +53,7 @@
 
         <!-- Header (also used as the custom draggable title bar) -->
         <StackPanel x:Name="HeaderPanel" Grid.Row="0" Padding="28,40,28,6" Spacing="4">
-            <TextBlock x:Name="TitleText" Style="{StaticResource TitleTextBlockStyle}" Text="Magic Trackpad 2 Control Panel" TextWrapping="Wrap"/>
+            <TextBlock x:Name="TitleText" Style="{StaticResource TitleTextBlockStyle}" Text="Magic Trackpad" TextWrapping="Wrap"/>
         </StackPanel>
 
         <!-- Settings -->
@@ -103,7 +103,6 @@
                     </StackPanel>
                 </Border>
 
-                <!-- macOS click options -->
                 <local:SectionExpander x:Name="ClickSection" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" IsExpanded="False" Expanding="Section_Expanding">
                         <Expander.Header>
                             <StackPanel Orientation="Horizontal" Spacing="12" Padding="0,8,0,8">
@@ -169,8 +168,6 @@
                     </StackPanel>
                 </local:SectionExpander>
 
-                <!-- Non-macOS click options -->
-                <!-- Lift finger behavior -->
                 <local:SectionExpander x:Name="LiftSection" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" IsExpanded="False" Expanding="Section_Expanding">
                         <Expander.Header>
                             <StackPanel Orientation="Horizontal" Spacing="12" Padding="0,8,0,8">
@@ -198,7 +195,6 @@
                     </StackPanel>
                     </local:SectionExpander>
 
-                <!-- Other options -->
                 <local:SectionExpander x:Name="TouchSection" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" IsExpanded="False" Expanding="Section_Expanding">
                         <Expander.Header>
                             <StackPanel Orientation="Horizontal" Spacing="12" Padding="0,8,0,8">

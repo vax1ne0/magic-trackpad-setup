@@ -27,7 +27,7 @@ namespace AmtPtpControlPanel.WinUI3
             Closed += (_, _) => { updateLifetime.Cancel(); DiscardUpdate(); };
 
             SystemBackdrop = new MicaBackdrop();
-            Title = LocalizationManager.GetString("Main", "Magic Trackpad 2 Control Panel");
+            Title = LocalizationManager.GetString("Main", "Magic Trackpad");
 
             // Extend the Mica backdrop into the title bar and make the header
             // the draggable title area so the caption bar matches the body.
@@ -211,12 +211,12 @@ namespace AmtPtpControlPanel.WinUI3
             var language = LocalizationManager.CurrentLanguage;
             RootGrid.Language = string.IsNullOrEmpty(language) ? "en" : language;
             RootGrid.FlowDirection = language == "ar" ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
-            Title = T("Main", "Magic Trackpad 2 Control Panel");
+            Title = T("Main", "Magic Trackpad");
             TitleText.Text = Title;
 
-            ClickFeedbackTitle.Text = T("Section.ClickFeedbackMacOS", "MacOS click options");
-            MacOSClickOptions.Content = T("ctlMacOSClickOptions", "Use macOS Click Options:");
-            SilentClicking.Content = T("ctlSilentClicking", "Silent clicking");
+            ClickFeedbackTitle.Text = T("Section.ClickFeedbackMacOS", "Click feel");
+            MacOSClickOptions.Content = T("ctlMacOSClickOptions", "Adjust click strength");
+            SilentClicking.Content = T("ctlSilentClicking", "Use a quieter click");
             ClickStrengthLabel.Text = T("Section.ClickStrength", "Click strength");
             LightLabel.Text = T("ctlLightLabel", "Light");
             MediumLabel.Text = T("ctlMediumLabel", "Medium");
@@ -228,22 +228,22 @@ namespace AmtPtpControlPanel.WinUI3
             ReleaseMedium.Content = MediumLabel.Text;
             ReleaseFirm.Content = FirmLabel.Text;
             BatteryAlert.Content = T("Battery.Alert", "Notify me at 20% battery");
-            DisableFeedback.Content = T("ctlDisableFeedback", "Disable haptic feedback and force touch button completely");
-            MaximumFeedback.Content = T("ctlMaximumFeedback", "Maximum haptic feedback (very clicky and loud!)");
+            DisableFeedback.Content = T("ctlDisableFeedback", "Turn off the physical click and its feedback");
+            MaximumFeedback.Content = T("ctlMaximumFeedback", "Use the strongest click feedback");
 
-            LiftFingerTitle.Text = T("groupBox3", "When you lift your finger from the trackpad");
-            StopDoNothing.Content = T("ctlStopDoNothing", "Do nothing");
-            StopPressureText.Text = T("ctlStopPressure", "Stop the pointer if the pressure is less than or equal to");
-            StopPressureLabelText.Text = T("ctlStopPressureLabel", "units. (0 means no pressure; 0 is a good value)");
-            StopSizeText.Text = T("ctlStopSize", "Stop the pointer if the size of the touch area is less than or equal to");
-            StopSizeLabelText.Text = T("ctlStopSizeLabel", "units. (7 is a good value)");
+            LiftFingerTitle.Text = T("groupBox3", "Pointer lift-off");
+            StopDoNothing.Content = T("ctlStopDoNothing", "Keep tracking until I lift my finger");
+            StopPressureText.Text = T("ctlStopPressure", "Stop tracking when pressure falls to this level");
+            StopPressureLabelText.Text = T("ctlStopPressureLabel", "Suggested: 0");
+            StopSizeText.Text = T("ctlStopSize", "Stop tracking when the contact area shrinks to this size");
+            StopSizeLabelText.Text = T("ctlStopSizeLabel", "Suggested: 7");
 
-            OtherOptionsTitle.Text = T("groupBox4", "Other options");
-            IgnoreNearFingers.Content = T("ctlIgnoreNearFingers", "Ignore input from fingers not touching the trackpad surface");
-            IgnoreButtonFingerText.Text = T("ctlIgnoreButtonFinger", "Ignore input from the finger used to click the force touch button (useful for dragging, if you use your thumb to click the button and your index finger to move the pointer, for example)");
-            PalmRejection.Content = T("ctlPalmRejection", "Palm Rejection");
-            InvertMovementText.Text = T("ctlInvertMovement", "Invert up/down and left/right (for upside-down use)");
-            AllowNonAdminAccessText.Text = T("ctlAllowNonAdminAccess", "ADVANCED: Let non-admin apps communicate with the drivers");
+            OtherOptionsTitle.Text = T("groupBox4", "Touch and pointer settings");
+            IgnoreNearFingers.Content = T("ctlIgnoreNearFingers", "Ignore fingers hovering above the surface");
+            IgnoreButtonFingerText.Text = T("ctlIgnoreButtonFinger", "Ignore the finger holding a click while I drag");
+            PalmRejection.Content = T("ctlPalmRejection", "Ignore accidental palm touches");
+            InvertMovementText.Text = T("ctlInvertMovement", "Reverse both pointer directions for a rotated trackpad");
+            AllowNonAdminAccessText.Text = T("ctlAllowNonAdminAccess", "Allow other apps to control haptics without administrator access");
             AppSettingsTitle.Text = T("App.Title", "App settings");
             StartupSwitch.Header = T("Startup.Title", "Open at startup");
             if (language == "ar")
@@ -259,20 +259,20 @@ namespace AmtPtpControlPanel.WinUI3
             StartupHint.Text = T("Startup.Hint", "Show the battery beside the clock when you sign in. The settings window opens when you need it.");
             Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(AppSection, AppSettingsTitle.Text);
             UpdateLabels();
-            LanguageLabel.Text = T("ctlLanguage", "UI language");
+            LanguageLabel.Text = T("ctlLanguage", "Language");
 
             BatteryTitle.Text = T("Section.Battery", "Battery");
-            UpdateBatteryButton.Content = T("ctlBatteryUpdate", "Update Battery");
+            UpdateBatteryButton.Content = T("ctlBatteryUpdate", "Refresh");
 
-            TouchpadSettingsButton.Content = T("ctlTouchpadSettings", "Windows Touchpad Settings");
-            ApplyButton.Content = T("ctlApply", "Apply");
+            TouchpadSettingsButton.Content = T("ctlTouchpadSettings", "Windows gestures");
+            ApplyButton.Content = T("ctlApply", "Save changes");
             Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(ClickSection, ClickFeedbackTitle.Text);
             Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(LiftSection, LiftFingerTitle.Text);
             Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(TouchSection, OtherOptionsTitle.Text);
             CopyDetailsButton.Content = T("Details.Copy", "Copy device details");
             DefaultsButton.Content = T("Defaults.Restore", "Restore trackpad defaults");
             DefaultsHint.Text = T("Defaults.Hint", "Review the defaults, then select Save changes.");
-            GitHubLink.Content = T("Link.GitHub", "Project on GitHub");
+            GitHubLink.Content = T("Link.GitHub", "Help");
         }
 
         private void Footer_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -304,7 +304,7 @@ namespace AmtPtpControlPanel.WinUI3
             }
             catch (Exception ex)
             {
-                await ShowMessageAsync(T("Message.Error", "Error"), ex.Message);
+                await ShowMessageAsync(T("Message.Error", "Magic Trackpad"), ex.Message);
             }
             finally
             {
@@ -472,7 +472,7 @@ namespace AmtPtpControlPanel.WinUI3
                 }
                 BatteryProgressBar.Value = 0;
                 BatteryTitle.Text = T("Section.Battery", "Battery");
-                BatteryStatusText.Text = T("Message.NoDevice", "Connect your trackpad, then refresh.");
+                BatteryStatusText.Text = T("Message.NoDevice", "Connect your trackpad with a USB cable or pair it in Windows Bluetooth settings, then refresh.");
                 if (showErrorOnFailure) await ShowMessageAsync(T("Main", "Magic Trackpad"), BatteryStatusText.Text);
             }
             finally { UpdateBatteryButton.IsEnabled = true; }
@@ -490,7 +490,7 @@ namespace AmtPtpControlPanel.WinUI3
 
             BatteryTitle.Text = string.Format("{0} ({1}%)", T("Section.Battery", "Battery"), level);
             BatteryStatusText.Text = string.Format(
-                T("Battery.LastUpdated", "Battery ({0}) --- LAST UPDATED: {1}"),
+                T("Battery.LastUpdated", "{0}  ·  Updated {1}"),
                 source == "Bluetooth" ? T("Battery.Bluetooth", source) : source,
                 DateTime.Now.ToString("t", CultureInfo.CurrentCulture));
         }
@@ -542,8 +542,8 @@ namespace AmtPtpControlPanel.WinUI3
                 if (!TryReadInt(StopPressureValue, out s.StopPressure) || s.StopPressure < 0)
                 {
                     await ShowMessageAsync(
-                        T("Message.Error", "Error"),
-                        T("Message.PressureInvalid", "Pressure must be greater than or equal to 0."));
+                        T("Message.Error", "Magic Trackpad"),
+                        T("Message.PressureInvalid", "Enter a pressure of 0 or more."));
                     return false;
                 }
             }
@@ -554,8 +554,8 @@ namespace AmtPtpControlPanel.WinUI3
                 if (!TryReadInt(StopSizeValue, out s.StopSize) || s.StopSize < 0)
                 {
                     await ShowMessageAsync(
-                        T("Message.Error", "Error"),
-                        T("Message.SizeInvalid", "Size must be greater than or equal to 0."));
+                        T("Message.Error", "Magic Trackpad"),
+                        T("Message.SizeInvalid", "Enter a contact size of 0 or more."));
                     return false;
                 }
             }
@@ -576,8 +576,8 @@ namespace AmtPtpControlPanel.WinUI3
             catch (Exception ex)
             {
                 await ShowMessageAsync(
-                    T("Message.Error", "Error"),
-                    string.Format(T("Message.RegistryWriteError", "Error writing to the registry: {0}"), ex.Message));
+                    T("Message.Error", "Magic Trackpad"),
+                    string.Format(T("Message.RegistryWriteError", "Your changes could not be saved. {0}"), ex.Message));
                 return false;
             }
         }
