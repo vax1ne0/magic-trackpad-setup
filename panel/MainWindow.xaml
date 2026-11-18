@@ -232,21 +232,66 @@
 
           <ScrollViewer x:Name="KeyboardPage" Grid.Row="1" Visibility="Collapsed"><StackPanel Spacing="12">
             <ToggleSwitch x:Name="KeyboardSwitch" Header="Sticker keyboard" Toggled="InputOptionChanged"/>
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel Spacing="8">
+                    <Grid ColumnSpacing="8">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                        <TextBlock Text="•" AutomationProperties.AccessibilityView="Raw"/>
+                        <TextBlock Grid.Column="1" TextWrapping="Wrap"><Run FontWeight="SemiBold" Text="Switch modes. "/><Run Text="Click the top-right corner to switch between typing and pointing."/></TextBlock>
+                    </Grid>
+                    <Grid ColumnSpacing="8">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                        <TextBlock Text="•" AutomationProperties.AccessibilityView="Raw"/>
+                        <TextBlock Grid.Column="1" TextWrapping="Wrap"><Run FontWeight="SemiBold" Text="Move the overlay. "/><Run Text="Hold a click in that corner, then drag the handle. Click or hold the corner again to resume typing."/></TextBlock>
+                    </Grid>
+                    <Grid ColumnSpacing="8">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                        <TextBlock Text="•" AutomationProperties.AccessibilityView="Raw"/>
+                        <TextBlock Grid.Column="1" TextWrapping="Wrap"><Run FontWeight="SemiBold" Text="Use shortcuts. "/><Run Text="Rest one finger on Shift, Ctrl, Alt, or Win and press another key."/></TextBlock>
+                    </Grid>
+                    <Grid ColumnSpacing="8">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                        <TextBlock Text="•" AutomationProperties.AccessibilityView="Raw"/>
+                        <TextBlock Grid.Column="1" TextWrapping="Wrap"><Run FontWeight="SemiBold" Text="Return to pointing. "/><Run Text="Press Ctrl+Alt+F10 on your physical keyboard."/></TextBlock>
+                    </Grid>
+                </StackPanel>
+            </Border>
             <CheckBox x:Name="TapSwitch" Content="Tap to type" Click="InputOptionChanged"/>
             <CheckBox x:Name="ExternalKeys" Content="Type in other apps while Magic Trackpad is open" Click="InputOptionChanged"/>
-            <TextBlock x:Name="KeyboardHint" Text="Turn on Sticker keyboard, then click the top-right corner to switch between typing and pointing. Hold a click in that corner to move the overlay. Click the corner again to finish. For shortcuts, rest one finger on Shift, Ctrl, Alt, or Win and press a second key. Ctrl+Alt+F10 also restores the pointer." TextWrapping="Wrap"/>
             <StackPanel Orientation="Horizontal" Spacing="8"><ToggleButton x:Name="OverlayButton" Content="Floating keyboard" Click="ToggleOverlay"/><ToggleButton x:Name="PositionButton" Content="Position overlay" Visibility="Collapsed" Click="PositionOverlay"/></StackPanel>
             <Border Style="{StaticResource CardStyle}">
                 <StackPanel Spacing="12">
                     <Grid ColumnSpacing="12">
                         <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
-                        <Slider x:Name="OverlayTransparency" Header="Transparency" Minimum="0" Maximum="90" StepFrequency="1" ValueChanged="OverlayAppearanceChanged"/>
+                        <StackPanel Spacing="2">
+                            <Slider x:Name="OverlayTransparency" Header="Transparency" Minimum="0" Maximum="90" StepFrequency="1" ValueChanged="OverlayAppearanceChanged"/>
+                            <TextBlock Text="Higher makes the keyboard more see-through." Style="{StaticResource CaptionTextBlockStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" TextWrapping="Wrap"/>
+                        </StackPanel>
                         <TextBlock x:Name="TransparencyValue" Grid.Column="1" VerticalAlignment="Center"/>
                     </Grid>
                     <ToggleSwitch x:Name="FadeIdle" Header="Fade when idle" Toggled="FadeIdleChanged"/>
                     <Grid ColumnSpacing="12">
                         <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
-                        <Slider x:Name="OverlayScale" Header="Scale" Minimum="50" Maximum="150" StepFrequency="1" ValueChanged="OverlayAppearanceChanged"/>
+                        <StackPanel Spacing="2">
+                            <Slider x:Name="IdleAmount" IsEnabled="{Binding IsOn, ElementName=FadeIdle}" Header="Idle dimming" Minimum="10" Maximum="95" StepFrequency="1" ValueChanged="IdleAppearanceChanged"/>
+                            <TextBlock Text="Higher makes the keyboard more see-through when you're not using it" Style="{StaticResource CaptionTextBlockStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" TextWrapping="Wrap"/>
+                        </StackPanel>
+                        <TextBlock x:Name="IdleAmountValue" Grid.Column="1" VerticalAlignment="Center"/>
+                    </Grid>
+                    <Grid ColumnSpacing="12">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                        <StackPanel Spacing="2">
+                            <Slider x:Name="IdleDuration" IsEnabled="{Binding IsOn, ElementName=FadeIdle}" Header="Fade duration" Minimum="200" Maximum="2000" StepFrequency="50" ValueChanged="IdleAppearanceChanged"/>
+                            <TextBlock Text="Higher makes idle dimming take more time to work." Style="{StaticResource CaptionTextBlockStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" TextWrapping="Wrap"/>
+                        </StackPanel>
+                        <TextBlock x:Name="IdleDurationValue" Grid.Column="1" VerticalAlignment="Center"/>
+                    </Grid>
+                    <Grid ColumnSpacing="12">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                        <StackPanel Spacing="2">
+                            <Slider x:Name="OverlayScale" Header="Scale" Minimum="50" Maximum="150" StepFrequency="1" ValueChanged="OverlayAppearanceChanged"/>
+                            <TextBlock Text="Higher makes the keyboard larger." Style="{StaticResource CaptionTextBlockStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" TextWrapping="Wrap"/>
+                        </StackPanel>
                         <TextBlock x:Name="ScaleValue" Grid.Column="1" VerticalAlignment="Center"/>
                     </Grid>
                 </StackPanel>

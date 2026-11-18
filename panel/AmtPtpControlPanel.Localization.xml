@@ -27,7 +27,6 @@
     <String id="ctlLightLabel">Light</String>
     <String id="ctlMediumLabel">Medium</String>
     <String id="ctlFirmLabel">Firm</String>
-    <String id="Section.ClickFeedbackOther">Click options not available in macOS</String>
     <String id="ctlDisableFeedback">Turn off the physical click and its feedback</String>
     <String id="ctlMaximumFeedback">Use the strongest click feedback</String>
     <String id="groupBox3">Pointer lift-off</String>
@@ -83,7 +82,6 @@
     <String id="ctlLightLabel">خفيفة</String>
     <String id="ctlMediumLabel">متوسطة</String>
     <String id="ctlFirmLabel">قوية</String>
-    <String id="Section.ClickFeedbackOther">خيارات إضافية للنقر</String>
     <String id="ctlDisableFeedback">إيقاف النقر بالضغط والاستجابة اللمسية</String>
     <String id="ctlMaximumFeedback">استخدام أقوى استجابة للنقر</String>
     <String id="groupBox3">حركة المؤشر عند رفع الإصبع</String>
@@ -147,7 +145,6 @@
     <String id="ctlLightLabel">Leggero</String>
     <String id="ctlMediumLabel">Medio</String>
     <String id="ctlFirmLabel">Forte</String>
-    <String id="Section.ClickFeedbackOther">Opzioni clic non disponibili in macOS</String>
     <String id="ctlDisableFeedback">Disattiva completamente feedback aptico e pulsante Force Touch</String>
     <String id="ctlMaximumFeedback">Feedback aptico massimo (clic molto marcato e rumoroso!)</String>
     <String id="groupBox3">Quando sollevi il dito dal trackpad</String>
@@ -203,7 +200,6 @@
     <String id="ctlLightLabel">Ligero</String>
     <String id="ctlMediumLabel">Medio</String>
     <String id="ctlFirmLabel">Fuerte</String>
-    <String id="Section.ClickFeedbackOther">Opciones de clic no disponibles en macOS</String>
     <String id="ctlDisableFeedback">Desactivar por completo la respuesta háptica y el botón Force Touch</String>
     <String id="ctlMaximumFeedback">Respuesta háptica máxima (¡clic muy marcado y ruidoso!)</String>
     <String id="groupBox3">Cuando levantas el dedo del trackpad</String>
@@ -259,7 +255,6 @@
     <String id="ctlLightLabel">Léger</String>
     <String id="ctlMediumLabel">Moyen</String>
     <String id="ctlFirmLabel">Ferme</String>
-    <String id="Section.ClickFeedbackOther">Options de clic non disponibles dans macOS</String>
     <String id="ctlDisableFeedback">Désactiver complètement le retour haptique et le bouton Force Touch</String>
     <String id="ctlMaximumFeedback">Retour haptique maximal (clic très marqué et bruyant !)</String>
     <String id="groupBox3">Lorsque vous levez le doigt du trackpad</String>
@@ -315,7 +310,6 @@
     <String id="ctlLightLabel">Leicht</String>
     <String id="ctlMediumLabel">Mittel</String>
     <String id="ctlFirmLabel">Fest</String>
-    <String id="Section.ClickFeedbackOther">Klickoptionen, die in macOS nicht verfügbar sind</String>
     <String id="ctlDisableFeedback">Haptisches Feedback und Force-Touch-Taste vollständig deaktivieren</String>
     <String id="ctlMaximumFeedback">Maximales haptisches Feedback (sehr klickend und laut!)</String>
     <String id="groupBox3">Wenn Sie den Finger vom Trackpad heben</String>
@@ -371,7 +365,6 @@
     <String id="ctlLightLabel">Leve</String>
     <String id="ctlMediumLabel">Médio</String>
     <String id="ctlFirmLabel">Firme</String>
-    <String id="Section.ClickFeedbackOther">Opções de clique não disponíveis no macOS</String>
     <String id="ctlDisableFeedback">Desativar completamente o feedback tátil e o botão Force Touch</String>
     <String id="ctlMaximumFeedback">Feedback tátil máximo (clique bem marcado e barulhento!)</String>
     <String id="groupBox3">Quando você levanta o dedo do trackpad</String>
@@ -427,7 +420,6 @@
     <String id="ctlLightLabel">Лёгкое</String>
     <String id="ctlMediumLabel">Среднее</String>
     <String id="ctlFirmLabel">Сильное</String>
-    <String id="Section.ClickFeedbackOther">Параметры нажатия, недоступные в macOS</String>
     <String id="ctlDisableFeedback">Полностью отключить тактильный отклик и кнопку Force Touch</String>
     <String id="ctlMaximumFeedback">Максимальный тактильный отклик (очень громкий и щёлкающий!)</String>
     <String id="groupBox3">Когда вы поднимаете палец с трекпада</String>
@@ -483,7 +475,6 @@
     <String id="ctlLightLabel">轻</String>
     <String id="ctlMediumLabel">中</String>
     <String id="ctlFirmLabel">重</String>
-    <String id="Section.ClickFeedbackOther">macOS 中不可用的点按选项</String>
     <String id="ctlDisableFeedback">完全禁用触觉反馈和 Force Touch 按钮</String>
     <String id="ctlMaximumFeedback">最大触觉反馈（点按感很强且声音很大！）</String>
     <String id="groupBox3">当您将手指从触控板上抬起时</String>
@@ -539,7 +530,6 @@
     <String id="ctlLightLabel">弱</String>
     <String id="ctlMediumLabel">中</String>
     <String id="ctlFirmLabel">強</String>
-    <String id="Section.ClickFeedbackOther">macOS では利用できないクリックオプション</String>
     <String id="ctlDisableFeedback">触覚フィードバックと Force Touch ボタンを完全に無効にする</String>
     <String id="ctlMaximumFeedback">最大の触覚フィードバック（非常にカチカチしてうるさい！）</String>
     <String id="groupBox3">トラックパッドから指を離したとき</String>
@@ -595,7 +585,6 @@
     <String id="ctlLightLabel">약하게</String>
     <String id="ctlMediumLabel">중간</String>
     <String id="ctlFirmLabel">강하게</String>
-    <String id="Section.ClickFeedbackOther">macOS에서 사용할 수 없는 클릭 옵션</String>
     <String id="ctlDisableFeedback">햅틱 피드백 및 Force Touch 버튼 완전히 비활성화</String>
     <String id="ctlMaximumFeedback">최대 햅틱 피드백(매우 딸깍거리고 시끄러움!)</String>
     <String id="groupBox3">트랙패드에서 손가락을 뗄 때</String>

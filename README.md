@@ -10,7 +10,7 @@ You can also [type directly on the trackpad](#turn-your-trackpad-into-a-keyboard
 
 ## Get started
 
-1. **[Download the Windows installer (1.7.0)](https://github.com/vax1ne0/magic-trackpad-setup/releases/download/v1.7.0/Magic-Trackpad-Setup-1.7.0-x64.msi)** and run it.
+1. **[Download the Windows installer (1.7.1)](https://github.com/vax1ne0/magic-trackpad-setup/releases/download/v1.7.1/Magic-Trackpad-Setup-1.7.1-x64.msi)** and run it.
 2. **Connect your trackpad.** Plug it in with a USB data cable, or unplug the cable and pair it under **Settings → Bluetooth & devices → Add device → Magic Trackpad**.
 3. **Enjoy your full Magic Trackpad experience.** Try a two-finger scroll or pinch to zoom.
 
@@ -20,11 +20,11 @@ You can also [type directly on the trackpad](#turn-your-trackpad-into-a-keyboard
 
 *Keyboard concept mockup. The app displays the live key layout on your screen.*
 
-Turn the surface of your Magic Trackpad into a full QWERTY keyboard. Rest a finger on the glass and the matching key lights up on a floating keyboard. Slide to find the key you want, then click to type. The overlay follows the proportions of the trackpad, so you can learn the layout by feel. A sticker is optional.
+Turn the surface of your Magic Trackpad into a full QWERTY keyboard. Rest a finger on the glass and the matching key lights up on a floating keyboard. Slide to find the key you want, then click to type. The letters switch to uppercase when Caps Lock is on. The overlay follows the proportions of the trackpad, so you can learn the layout by feel. A sticker is optional.
 
-1. Open **Keyboard** and turn on **Sticker keyboard**. Click the **top-right corner of the trackpad** to start typing. Click it again to bring back the pointer.
+1. Open **Keyboard** and turn on **Sticker keyboard**. Click the **top-right corner of the trackpad** to start typing. Click it again, or press **Ctrl+Alt+F10** on your physical keyboard, to switch back to pointing.
 2. Try the practice box, or enable **Type in other apps** to use your editor or chat. Hold a click to repeat a key. For shortcuts, rest one finger on **Shift**, **Ctrl**, **Alt**, or **Win** and press another key. Try **Shift + 2** for **@** or **Ctrl + C** to copy a selection.
-3. To move the floating keyboard, hold a click in the top-right corner until the pointer and drag handle appear. Drag it into place, then click the corner again to finish. Under **Keyboard**, you can adjust scale and transparency, enable **Tap to type**, or make the overlay fade when idle.
+3. To move the floating keyboard, hold a click in the top-right corner until the pointer and drag handle appear. Drag the handle above the keyboard into place, then click or hold the corner again to resume typing. Under **Keyboard**, you can adjust scale and transparency, enable **Tap to type**, or adjust how far and how quickly the overlay fades when idle.
 
 If you prefer a physical guide, print the [A4 keyboard template](docs/trackpad-keyboard-a4.pdf) at **100% / Actual size**.
 

@@ -6,7 +6,7 @@
     <Launch Condition="Installed OR (VersionNT64 AND REALBUILD &gt;= 22000 AND NOT Arm64)" Message="Magic Trackpad Setup needs Windows 11 on an Intel or AMD x64 PC." />
     <Property Id="ARPURLINFOABOUT" Value="https://github.com/vax1ne0/magic-trackpad-setup"/>
     <Property Id="ARPPRODUCTICON" Value="AppIcon"/>
-    <Icon Id="AppIcon" SourceFile="src/TrackpadBattery.ico"/>
+    <Icon Id="AppIcon" SourceFile="panel/Resources/MagicTrackpad.ico"/>
     <UIRef Id="WixUI_Common"/>
     <WixVariable Id="WixUIBannerBmp" Value="payload/SetupBanner.bmp"/>
     <WixVariable Id="WixUIDialogBmp" Value="payload/SetupDialog.bmp"/>
@@ -28,7 +28,7 @@
           </Component>
         </Directory>
         <Component Id="Battery" Guid="*"><File Id="BatteryExe" Source="src/TrackpadBattery.exe" KeyPath="yes"/></Component>
-        <Component Id="PanelIcon" Guid="*"><File Source="src/TrackpadBattery.ico" Name="MagicTrackpad.ico"/></Component><Directory Id="PANELDIR" Name="Panel"/>
+        <Component Id="PanelIcon" Guid="*"><File Source="panel/Resources/MagicTrackpad.ico" Name="MagicTrackpad.ico"/></Component><Directory Id="PANELDIR" Name="Panel"/>
         <Directory Id="DRIVERDIR" Name="Driver">
           <Component Id="DriverInf" Guid="*"><File Id="TrackpadInfFile" Source="payload/AmtPtpDevice.inf"/></Component>
           <Component Id="DriverCat" Guid="*"><File Source="payload/amtptpdevice.cat"/></Component>

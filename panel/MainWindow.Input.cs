@@ -43,6 +43,8 @@ public sealed partial class MainWindow
         OverlayScale.Value=Math.Clamp(AppPreferences.ReadInt("OverlayScale",100),50,150);
         OverlayButton.IsChecked=AppPreferences.Enabled("FloatingKeyboard",true);
         FadeIdle.IsOn=AppPreferences.Enabled("OverlayIdleFade",true);
+        IdleAmount.Value=Math.Clamp(AppPreferences.ReadInt("OverlayIdleAmount",65),10,95);
+        IdleDuration.Value=Math.Clamp(AppPreferences.ReadInt("OverlayIdleDuration",650),200,2000);
         UpdateAppearanceLabels();
         inputWindow=WindowNative.GetWindowHandle(this);
         KeyboardSwitch.IsOn=AppPreferences.Enabled("StickerEnabled",false);
@@ -155,6 +157,8 @@ public sealed partial class MainWindow
     void UpdateAppearanceLabels()
     {
         TransparencyValue.Text=$"{OverlayTransparency.Value:0}%";
+        IdleAmountValue.Text=$"{IdleAmount.Value:0}%";
+        IdleDurationValue.Text=$"{IdleDuration.Value/1000:0.##} s";
         ScaleValue.Text=$"{OverlayScale.Value:0}%";
     }
 
@@ -166,11 +170,21 @@ public sealed partial class MainWindow
         overlay?.SetAppearance((int)OverlayScale.Value,(int)OverlayTransparency.Value);
     }
 
+    void IdleAppearanceChanged(object sender, Microsoft.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+    {
+        if(syncingInput)return;
+        AppPreferences.Set(ReferenceEquals(sender,IdleAmount)?"OverlayIdleAmount":"OverlayIdleDuration",(int)e.NewValue);
+        UpdateAppearanceLabels();
+        ApplyIdleAppearance();
+    }
+
+    void ApplyIdleAppearance() => overlay?.SetIdleFade(FadeIdle.IsOn,(int)IdleAmount.Value,(int)IdleDuration.Value);
+
     void FadeIdleChanged(object sender,RoutedEventArgs e)
     {
         if(syncingInput)return;
         AppPreferences.Set("OverlayIdleFade",FadeIdle.IsOn);
-        overlay?.SetIdleFade(FadeIdle.IsOn);
+        ApplyIdleAppearance();
     }
 
     void CreateOverlay()
@@ -182,7 +196,7 @@ public sealed partial class MainWindow
             (uint)(color.R | color.G << 8 | color.B << 16),(int)OverlayScale.Value,(int)OverlayTransparency.Value);
         overlay.Highlight(surface.Hover,surface.ModifierContact);
         overlay.SetTouching(surface.HasContacts);
-        overlay.SetIdleFade(FadeIdle.IsOn);
+        ApplyIdleAppearance();
     }
 
     void ToggleOverlay(object sender, RoutedEventArgs e)

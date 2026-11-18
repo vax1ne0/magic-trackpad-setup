@@ -1,7 +1,7 @@
 # Reuse the application icon for native Windows Installer artwork.
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.Drawing
-$icon = [Drawing.Icon]::new((Join-Path $PSScriptRoot '../src/TrackpadBattery.ico'), 128, 128)
+$icon = [Drawing.Icon]::new((Join-Path $PSScriptRoot '../panel/Resources/MagicTrackpad.ico'), 128, 128)
 try {
     foreach ($kind in @('Banner', 'Dialog')) {
         $width = 493

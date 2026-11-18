@@ -4,14 +4,14 @@ using System.Drawing.Drawing2D;
 
 internal static class BatteryArt
 {
-    internal static Color LevelColor(int level)
+    private static Color LevelColor(int level)
     {
         return level < 0 ? Color.FromArgb(148, 163, 184) :
             level <= 20 ? Color.FromArgb(239, 68, 68) :
             level <= 50 ? Color.FromArgb(249, 158, 36) : Color.FromArgb(46, 211, 116);
     }
 
-    internal static GraphicsPath Rounded(float x, float y, float w, float h, float radius)
+    private static GraphicsPath Rounded(float x, float y, float w, float h, float radius)
     {
         var path = new GraphicsPath();
         float d = radius * 2;
@@ -53,32 +53,6 @@ internal static class BatteryArt
                     g.DrawString(label, font, Brushes.Black, box, format);
                     g.ResetClip();
                 }
-            }
-        }
-        return bitmap;
-    }
-
-    internal static Bitmap Logo(int size)
-    {
-        var bitmap = new Bitmap(size, size);
-        using (var g = Graphics.FromImage(bitmap))
-        {
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-            g.ScaleTransform(size / 256f, size / 256f);
-            using (var tile = Rounded(8, 8, 240, 240, 54))
-            using (var ink = new LinearGradientBrush(new Point(28, 12), new Point(220, 244), Color.FromArgb(58, 69, 83), Color.FromArgb(18, 24, 34)))
-                g.FillPath(ink, tile);
-            g.TranslateTransform(128, 127);
-            g.RotateTransform(-9);
-            using (var rim = Rounded(-91, -60, 182, 129, 14))
-            using (var glass = Rounded(-91, -64, 182, 127, 14))
-            using (var metal = new SolidBrush(Color.FromArgb(148, 158, 171)))
-            using (var pearl = new LinearGradientBrush(new Point(-70,-65), new Point(64,64), Color.White, Color.FromArgb(207,215,225)))
-            using (var border = new Pen(Color.White, 2))
-            {
-                g.FillPath(metal, rim);
-                g.FillPath(pearl, glass);
-                g.DrawPath(border, glass);
             }
         }
         return bitmap;

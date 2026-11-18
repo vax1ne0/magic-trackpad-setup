@@ -27,8 +27,6 @@ namespace AmtPtpControlPanel.WinUI3
         private static Dictionary<string, string>? _strings;
         private static string _currentLanguage = "";
 
-        public static bool IsActive => _strings != null;
-
         public static string CurrentLanguage => _currentLanguage;
 
         public static IReadOnlyList<string> AvailableLanguages { get; private set; } =

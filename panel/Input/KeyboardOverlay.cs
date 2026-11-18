@@ -11,16 +11,21 @@ internal sealed class KeyboardOverlay : InputPopup
     int scalePercent;
     Rect workArea;
     int Gap => Math.Max(1,gripSize/5);
-    Rect GripBounds => new Rect{Left=width+Gap, Right=width+Gap+gripSize, Top=0, Bottom=gripSize};
-    int WindowWidth => positioning?GripBounds.Right:width;
+    Rect GripBounds => new Rect{Left=width-gripSize, Right=width, Top=0, Bottom=gripSize};
+    int KeyboardTop => positioning ? gripSize+Gap : 0;
+    int WindowHeight => KeyboardTop+height;
     [DllImport("user32")] static extern bool GetWindowRect(nint hwnd,out Rect rect);
     readonly double fallbackScale;
     const double CornerRadiusMm=10; // Approximation of the USB-C model's outer corner.
-    nint font;
+    nint font, keyOutline;
     readonly uint accent,background,foreground,cap;
     StickerKey? hover, modifierContact;
     bool touching, idle=true, fadeIdle;
     int transparencyPercent;
+    int idleFadePercent=65, fadeDurationMs=650;
+    const int FadeTimer=3;
+    long fadeStarted;
+    double fadeProgress;
     bool positioning, dragging;
     Point grab;
 
@@ -70,7 +75,7 @@ internal sealed class KeyboardOverlay : InputPopup
         const int rawDpi=2;
         double dpi=GetDpiForMonitor(display,rawDpi,out uint reported,out _)==0 && reported>0
             ? reported : 96*fallbackScale;
-        double pixelsPerMm=Math.Min(dpi/25.4*scalePercent/100,Math.Min(availableWidth/(Surface.WidthMm+10),availableHeight/Surface.DepthMm));
+        double pixelsPerMm=Math.Min(dpi/25.4*scalePercent/100,Math.Min(availableWidth/Surface.WidthMm,availableHeight/(Surface.DepthMm+10)));
         width=Math.Max(1,(int)Math.Round(Surface.WidthMm*pixelsPerMm));
         height=Math.Max(1,(int)Math.Round(Surface.DepthMm*pixelsPerMm));
         gripSize=Math.Max(1,(int)Math.Round(8*pixelsPerMm));
@@ -81,10 +86,21 @@ internal sealed class KeyboardOverlay : InputPopup
         UpdateShape();
     }
 
+    [DllImport("gdi32")] static extern int SelectClipRgn(nint dc,nint region);
+
     void UpdateShape()
     {
         int diameter=(int)Math.Round(2*CornerRadiusMm*width/Surface.WidthMm);
-        var region=CreateRoundRectRgn(0,0,width+1,height+1,diameter,diameter);
+        var region=CreateRoundRectRgn(0,KeyboardTop,width+1,WindowHeight+1,diameter,diameter);
+        // Clip the key field to an inset copy of the trackpad outline. Only the
+        // four outward-facing corners intersect the curve.
+        int left=(int)(keys.Min(k=>k.Bounds.Left)*width/Surface.WidthMm);
+        int right=(int)(keys.Max(k=>k.Bounds.Right)*width/Surface.WidthMm);
+        int top=(int)(keys.Min(k=>k.Bounds.Top)*height/Surface.DepthMm);
+        int bottom=(int)(keys.Max(k=>k.Bounds.Bottom)*height/Surface.DepthMm);
+        if(keyOutline!=0)DeleteObject(keyOutline);
+        keyOutline=CreateRoundRectRgn(left,KeyboardTop+top,right+1,KeyboardTop+bottom+1,
+            Math.Max(1,diameter-2*left),Math.Max(1,diameter-top-(height-bottom)));
         if(positioning && region!=0)
         {
             var r=GripBounds;
@@ -116,20 +132,28 @@ internal sealed class KeyboardOverlay : InputPopup
     void UpdateOpacity()
     {
         double opacity=255*(100-transparencyPercent)/100.0;
-        if(fadeIdle && idle && !positioning)opacity*=0.4;
+        if(fadeIdle && !positioning)opacity*=1-fadeProgress*idleFadePercent/100;
         SetLayeredWindowAttributes(handle,0,(byte)Math.Round(opacity),2);
     }
-    public void SetIdleFade(bool enabled)
+    public void SetIdleFade(bool enabled,int amount,int durationMs)
     {
         fadeIdle=enabled;
+        idleFadePercent=amount;
+        fadeDurationMs=durationMs;
+        if(idle) SetFadeProgress(enabled && !positioning ? 1 : 0);
         UpdateOpacity();
+    }
+    void SetFadeProgress(double value)
+    {
+        KillTimer(handle,FadeTimer);
+        fadeProgress=value;
     }
     public void SetTouching(bool value)
     {
         if(touching==value)return;
         touching=value;
         KillTimer(handle,2);
-        if(value){idle=false;UpdateOpacity();}
+        if(value){idle=false;SetFadeProgress(0);UpdateOpacity();}
         else SetTimer(handle,2,800,0);
     }
 
@@ -140,14 +164,44 @@ internal sealed class KeyboardOverlay : InputPopup
         scalePercent=newScale;
         GetWindowRect(handle,out var bounds);
         SizeForDisplay(monitor,workArea.Right-workArea.Left,workArea.Bottom-workArea.Top);
-        int x=Math.Clamp(bounds.Left,workArea.Left,workArea.Right-WindowWidth);
-        int y=Math.Clamp(bounds.Top,workArea.Top,workArea.Bottom-height);
-        SetWindowPos(handle,0,x,y,WindowWidth,height,0x14);
+        int x=Math.Clamp(bounds.Left,workArea.Left,workArea.Right-width);
+        int y=Math.Clamp(bounds.Top,workArea.Top,workArea.Bottom-WindowHeight);
+        SetWindowPos(handle,0,x,y,width,WindowHeight,0x14);
         InvalidateRect(handle,0,false);
     }
+    const int CapsLockTimer=4;
+    bool capsLockOn, shown;
+
+    void RefreshCapsLock()
+    {
+        bool current=KeyOutput.CapsLockOn;
+        if(current==capsLockOn)return;
+        capsLockOn=current;
+        InvalidateRect(handle,0,false);
+    }
+
+    static string DisplayLabel(StickerKey key,bool capsLock)
+    {
+        if(key.Name=="MODE")return "MODE";
+        if(key.Name.Length==1 && key.Name[0] is >= 'A' and <= 'Z')
+            return capsLock ? key.Name : key.Name.ToLowerInvariant();
+        return key.Label;
+    }
+
     public void SetVisible(bool visible)
     {
-        if (!visible) EndInteraction();
+        if(shown==visible)return;
+        shown=visible;
+        if(visible)
+        {
+            RefreshCapsLock();
+            SetTimer(handle,CapsLockTimer,150,0);
+        }
+        else
+        {
+            KillTimer(handle,CapsLockTimer);
+            EndInteraction();
+        }
         ShowWindow(handle,visible ? 8 : 0); // SW_SHOWNA keeps the typing destination focused.
     }
     public void Highlight(StickerKey? key,StickerKey? modifier=null)
@@ -161,21 +215,46 @@ internal sealed class KeyboardOverlay : InputPopup
     {
         if(positioning==value)return;
         EndInteraction();
+        int previousTop=KeyboardTop;
         positioning=value;
         SetWindowLongPtrW(handle,-20,NoActivate|ToolWindow|Layered|8|(value?0:0x20));
         UpdateShape();
         GetWindowRect(handle,out var bounds);
-        int x=Math.Clamp(bounds.Left,workArea.Left,Math.Max(workArea.Left,workArea.Right-WindowWidth));
-        SetWindowPos(handle,-1,x,bounds.Top,WindowWidth,height,0x30);
+        int x=Math.Clamp(bounds.Left,workArea.Left,Math.Max(workArea.Left,workArea.Right-width));
+        int y=Math.Clamp(bounds.Top+previousTop-KeyboardTop,workArea.Top,workArea.Bottom-WindowHeight);
+        SetWindowPos(handle,-1,x,y,width,WindowHeight,0x30);
+        SetFadeProgress(idle && fadeIdle && !positioning ? 1 : 0);
         UpdateOpacity();
         InvalidateRect(handle,0,false);
     }
     protected override nint Message(nint w,uint m,nint a,nint b)
     {
+        if(m==0x113 && a==CapsLockTimer)
+        {
+            RefreshCapsLock();
+            return 0;
+        }
         if(m==0x113 && a==2)
         {
             KillTimer(w,2);
-            if(!touching){idle=true;UpdateOpacity();}
+            if(!touching)
+            {
+                idle=true;
+                if(fadeIdle && !positioning)
+                {
+                    fadeStarted=Environment.TickCount64;
+                    if(SetTimer(w,FadeTimer,16,0)==0){fadeProgress=1;UpdateOpacity();}
+                }
+            }
+            return 0;
+        }
+        if(m==0x113 && a==FadeTimer)
+        {
+            if(!idle || touching || positioning || !fadeIdle)return 0;
+            double t=Math.Clamp((Environment.TickCount64-fadeStarted)/(double)fadeDurationMs,0,1);
+            fadeProgress=t*t*(3-2*t);
+            if(t>=1)KillTimer(w,FadeTimer);
+            UpdateOpacity();
             return 0;
         }
         if(m==0x84) return positioning ? 1 : -1;
@@ -214,7 +293,7 @@ internal sealed class KeyboardOverlay : InputPopup
                         grab.Y=grab.Y*height/oldHeight;
                     }
                 }
-                SetWindowPos(w,0,Math.Clamp(pt.X-grab.X,workArea.Left,Math.Max(workArea.Left,workArea.Right-WindowWidth)),Math.Clamp(pt.Y-grab.Y,workArea.Top,workArea.Bottom-height),WindowWidth,height,0x14);
+                SetWindowPos(w,0,Math.Clamp(pt.X-grab.X,workArea.Left,Math.Max(workArea.Left,workArea.Right-width)),Math.Clamp(pt.Y-grab.Y,workArea.Top,workArea.Bottom-WindowHeight),width,WindowHeight,0x14);
             }
             return 0;
         }
@@ -249,16 +328,18 @@ internal sealed class KeyboardOverlay : InputPopup
         void Label(Rect rect,string label,uint color,uint align){
             SetTextColor(dc,color);DrawText(dc,label,-1,in rect,0x824|align);
         }
-        Box(new Rect{Right=width,Bottom=height},background);
+        Box(new Rect{Top=KeyboardTop,Right=width,Bottom=WindowHeight},background);
+        SelectClipRgn(dc,keyOutline);
         foreach(var key in keys)
         {
             var b=key.Bounds;
             var r=new Rect{Left=(int)(b.Left*width/Surface.WidthMm),Right=(int)(b.Right*width/Surface.WidthMm),
-                Top=(int)(b.Top*height/Surface.DepthMm),Bottom=(int)(b.Bottom*height/Surface.DepthMm)};
+                Top=KeyboardTop+(int)(b.Top*height/Surface.DepthMm),Bottom=KeyboardTop+(int)(b.Bottom*height/Surface.DepthMm)};
             bool highlighted=key==hover || key==modifierContact;
             Box(r,highlighted?accent:cap);
-            Label(r,key.Name=="MODE"?"MODE":key.Label,highlighted?(foreground==0xFFFFFFu?0u:0xFFFFFFu):foreground,1);
+            Label(r,DisplayLabel(key,capsLockOn),highlighted?(foreground==0xFFFFFFu?0u:0xFFFFFFu):foreground,1);
         }
+        SelectClipRgn(dc,0);
         if(positioning)
         {
             var grip=GripBounds;
@@ -274,5 +355,5 @@ internal sealed class KeyboardOverlay : InputPopup
         }
         SelectObject(dc,previous);
     }
-    public override void Dispose(){EndInteraction();base.Dispose();DeleteObject(font);}
+    public override void Dispose(){EndInteraction();base.Dispose();DeleteObject(font);DeleteObject(keyOutline);}
 }

@@ -2,7 +2,7 @@ $ErrorActionPreference = 'Stop'
 Push-Location $PSScriptRoot
 try {
     $compiler = Join-Path $env:WINDIR 'Microsoft.NET\Framework64\v4.0.30319\csc.exe'
-    $common = @('/nologo','/target:winexe','/platform:x64','/optimize+','/r:System.Windows.Forms.dll','/r:System.Drawing.dll','/r:Microsoft.CSharp.dll','/win32manifest:app.manifest','/win32icon:TrackpadBattery.ico')
+    $common = @('/nologo','/target:winexe','/platform:x64','/optimize+','/r:System.Windows.Forms.dll','/r:System.Drawing.dll','/r:Microsoft.CSharp.dll','/win32manifest:app.manifest','/win32icon:../panel/Resources/MagicTrackpad.ico')
     $version = ([xml](Get-Content ../panel/AmtPtpControlPanel.WinUI3.csproj -Raw)).Project.PropertyGroup.Version
     $generated = New-Item -ItemType Directory -Path ../payload -Force
     $info = Join-Path $generated.FullName 'AppVersion.cs'

@@ -70,7 +70,7 @@ internal sealed class Surface
         {
             CancelCorner();
             modeDone=true;
-            Positioning=!Positioning;
+            Positioning=true;
             ModeChanged();
         }
     }
@@ -162,8 +162,7 @@ internal sealed class Surface
                 {
                     CancelCorner();
                     modeDone=true;
-                    if(Positioning)Positioning=false;
-                    else Keyboard=!Keyboard;
+                    Keyboard=!Keyboard;
                     ModeChanged();
                 }
             }
@@ -171,8 +170,19 @@ internal sealed class Surface
         if(ModeEnabled && !modeDone && !invalid && !moved && onCorner && peak<=1 &&
            (peak==0 || first==mode) && edge && !cornerDown.HasValue)
         {
-            cornerDown=now;
-            CornerTimer?.Invoke(true);
+            if(Positioning)
+            {
+                // Consume this press through release, including a long hold.
+                modeDone=true;
+                Positioning=false;
+                Keyboard=true;
+                ModeChanged();
+            }
+            else
+            {
+                cornerDown=now;
+                CornerTimer?.Invoke(true);
+            }
         }
         bool chord = count==2 && modifierCount==1 && otherKey!=null && otherKey!=mode && peak<=2;
         HasContacts=count>0;

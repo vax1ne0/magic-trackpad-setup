@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Runtime.InteropServices;
 internal sealed class KeyOutput
 {
@@ -13,6 +12,7 @@ internal sealed class KeyOutput
     }
     [DllImport("user32",SetLastError=true)] static extern uint SendInput(uint count,Stroke[] input,int size);
     [DllImport("user32")] static extern short GetKeyState(int key);
+    public static bool CapsLockOn => (GetKeyState(0x14) & 1) != 0;
     readonly List<byte> modifiers=new List<byte>();
     readonly Dictionary<string,byte> special=new Dictionary<string,byte> {
         {"Esc",27},{"Backspace",8},{"Enter",13},{"Tab",9},{"Space",32},{"Caps",20},{"Home",36},{"End",35},
@@ -50,7 +50,7 @@ internal sealed class KeyOutput
             const string upper="~!@#$%^&*()_+{}|:\"<>?";
             char ch=name[0];
             int index=lower.IndexOf(ch);
-            if(char.IsLetter(ch))ch=(shift^((GetKeyState(20)&1)!=0))?char.ToUpperInvariant(ch):char.ToLowerInvariant(ch);
+            if(char.IsLetter(ch))ch=(shift^CapsLockOn)?char.ToUpperInvariant(ch):char.ToLowerInvariant(ch);
             else if(shift && index>=0)ch=upper[index];
             strokes.Add(new Stroke{type=1,scan=ch,flags=4});strokes.Add(new Stroke{type=1,scan=ch,flags=6});
         }
