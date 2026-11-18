@@ -2,6 +2,7 @@
 <Localization>
   <Language id="en">
     <String id="Update.Installed">Updated to {0}</String>
+    <String id="Update.Notes.1.7.8">Slide along the left edge for brightness or the right edge for volume. Turn on Edge sliders under Extra gestures.&#10;The floating keyboard stays dim while you point with two fingers and add a third to scroll.</String>
     <String id="Update.Notes.1.7.7">Point with two fingers in keyboard mode. Keep them down and add a third to scroll.</String>
     <String id="Update.Notes.1.7.6">The tab underline stretches toward the next tab, then gently bounces into place.&#10;Switch tabs mid-slide and the underline smoothly reverses direction.</String>
     <String id="Details.Copy">Copy device details</String>
@@ -60,6 +61,7 @@
 
   <Language id="ar">
     <String id="Update.Installed">تم التحديث إلى {0}</String>
+    <String id="Update.Notes.1.7.8">اسحب على الحافة اليسرى لضبط السطوع أو اليمنى لضبط الصوت. فعّل عناصر التحكم بالحواف ضمن الإيماءات الإضافية.&#10;تظل لوحة المفاتيح العائمة خافتة أثناء تحريك المؤشر بإصبعين وإضافة إصبع ثالث للتمرير.</String>
     <String id="Update.Notes.1.7.7">حرّك المؤشر بإصبعين في وضع لوحة المفاتيح، ثم أضف إصبعًا ثالثًا دون رفعهما للتمرير.</String>
     <String id="Update.Notes.1.7.6">يتمدد خط التحديد نحو علامة التبويب التالية ثم يستقر بارتداد خفيف.&#10;إذا بدّلت علامة التبويب أثناء الحركة، ينعكس اتجاه الخط بسلاسة.</String>
     <String id="Details.Copy">نسخ تفاصيل الجهاز</String>
@@ -126,6 +128,7 @@
 
   <Language id="it">
     <String id="Update.Installed">Aggiornato alla versione {0}</String>
+    <String id="Update.Notes.1.7.8">Scorri sul bordo sinistro per regolare la luminosità o sul destro per il volume. Attiva i controlli sui bordi in Gesti aggiuntivi.&#10;La tastiera mobile rimane attenuata quando punti con due dita e ne aggiungi un terzo per scorrere.</String>
     <String id="Update.Notes.1.7.7">In modalità tastiera, sposta il puntatore con due dita. Tienile appoggiate e aggiungi un terzo dito per scorrere.</String>
     <String id="Update.Notes.1.7.6">La sottolineatura si allunga verso la scheda successiva e si assesta con un leggero rimbalzo.&#10;Se cambi scheda durante il movimento, la sottolineatura inverte la direzione in modo fluido.</String>
     <String id="Details.Copy">Copia dettagli dispositivo</String>
@@ -184,6 +187,7 @@
 
   <Language id="es">
     <String id="Update.Installed">Actualizado a {0}</String>
+    <String id="Update.Notes.1.7.8">Desliza un dedo por el borde izquierdo para ajustar el brillo o por el derecho para el volumen. Activa los controles de borde en Gestos adicionales.&#10;El teclado flotante permanece atenuado al apuntar con dos dedos y añadir un tercero para desplazarte.</String>
     <String id="Update.Notes.1.7.7">En modo teclado, mueve el puntero con dos dedos. Sin levantarlos, añade un tercero para desplazarte.</String>
     <String id="Update.Notes.1.7.6">El subrayado se estira hacia la otra pestaña y se asienta con un pequeño rebote.&#10;Si cambias de pestaña durante el movimiento, el subrayado invierte su dirección suavemente.</String>
     <String id="Details.Copy">Copiar detalles del dispositivo</String>
@@ -242,6 +246,7 @@
 
   <Language id="fr">
     <String id="Update.Installed">Mise à jour vers la version {0}</String>
+    <String id="Update.Notes.1.7.8">Glissez le long du bord gauche pour régler la luminosité ou du bord droit pour le volume. Activez les curseurs de bord dans les gestes supplémentaires.&#10;Le clavier flottant reste estompé lorsque vous pointez avec deux doigts et en ajoutez un troisième pour faire défiler.</String>
     <String id="Update.Notes.1.7.7">En mode clavier, déplacez le pointeur avec deux doigts. Gardez-les posés et ajoutez un troisième doigt pour faire défiler.</String>
     <String id="Update.Notes.1.7.6">Le trait s’étire vers l’autre onglet, puis se stabilise avec un léger rebond.&#10;Si vous changez d’onglet pendant le mouvement, le trait repart en douceur dans l’autre sens.</String>
     <String id="Details.Copy">Copier les détails de l’appareil</String>
@@ -300,6 +305,7 @@
 
   <Language id="de">
     <String id="Update.Installed">Auf Version {0} aktualisiert</String>
+    <String id="Update.Notes.1.7.8">Streiche am linken Rand für die Helligkeit oder am rechten für die Lautstärke. Aktiviere die Randregler unter Zusätzliche Gesten.&#10;Die schwebende Tastatur bleibt beim Zeigen mit zwei Fingern und beim Scrollen mit einem dritten Finger abgedunkelt.</String>
     <String id="Update.Notes.1.7.7">Bewege den Zeiger im Tastaturmodus mit zwei Fingern. Lass beide aufliegen und lege zum Scrollen einen dritten Finger dazu.</String>
     <String id="Update.Notes.1.7.6">Der Unterstrich dehnt sich zum nächsten Tab und federt sanft in Position.&#10;Beim Zurückwechseln während der Bewegung kehrt der Strich sanft um.</String>
     <String id="Details.Copy">Gerätedetails kopieren</String>
@@ -358,6 +364,7 @@
 
   <Language id="pt">
     <String id="Update.Installed">Atualizado para {0}</String>
+    <String id="Update.Notes.1.7.8">Deslize pela borda esquerda para ajustar o brilho ou pela direita para ajustar o volume. Ative os controles de borda em Gestos extras.&#10;O teclado flutuante permanece esmaecido ao apontar com dois dedos e adicionar um terceiro para rolar.</String>
     <String id="Update.Notes.1.7.7">No modo teclado, mova o ponteiro com dois dedos. Sem levantá-los, adicione um terceiro dedo para rolar.</String>
     <String id="Update.Notes.1.7.6">O sublinhado se estica em direção à outra aba e se acomoda com um leve balanço.&#10;Se você trocar de aba durante o movimento, o sublinhado inverte a direção suavemente.</String>
     <String id="Details.Copy">Copiar detalhes do dispositivo</String>
@@ -416,6 +423,7 @@
 
   <Language id="ru">
     <String id="Update.Installed">Обновлено до {0}</String>
+    <String id="Update.Notes.1.7.8">Проводите по левому краю для регулировки яркости или по правому для регулировки громкости. Включите управление по краям в дополнительных жестах.&#10;Плавающая клавиатура остаётся затемнённой при перемещении указателя двумя пальцами и прокрутке третьим.</String>
     <String id="Update.Notes.1.7.7">В режиме клавиатуры перемещайте указатель двумя пальцами. Чтобы прокрутить страницу, добавьте третий палец, не поднимая первые два.</String>
     <String id="Update.Notes.1.7.6">Индикатор тянется к другой вкладке и мягко пружинит на месте.&#10;Если переключить вкладку во время движения, индикатор плавно сменит направление.</String>
     <String id="Details.Copy">Копировать сведения об устройстве</String>
@@ -474,6 +482,7 @@
 
   <Language id="zh">
     <String id="Update.Installed">已更新至 {0}</String>
+    <String id="Update.Notes.1.7.8">沿左边缘滑动可调节亮度，沿右边缘滑动可调节音量。在额外手势中开启边缘滑动控制。&#10;双指移动指针并加入第三根手指滚动时，浮动键盘会保持暗淡。</String>
     <String id="Update.Notes.1.7.7">在键盘模式下，用两根手指移动指针。保持接触，再放上第三根手指即可滚动。</String>
     <String id="Update.Notes.1.7.6">下划线会朝另一个标签页伸展，然后轻轻回弹就位。&#10;在滑动过程中切换标签页，下划线会平滑地反向移动。</String>
     <String id="Details.Copy">复制设备信息</String>
@@ -532,6 +541,7 @@
 
   <Language id="ja">
     <String id="Update.Installed">バージョン {0} に更新しました</String>
+    <String id="Update.Notes.1.7.8">左端をなぞると明るさ、右端をなぞると音量を調整できます。追加ジェスチャーでエッジスライダーをオンにしてください。&#10;2本指でポインターを動かし、3本目の指を加えてスクロールする間も、フローティングキーボードは薄く表示されます。</String>
     <String id="Update.Notes.1.7.7">キーボードモードでは、2本の指でポインターを動かせます。そのまま3本目の指を置くとスクロールできます。</String>
     <String id="Update.Notes.1.7.6">下線が次のタブに向かって伸び、軽く弾んで止まります。&#10;移動中にタブを切り替えると、下線は滑らかに向きを変えます。</String>
     <String id="Details.Copy">デバイス情報をコピー</String>
@@ -590,6 +600,7 @@
 
   <Language id="ko">
     <String id="Update.Installed">{0} 버전으로 업데이트됨</String>
+    <String id="Update.Notes.1.7.8">왼쪽 가장자리를 쓸어 밝기를, 오른쪽 가장자리를 쓸어 음량을 조절하세요. 추가 제스처에서 가장자리 슬라이더를 켤 수 있습니다.&#10;두 손가락으로 포인터를 움직이다 세 번째 손가락을 더해 스크롤할 때도 플로팅 키보드는 흐리게 유지됩니다.</String>
     <String id="Update.Notes.1.7.7">키보드 모드에서 두 손가락으로 포인터를 움직이세요. 두 손가락을 댄 채 세 번째 손가락을 올리면 스크롤할 수 있습니다.</String>
     <String id="Update.Notes.1.7.6">밑줄이 다음 탭을 향해 늘어났다가 살짝 튕기며 자리를 잡습니다.&#10;이동 중에 탭을 바꾸면 밑줄이 부드럽게 방향을 바꿉니다.</String>
     <String id="Details.Copy">기기 정보 복사</String>

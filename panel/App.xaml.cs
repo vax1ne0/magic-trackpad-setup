@@ -32,7 +32,7 @@ namespace AmtPtpControlPanel.WinUI3
                 && string.Equals(root, Environment.GetEnvironmentVariable("TRACKPAD_UPDATE_ROOT"), StringComparison.OrdinalIgnoreCase);
             Environment.SetEnvironmentVariable("TRACKPAD_UPDATE_SHA", null);
             bool inputOnly=Environment.GetCommandLineArgs().Contains("--keyboard-background");
-            if(inputOnly && !AppPreferences.Enabled("StickerEnabled",false)){Exit();return;}
+            if(inputOnly && !AppPreferences.BackgroundInputEnabled()){Exit();return;}
             var identity=System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(AppContext.BaseDirectory.ToUpperInvariant()));
             string thisBuild=PanelSignals.Show+"."+Convert.ToHexString(identity);
             listener=new Mutex(false,PanelSignals.Listener);

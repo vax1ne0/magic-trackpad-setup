@@ -9,6 +9,11 @@ internal static class AppPreferences
         return ReadInt(name,fallback ? 1 : 0)!=0;
     }
 
+    internal static bool BackgroundInputEnabled()
+    {
+        return Enabled("StickerEnabled",false) || Enabled("EdgeSliders",false);
+    }
+
     internal static int ReadInt(string name, int fallback)
     {
         try

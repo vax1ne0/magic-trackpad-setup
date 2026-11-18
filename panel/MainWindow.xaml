@@ -158,6 +158,9 @@
                         </StackPanel>
                     </Expander.Header>
                     <StackPanel Spacing="12">
+                        <ToggleSwitch x:Name="EdgeSwitch" Header="Edge sliders" Toggled="InputOptionChanged"/>
+                        <TextBlock Text="In trackpad mode, slide one finger along the left edge for screen brightness or the right edge for volume. The bottom is 0% and the top is 100%." TextWrapping="Wrap" Style="{StaticResource CaptionTextBlockStyle}"/>
+                        <TextBlock x:Name="EdgeStatus" Visibility="Collapsed" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="Wrap"/>
                         <ToggleSwitch x:Name="MediaSwitch" Header="Five-finger gestures" Toggled="InputOptionChanged"/>
                         <StackPanel x:Name="GestureRows"/>
                         <TextBlock x:Name="GuardInfo" Style="{StaticResource CaptionTextBlockStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" TextWrapping="Wrap"/>

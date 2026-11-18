@@ -215,7 +215,7 @@ internal static class Program
         using (var mutex = new Mutex(true, @"Local\MagicTrackpadSetup.Battery.Tray", out first))
         {
             if (!first) return;
-            if(args.Length==0 && AppPreferences.Enabled("StickerEnabled",false))
+            if(args.Length==0 && AppPreferences.BackgroundInputEnabled())
                 System.Diagnostics.Process.Start(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                     @"Panel\AmtPtpControlPanel.WinUI3.exe"), "--keyboard-background");
             Application.EnableVisualStyles();

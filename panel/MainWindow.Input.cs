@@ -50,6 +50,14 @@ public sealed partial class MainWindow
         KeyboardSwitch.IsOn=AppPreferences.Enabled("StickerEnabled",false);
         TapSwitch.IsChecked=AppPreferences.Enabled("StickerTap",false);
         CursorGesture.IsChecked=surface.TwoFingerPointer=AppPreferences.Enabled("TwoFingerPointer",false);
+        EdgeSwitch.IsOn=surface.EdgeSliders=AppPreferences.Enabled("EdgeSliders",false);
+        var edgeLevels=new EdgeLevels(message=>DispatcherQueue.TryEnqueue(()=>
+        {
+            if(!surface.EdgeSliders)return;
+            EdgeStatus.Text=message;
+            EdgeStatus.Visibility=Visibility.Visible;
+        }));
+        surface.EdgeLevel=edgeLevels.Set;
         MediaSwitch.IsOn=AppPreferences.Enabled("MediaGestures",false);
         surface.ModeEnabled=KeyboardSwitch.IsOn;
         surface.Keyboard=false;
@@ -62,7 +70,6 @@ public sealed partial class MainWindow
         surface.PointerMoved=(dx,dy)=>parking?.MovePointer(dx,dy);
         surface.PointerChanged=(active,tap)=>
         {
-            overlay?.SetPointing(active);
             if(parking?.Active==true)parking.SetPointing(active,tap);
         };
         surface.Emit=EmitInput;
@@ -99,10 +106,10 @@ public sealed partial class MainWindow
         }
         syncingInput=false;
         UpdateReceiver();
-        Activated+=(_,_)=>{if(!surface.Pointing)ResetInput(keepModeContact:true);};
+        Activated+=(_,_)=>{if(!surface.PointingOrScrolling)ResetInput(keepModeContact:true);};
         AppWindow.Closing+=(_,args)=>
         {
-            if(!surface.ModeEnabled || exitingPanel)return;
+            if((!surface.ModeEnabled && !surface.EdgeSliders) || exitingPanel)return;
             args.Cancel=true;
             if(surface.Positioning){surface.Positioning=false;ApplyInputMode();}
             string tray=System.IO.Path.GetFullPath(System.IO.Path.Combine(AppContext.BaseDirectory,"..","TrackpadBattery.exe"));
@@ -110,7 +117,7 @@ public sealed partial class MainWindow
                 Process.Start(new ProcessStartInfo(tray,"--resume"){UseShellExecute=true})?.Dispose();
             AppWindow.Hide();
         };
-        Closed+=(_,_)=>{StopTabSlide();ResetInput();touchInput?.Dispose();swipeGuard?.Dispose();overlay?.Dispose();parking?.Dispose();};
+        Closed+=(_,_)=>{edgeLevels.Dispose();StopTabSlide();ResetInput();touchInput?.Dispose();swipeGuard?.Dispose();overlay?.Dispose();parking?.Dispose();};
     }
     void InitializeGestureRows()
     {
@@ -215,7 +222,7 @@ public sealed partial class MainWindow
         var color = ((SolidColorBrush)Application.Current.Resources["AccentFillColorDefaultBrush"]).Color;
         overlay = new KeyboardOverlay(surface.Keys, display.WorkArea, RootGrid.XamlRoot.RasterizationScale, dark,
             (uint)(color.R | color.G << 8 | color.B << 16),(int)OverlayScale.Value,(int)OverlayTransparency.Value);
-        overlay.SetPointing(surface.Pointing);
+        overlay.SetGestureDimmed(surface.PointingOrScrolling);
         overlay.Highlight(surface.Hover,surface.ModifierContact);
         overlay.SetTouching(surface.HasContacts);
         ApplyIdleAppearance();
@@ -337,6 +344,7 @@ public sealed partial class MainWindow
         if(surface.Hover!=null && keyViews.TryGetValue(surface.Hover,out var b))b.Background=null;
         if(surface.ModifierContact!=null)keyViews[surface.ModifierContact].Background=null;
         overlay?.Highlight(null);
+        overlay?.SetGestureDimmed(false);
         overlay?.SetTouching(false);
         surface.Reset(keepModeContact);keyOutput.Reset();
     }
@@ -350,13 +358,16 @@ public sealed partial class MainWindow
         AppPreferences.Set("StickerEnabled",surface.ModeEnabled);AppPreferences.Set("StickerTap",surface.TapMode);
         surface.TwoFingerPointer=CursorGesture.IsChecked==true;
         AppPreferences.Set("TwoFingerPointer",surface.TwoFingerPointer);
+        surface.EdgeSliders=EdgeSwitch.IsOn;
+        if(!surface.EdgeSliders)EdgeStatus.Visibility=Visibility.Collapsed;
+        AppPreferences.Set("EdgeSliders",surface.EdgeSliders);
         AppPreferences.Set("MediaGestures",MediaSwitch.IsOn);
         ApplyInputMode();
         UpdateReceiver();
     }
     void UpdateReceiver()
     {
-        if(!surface.ModeEnabled && !MediaSwitch.IsOn)
+        if(!surface.ModeEnabled && !MediaSwitch.IsOn && !surface.EdgeSliders)
         {
             touchInput?.Dispose();touchInput=null;
             swipeGuard?.Dispose();swipeGuard=null;
@@ -392,6 +403,7 @@ public sealed partial class MainWindow
         var oldModifier=surface.ModifierContact;
         surface.Frame(data,offset,inputClock.ElapsedMilliseconds,keys,gestures);
 
+        overlay?.SetGestureDimmed(surface.PointingOrScrolling);
         overlay?.SetTouching(surface.HasContacts);
         if(old==surface.Hover && oldModifier==surface.ModifierContact)return;
         overlay?.Highlight(surface.Hover,surface.ModifierContact);

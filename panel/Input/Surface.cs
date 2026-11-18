@@ -53,10 +53,48 @@ internal sealed class Surface
     public Action<string> Emit;
     public Action ModeChanged;
     public bool Positioning, TwoFingerPointer;
+    public bool PointingOrScrolling => Pointing || scrollContact;
     public bool Pointing { get; private set; }
     public Action<bool,bool> PointerChanged;
     public Action<float,float> PointerMoved;
     public Action<bool> PointerButton;
+    public bool EdgeSliders;
+    public enum EdgeControl { Brightness, Volume }
+    public Action<EdgeControl,int> EdgeLevel;
+    EdgeControl? edgeControl;
+    float edgeStartY;
+    int lastEdgeLevel = -1;
+    const float EdgeWidthMm = 4, EdgeTravelMm = 5, ActiveEdgeWidthMm = 7;
+    const float EndMarginMm = 1.5f;
+
+    void UpdateEdge(int count, float x, float y)
+    {
+        if(!EdgeSliders || Keyboard || Positioning || modeDone || clicked || invalid || count!=1 || origin.Count!=1)
+        {
+            edgeControl=null;
+            return;
+        }
+        float width=lastEdgeLevel>=0 && peak!=0 ? ActiveEdgeWidthMm : EdgeWidthMm;
+        EdgeControl? side=x<=width ? EdgeControl.Brightness :
+            x>=WidthMm-width ? EdgeControl.Volume : null;
+        if(peak==0)
+        {
+            edgeControl=side;
+            edgeStartY=y;
+            lastEdgeLevel=-1;
+        }
+        if(side!=edgeControl)edgeControl=null;
+        if(!edgeControl.HasValue || (lastEdgeLevel<0 && Math.Abs(y-edgeStartY)<EdgeTravelMm))return;
+        // Leave a small margin at the physical rim so both endpoints are reachable.
+        float percent=Math.Clamp(100*(DepthMm-EndMarginMm-y)/(DepthMm-2*EndMarginMm),0,100);
+        // Hysteresis prevents a stationary fingertip from toggling adjacent integers.
+        if(lastEdgeLevel>=0 && Math.Abs(percent-lastEdgeLevel)<0.75f)return;
+        int level=(int)Math.Round(percent);
+        if(level==lastEdgeLevel)return;
+        lastEdgeLevel=level;
+        EdgeLevel?.Invoke(edgeControl.Value,level);
+    }
+
     public Action<int> PointerScroll;
     bool scrollContact,scrollMoved,scrollAnchorValid;
     PointF scrollAnchor;
@@ -129,6 +167,7 @@ internal sealed class Surface
     StickerKey first;
     public void Reset(bool keepModeContact=false)
     {
+        edgeControl=null;
         SetPointerButton(false);
         scrollContact=scrollMoved=scrollAnchorValid=false;
         if(Pointing){Pointing=false;PointerChanged?.Invoke(false,false);}
@@ -174,6 +213,7 @@ internal sealed class Surface
             else second=Math.Max(second,pressure);
             count++; xsum+=x;ysum+=y;
         }
+        UpdateEdge(count,xsum,ysum);
         NormalPointerSample?.Invoke(xsum,ysum,TwoFingerPointer && !Keyboard && !Positioning &&
             count==1 && !invalid && !down,now);
         bool onCorner=count==1 && candidate==mode;

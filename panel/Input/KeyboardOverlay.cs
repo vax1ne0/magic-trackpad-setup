@@ -133,10 +133,11 @@ internal sealed class KeyboardOverlay : InputPopup
         transparencyPercent=percent;
         UpdateOpacity();
     }
-    bool pointing;
-    public void SetPointing(bool value)
+    bool gestureDimmed;
+    public void SetGestureDimmed(bool value)
     {
-        pointing=value;
+        if(gestureDimmed==value)return;
+        gestureDimmed=value;
         if(value)Highlight(null);
         UpdateOpacity();
     }
@@ -144,7 +145,7 @@ internal sealed class KeyboardOverlay : InputPopup
     void UpdateOpacity()
     {
         double opacity=255*(100-transparencyPercent)/100.0;
-        if(pointing)opacity*=0.45;
+        if(gestureDimmed)opacity*=0.45;
         else if(fadeIdle && !positioning)opacity*=1-fadeProgress*idleFadePercent/100;
         SetLayeredWindowAttributes(handle,0,(byte)Math.Round(opacity),2);
     }
