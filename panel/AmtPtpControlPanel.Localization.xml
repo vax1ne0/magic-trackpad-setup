@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <Localization>
   <Language id="en">
-    <String id="Update.Notes.1.7.10">The pointer stays in place while you slide along an edge to adjust brightness or volume.</String>
+    <String id="Update.Notes.1.7.11">Press Win on the sticker keyboard to open Start and type to search. Hold Win while pressing another key for shortcuts.</String>
     <String id="Details.Copy">Copy device details</String>
     <String id="Defaults.Restore">Restore trackpad defaults</String>
     <String id="Defaults.Hint">Review the defaults, then select Save changes.</String>
@@ -57,7 +57,7 @@
   </Language>
 
   <Language id="ar">
-    <String id="Update.Notes.1.7.10">يبقى المؤشر ثابتًا أثناء السحب على الحافة لضبط السطوع أو الصوت.</String>
+    <String id="Update.Notes.1.7.11">اضغط على Win في لوحة المفاتيح الملصقة لفتح قائمة ابدأ، ثم اكتب للبحث. لاستخدام اختصار، أبقِ إصبعك على Win واضغط مفتاحًا آخر.</String>
     <String id="Details.Copy">نسخ تفاصيل الجهاز</String>
     <String id="Defaults.Restore">استعادة إعدادات لوحة التعقب الافتراضية</String>
     <String id="Defaults.Hint">راجع الإعدادات الافتراضية ثم اختر حفظ التغييرات.</String>
@@ -121,7 +121,7 @@
   </Language>
 
   <Language id="it">
-    <String id="Update.Notes.1.7.10">Il puntatore resta fermo mentre scorri lungo il bordo per regolare luminosità o volume.</String>
+    <String id="Update.Notes.1.7.11">Premi Win sulla tastiera adesiva per aprire Start e digita per cercare. Per le scorciatoie, tieni un dito su Win e premi un altro tasto.</String>
     <String id="Details.Copy">Copia dettagli dispositivo</String>
     <String id="Defaults.Restore">Ripristina impostazioni trackpad</String>
     <String id="Defaults.Hint">Controlla i valori predefiniti e salva le modifiche.</String>
@@ -177,7 +177,7 @@
   </Language>
 
   <Language id="es">
-    <String id="Update.Notes.1.7.10">El puntero permanece quieto mientras deslizas el dedo por el borde para ajustar el brillo o el volumen.</String>
+    <String id="Update.Notes.1.7.11">Pulsa Win en el teclado adhesivo para abrir Inicio y escribe para buscar. Para usar un atajo, mantén un dedo sobre Win y pulsa otra tecla.</String>
     <String id="Details.Copy">Copiar detalles del dispositivo</String>
     <String id="Defaults.Restore">Restaurar ajustes del trackpad</String>
     <String id="Defaults.Hint">Revisa los valores predeterminados y guarda los cambios.</String>
@@ -233,7 +233,7 @@
   </Language>
 
   <Language id="fr">
-    <String id="Update.Notes.1.7.10">Le pointeur reste en place lorsque vous glissez le long du bord pour régler la luminosité ou le volume.</String>
+    <String id="Update.Notes.1.7.11">Appuyez sur Win sur le clavier autocollant pour ouvrir Démarrer, puis tapez votre recherche. Pour un raccourci, gardez un doigt sur Win et appuyez sur une autre touche.</String>
     <String id="Details.Copy">Copier les détails de l’appareil</String>
     <String id="Defaults.Restore">Rétablir les réglages du trackpad</String>
     <String id="Defaults.Hint">Vérifiez les réglages par défaut puis enregistrez les modifications.</String>
@@ -289,7 +289,7 @@
   </Language>
 
   <Language id="de">
-    <String id="Update.Notes.1.7.10">Der Zeiger bleibt beim Streichen am Rand zum Anpassen der Helligkeit oder Lautstärke an Ort und Stelle.</String>
+    <String id="Update.Notes.1.7.11">Drücke Win auf der Aufkleber-Tastatur, um das Startmenü zu öffnen, und tippe deinen Suchbegriff ein. Für Tastenkürzel halte einen Finger auf Win und drücke eine weitere Taste.</String>
     <String id="Details.Copy">Gerätedetails kopieren</String>
     <String id="Defaults.Restore">Trackpad zurücksetzen</String>
     <String id="Defaults.Hint">Prüfe die Standardwerte und speichere die Änderungen.</String>
@@ -345,7 +345,7 @@
   </Language>
 
   <Language id="pt">
-    <String id="Update.Notes.1.7.10">O ponteiro fica parado enquanto você desliza pela borda para ajustar o brilho ou o volume.</String>
+    <String id="Update.Notes.1.7.11">Pressione Win no teclado adesivo para abrir o menu Iniciar e digite para pesquisar. Para usar um atalho, mantenha um dedo em Win e pressione outra tecla.</String>
     <String id="Details.Copy">Copiar detalhes do dispositivo</String>
     <String id="Defaults.Restore">Restaurar padrões do trackpad</String>
     <String id="Defaults.Hint">Revise os padrões e salve as alterações.</String>
@@ -401,7 +401,7 @@
   </Language>
 
   <Language id="ru">
-    <String id="Update.Notes.1.7.10">Указатель остаётся на месте при регулировке яркости или громкости движением вдоль края.</String>
+    <String id="Update.Notes.1.7.11">Нажмите Win на клавиатуре-наклейке, чтобы открыть меню «Пуск», и введите запрос. Для сочетаний удерживайте палец на Win и нажмите другую клавишу.</String>
     <String id="Details.Copy">Копировать сведения об устройстве</String>
     <String id="Defaults.Restore">Сбросить настройки трекпада</String>
     <String id="Defaults.Hint">Проверьте значения по умолчанию и сохраните изменения.</String>
@@ -457,7 +457,7 @@
   </Language>
 
   <Language id="zh">
-    <String id="Update.Notes.1.7.10">沿边缘滑动调节亮度或音量时，指针会停留在原处。</String>
+    <String id="Update.Notes.1.7.11">按贴纸键盘上的 Win 键打开开始菜单，输入文字即可搜索。将一根手指放在 Win 键上，再按其他键即可使用快捷键。</String>
     <String id="Details.Copy">复制设备信息</String>
     <String id="Defaults.Restore">恢复触控板默认设置</String>
     <String id="Defaults.Hint">检查默认设置，然后保存更改。</String>
@@ -513,7 +513,7 @@
   </Language>
 
   <Language id="ja">
-    <String id="Update.Notes.1.7.10">端をなぞって明るさや音量を調整している間、ポインターは動きません。</String>
+    <String id="Update.Notes.1.7.11">ステッカーキーボードの Win キーを押すとスタートが開き、そのまま入力して検索できます。ショートカットを使うには、Win に指を置いたまま別のキーを押します。</String>
     <String id="Details.Copy">デバイス情報をコピー</String>
     <String id="Defaults.Restore">トラックパッドを初期設定に戻す</String>
     <String id="Defaults.Hint">初期設定を確認してから変更を保存してください。</String>
@@ -569,7 +569,7 @@
   </Language>
 
   <Language id="ko">
-    <String id="Update.Notes.1.7.10">가장자리를 쓸어 밝기나 음량을 조절하는 동안 포인터는 제자리에 있습니다.</String>
+    <String id="Update.Notes.1.7.11">스티커 키보드에서 Win을 눌러 시작 메뉴를 열고 검색어를 입력하세요. 단축키를 사용하려면 Win에 손가락을 댄 채 다른 키를 누르세요.</String>
     <String id="Details.Copy">기기 정보 복사</String>
     <String id="Defaults.Restore">트랙패드 기본값 복원</String>
     <String id="Defaults.Hint">기본값을 확인한 후 변경 사항을 저장하세요.</String>

@@ -46,6 +46,7 @@ internal sealed class Surface
     public bool HasContacts {get;private set;}
     public bool Keyboard=true, ModeEnabled=true, TapMode;
     readonly StickerKey mode;
+    bool winClickPending;
     StickerKey chordTap;
     long chordStart;
     bool chordMoved;
@@ -175,6 +176,7 @@ internal sealed class Surface
     StickerKey first;
     public void Reset(bool keepModeContact=false)
     {
+        winClickPending=false;
         SetEdgeContact(null);
         SetPointerButton(false);
         bool hadPointer=PointingOrScrolling;
@@ -223,6 +225,17 @@ internal sealed class Surface
             count++; xsum+=x;ysum+=y;
         }
         UpdateEdge(count,xsum,ysum);
+        // A second contact can turn a Win press into a shortcut before release.
+        if(winClickPending)
+        {
+            if(count>1 || (count==1 && candidate?.Name!="Win") || invalid || moved ||
+               !allowKeys || !Keyboard || Positioning || TapMode)winClickPending=false;
+            else if(!down || count==0)
+            {
+                winClickPending=false;
+                Emit("Win");
+            }
+        }
         NormalPointerSample?.Invoke(xsum,ysum,TwoFingerPointer && !Keyboard && !Positioning &&
             count==1 && !invalid && !down,now);
         bool onCorner=count==1 && candidate==mode;
@@ -407,6 +420,7 @@ internal sealed class Surface
         }
         if(allowKeys && Keyboard && (!TapMode || chord) && edge && peak<=2 && Hover!=null && Hover!=mode && (peak==1 || StickerKey.ModifierCode(Hover.Name)==0))
         {
+            if(Hover.Name=="Win"){winClickPending=true;return;}
             Emit(Hover.Name);
             if (!TapMode && (peak==1 || chord)) SetHeldKey(Hover);
         }

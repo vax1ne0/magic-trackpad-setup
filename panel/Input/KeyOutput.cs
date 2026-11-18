@@ -15,7 +15,7 @@ internal sealed class KeyOutput
     public static bool CapsLockOn => (GetKeyState(0x14) & 1) != 0;
     readonly List<byte> modifiers=new List<byte>();
     readonly Dictionary<string,byte> special=new Dictionary<string,byte> {
-        {"Esc",27},{"Backspace",8},{"Enter",13},{"Tab",9},{"Space",32},{"Caps",20},{"Home",36},{"End",35},
+        {"Win",91},{"Esc",27},{"Backspace",8},{"Enter",13},{"Tab",9},{"Space",32},{"Caps",20},{"Home",36},{"End",35},
         {"PgUp",33},{"PgDn",34},{"Delete",46},{"Left",37},{"Up",38},{"Right",39},{"Down",40},
         {"Play / pause",179},{"Next track",176},{"Previous track",177},{"Volume up",175},{"Volume down",174}
     };
@@ -32,7 +32,7 @@ internal sealed class KeyOutput
     {
         repeatInput = Array.Empty<Stroke>();
         byte mod=StickerKey.ModifierCode(name);
-        if(mod!=0)
+        if(mod!=0 && name!="Win")
         {
             if(modifiers.Remove(mod))return name+" off";
             modifiers.Add(mod);return name+" ready for next key";
@@ -70,7 +70,7 @@ internal sealed class KeyOutput
         var input=strokes.ToArray();
         if (SendInput((uint)input.Length,input,Marshal.SizeOf<Stroke>()) != input.Length)
             return "Windows declined key input";
-        if (!media && name != "Caps") repeatInput = input;
+        if (!media && name is not ("Caps" or "Win")) repeatInput = input;
         return name;
     }
 }

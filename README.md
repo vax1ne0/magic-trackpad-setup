@@ -10,7 +10,7 @@ You can also [type directly on the trackpad](#turn-your-trackpad-into-a-keyboard
 
 ## Get started
 
-1. **[Download the Windows installer (1.7.10)](https://github.com/vax1ne0/magic-trackpad-setup/releases/download/v1.7.10/Magic-Trackpad-Setup-1.7.10-x64.msi)** and run it.
+1. **[Download the Windows installer (1.7.11)](https://github.com/vax1ne0/magic-trackpad-setup/releases/download/v1.7.11/Magic-Trackpad-Setup-1.7.11-x64.msi)** and run it.
 2. **Connect your trackpad.** Plug it in with a USB data cable, or unplug the cable and pair it under **Settings → Bluetooth & devices → Add device → Magic Trackpad**.
 3. **Enjoy your full Magic Trackpad experience.** Try a two-finger scroll or pinch to zoom.
 
@@ -27,6 +27,7 @@ Open **Keyboard** and turn on **Sticker keyboard**. Click the top-right corner o
 | In keyboard mode | What to do |
 | --- | --- |
 | Type | Rest a finger on a key to preview it, then click. Hold the click to repeat, or enable **Tap to type**. |
+| Open Start and search | Press **Win**, then type your search. For **Win + S**, rest one finger on **Win** while pressing **S**. |
 | Use a shortcut | Rest one finger on **Shift**, **Ctrl**, **Alt**, or **Win**, then press another key. |
 | Point or drag | Enable **Use two fingers to point, click, and drag in keyboard mode**. Move two fingers to point, tap or click to select, or hold the click and move to drag. |
 | Scroll | Start pointing with two fingers, then add a third and slide up or down. The cursor stays visible and the overlay stays dim until you lift your fingers. |
