@@ -43,10 +43,21 @@
         <!-- Settings -->
         <Grid Grid.Row="1" Padding="28,0" RowSpacing="8">
           <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+          <Grid>
           <SelectorBar x:Name="Pages" SelectionChanged="PageChanged" Margin="-12,0,0,0">
+            <SelectorBar.Resources>
+              <SolidColorBrush x:Key="SelectorBarItemPillFill" Color="Transparent"/>
+            </SelectorBar.Resources>
             <SelectorBarItem x:Name="SettingsTab" Text="Trackpad" IsSelected="True"/>
             <SelectorBarItem x:Name="KeyboardTab" Text="Keyboard"/>
           </SelectorBar>
+          <Canvas x:Name="TabIndicatorLayer" FlowDirection="LeftToRight" IsHitTestVisible="False" LayoutUpdated="TabLayoutUpdated">
+            <Border x:Name="TabIndicator" Width="16" Height="3" CornerRadius="1.5" Opacity="0"
+                    Background="{ThemeResource AccentFillColorDefaultBrush}" AutomationProperties.AccessibilityView="Raw">
+              <Border.RenderTransform><CompositeTransform x:Name="TabMotion" CenterX="8"/></Border.RenderTransform>
+            </Border>
+          </Canvas>
+          </Grid>
         <ScrollViewer x:Name="TrackpadPage" Grid.Row="1" Padding="0,2,0,10" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled">
             <StackPanel Spacing="8">
 

@@ -90,7 +90,7 @@ public sealed partial class MainWindow
         syncingInput=false;
         UpdateReceiver();
         Activated+=(_,_)=>ResetInput(keepModeContact:true);
-        Closed+=(_,_)=>{ResetInput();touchInput?.Dispose();swipeGuard?.Dispose();overlay?.Dispose();parking?.Dispose();};
+        Closed+=(_,_)=>{StopTabSlide();ResetInput();touchInput?.Dispose();swipeGuard?.Dispose();overlay?.Dispose();parking?.Dispose();};
     }
     void InitializeGestureRows()
     {
@@ -229,9 +229,63 @@ public sealed partial class MainWindow
         ApplyInputMode();
     }
 
+    SelectorBarItem? indicatedTab;
+    double indicatorTarget=double.NaN;
+    readonly Stopwatch tabSlide=new();
+    double slideFrom, initialStretch;
+
+    void StopTabSlide()
+    {
+        if(!tabSlide.IsRunning)return;
+        CompositionTarget.Rendering-=AnimateTabIndicator;
+        tabSlide.Reset();
+    }
+
+    void AnimateTabIndicator(object? sender,object e)
+    {
+        double t=Math.Min(1,tabSlide.Elapsed.TotalMilliseconds/245);
+        double remaining=Math.Pow(1-t,3);
+        TabMotion.TranslateX=indicatorTarget+(slideFrom-indicatorTarget)*remaining;
+        TabMotion.ScaleX=1+(initialStretch-1)*remaining+0.45*Math.Sin(Math.PI*t);
+        if(t>=1)StopTabSlide();
+    }
+
+    void TabLayoutUpdated(object? sender, object e) => UpdateTabIndicator();
+
+    void UpdateTabIndicator()
+    {
+        if(TabMotion==null || Pages.SelectedItem is not SelectorBarItem tab || tab.ActualWidth<=0)return;
+        // Measure in the overlay's coordinates so label widths and RTL layouts work alike.
+        var center=tab.TransformToVisual(TabIndicatorLayer).TransformPoint(
+            new Windows.Foundation.Point(tab.ActualWidth/2,tab.ActualHeight));
+        double target=center.X-TabIndicator.Width/2;
+        double top=center.Y-TabIndicator.Height;
+        if(Canvas.GetTop(TabIndicator)!=top)Canvas.SetTop(TabIndicator,top);
+        if(tab==indicatedTab && Math.Abs(target-indicatorTarget)<0.1)return;
+
+        bool switched=indicatedTab!=null && indicatedTab!=tab;
+        StopTabSlide();
+        indicatedTab=tab;
+        indicatorTarget=target;
+        TabIndicator.Opacity=1;
+        if(switched && new Windows.UI.ViewManagement.UISettings().AnimationsEnabled)
+        {
+            slideFrom=TabMotion.TranslateX;
+            initialStretch=TabMotion.ScaleX;
+            tabSlide.Restart();
+            CompositionTarget.Rendering+=AnimateTabIndicator;
+        }
+        else
+        {
+            TabMotion.TranslateX=target;
+            TabMotion.ScaleX=1;
+        }
+    }
+
     void PageChanged(SelectorBar sender,SelectorBarSelectionChangedEventArgs e)
     {
         if(SettingsFooter==null)return;
+        UpdateTabIndicator();
         TrackpadPage.Visibility=KeyboardSelected?Visibility.Collapsed:Visibility.Visible;
         KeyboardPage.Visibility=KeyboardSelected?Visibility.Visible:Visibility.Collapsed;
         SettingsFooter.Visibility=!KeyboardSelected?Visibility.Visible:Visibility.Collapsed;
