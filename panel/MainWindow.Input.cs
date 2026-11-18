@@ -39,7 +39,7 @@ public sealed partial class MainWindow
 
     void InitializeInput()
     {
-        OverlayTransparency.Value=Math.Clamp(AppPreferences.ReadInt("OverlayTransparency",38),0,90);
+        OverlayTransparency.Value=Math.Clamp(AppPreferences.ReadInt("OverlayTransparency",KeyboardOverlay.DefaultTransparency),0,90);
         OverlayScale.Value=Math.Clamp(AppPreferences.ReadInt("OverlayScale",KeyboardOverlay.DefaultScale),50,150);
         OverlayButton.IsChecked=AppPreferences.Enabled("FloatingKeyboard",true);
         FadeIdle.IsOn=AppPreferences.Enabled("OverlayIdleFade",true);

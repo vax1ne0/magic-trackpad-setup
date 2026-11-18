@@ -7,7 +7,7 @@ The community MSI and apps are unsigned. Windows can show an unknown-publisher p
 Verify the MSI with PowerShell and compare the output to SHA256SUMS.txt on the same release:
 
 ~~~powershell
-Get-FileHash .\Magic-Trackpad-Setup-1.7.3-x64.msi -Algorithm SHA256
+Get-FileHash .\Magic-Trackpad-Setup-1.7.4-x64.msi -Algorithm SHA256
 ~~~
 
 The battery monitor runs elevated to use the driver's Bluetooth battery interface. Its readings and discharge history stay on the PC. Runtime estimates include idle time while connected. Pairing is manual.

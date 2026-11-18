@@ -24,6 +24,7 @@ internal sealed class KeyboardOverlay : InputPopup
     int transparencyPercent;
     public const int DefaultIdleDimming=85;
     public const int DefaultFadeDurationMs=1000;
+    public const int DefaultTransparency=10;
     public const int DefaultScale=60;
     int idleFadePercent=DefaultIdleDimming, fadeDurationMs=DefaultFadeDurationMs;
     const int FadeTimer=3;
@@ -113,7 +114,7 @@ internal sealed class KeyboardOverlay : InputPopup
         // Windows owns the region after SetWindowRgn succeeds.
         if(region!=0 && SetWindowRgn(handle,region,true)==0)DeleteObject(region);
     }
-    public KeyboardOverlay(List<StickerKey> keys, RectInt32 area, double scale, bool dark, uint accent,int scalePercent=DefaultScale,int transparency=38)
+    public KeyboardOverlay(List<StickerKey> keys, RectInt32 area, double scale, bool dark, uint accent,int scalePercent=DefaultScale,int transparency=DefaultTransparency)
         : base("Floating keyboard",Layered|0x20)
     {
         this.keys=keys;this.accent=accent;
