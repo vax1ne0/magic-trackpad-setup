@@ -20,7 +20,7 @@ You can also [type directly on the trackpad](#turn-your-trackpad-into-a-keyboard
 
 *Keyboard concept mockup. The app displays the live key layout on your screen.*
 
-Turn the surface of your Magic Trackpad into a full QWERTY keyboard. Rest a finger on the glass and the matching key lights up on a floating keyboard. Slide to find the key you want, then click to type. The letters switch to uppercase when Caps Lock is on. The overlay follows the proportions of the trackpad, so you can learn the layout by feel. A sticker is optional.
+Turn the surface of your Magic Trackpad into a full QWERTY keyboard. Rest a finger on the glass and the matching key lights up on a floating keyboard. Slide to find the key you want, then click to type. The overlay follows the proportions of the trackpad, so you can learn the layout by feel. A sticker is optional.
 
 1. Open **Keyboard** and turn on **Sticker keyboard**. Click the **top-right corner of the trackpad** to start typing. Click it again, or press **Ctrl+Alt+F10** on your physical keyboard, to switch back to pointing.
 2. Try the practice box, or enable **Type in other apps** to use your editor or chat. Hold a click to repeat a key. For shortcuts, rest one finger on **Shift**, **Ctrl**, **Alt**, or **Win** and press another key. Try **Shift + 2** for **@** or **Ctrl + C** to copy a selection.
