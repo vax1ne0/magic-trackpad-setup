@@ -6,7 +6,7 @@ Built on Vito Plantamura’s [MagicTrackpad2ForWindows](https://github.com/vitop
 
 You can also [type directly on the trackpad](#turn-your-trackpad-into-a-keyboard) and [use customizable five-finger gestures](#five-finger-gestures) beyond the built-in four-finger gestures in Windows.
 
-<a href="docs/magic-trackpad-settings.png"><img src="docs/magic-trackpad-settings.png" alt="Magic Trackpad settings showing the Trackpad and Keyboard tabs, Bluetooth battery level, and Extra gestures" width="440"></a>
+<a href="docs/trackpad-settings-extra-gestures.png"><img src="docs/trackpad-settings-extra-gestures.png" alt="Magic Trackpad settings showing the Trackpad and Keyboard tabs, Bluetooth battery level, and Extra gestures" width="440"></a>
 
 ## Get started
 
